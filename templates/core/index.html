@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+{{ title }}
+
+<script type="text/javascript"> 
+   var a = "{{someDjangoVariable}}"
+</script>
+
+
+<ul id="info-list">
+{% include "core/movie_item.html" %}
+</ul>
+{% endblock content %}

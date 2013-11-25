@@ -1,0 +1,35 @@
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+{% extends "base.html" %}
+
+{% block content %}
+{{ title }}
+
+<div class="step sign-up loaded">
+  <div class="step-number one"></div>
+  <h2>Join us</h2>
+
+  <div class="alert"></div>
+
+  <form class="section">
+    <fieldset class="facebook">
+      <a href="#" class="fb-login">Sign up with Facebook</a>
+    </fieldset>
+    <fieldset class="email">
+      <div class="group">
+        <label for="email">Email</label>
+        <input type="email" name="email" placeholder="Email" autocomplete="off" autocapitalize="off">
+      </div>
+      <div class="group">
+        <label for="username">Username</label>
+        <input type="text" name="username" placeholder="Username" autocomplete="off" autocapitalize="off">
+      </div>
+      <div class="group password">
+        <label for="password">Password</label>
+        <input type="password" name="password" placeholder="Password">
+      </div>
+      <div class="group">
+        <input type="submit" value="Let's GO!" class="button">
+      </div>
+    </fieldset>
+  </form>
+{% endblock content %}

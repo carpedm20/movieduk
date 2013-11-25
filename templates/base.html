@@ -1,0 +1,85 @@
+<!--
+ start : 2013-11-11 05:30 am
+                               _           ____   ___
+  ___ __ _ _ __ _ __   ___  __| |_ __ ___ |___ \ / _ \
+ / __/ _` | '__| '_ \ / _ \/ _` | '_ ` _ \  __) | | | |
+| (__ (_| | |  | |_) |  __/ (_| | | | | | |/ __/| |_| |
+ \___\__,_|_|  | .__/ \___|\__,_|_| |_| |_|_____|\___/
+               |_|
+
+ end  : 2013-??-??
+-->
+<html data-env='production' lang='ko' xml:lang='ko'>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} 무비덕 {% endblock %}</title>
+  <meta charset="utf-8">
+  <meta property="og:title" content="무비덕" />
+
+  <meta name="description" content="Movie the Movie">
+  <meta property="og:description" content="Movie the Movie">
+
+  <meta property="og:image" content="https://d17f28g3dsa4vh.cloudfront.net/img/home-design.png" />
+
+<meta property="og:type" content="website" />
+<meta property="fb:admins" content="" />
+
+<meta name="google-site-verification" content="" />
+<meta name="author" content="carpedm20">
+<link rel="author" href="./humans.txt" />
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript">
+</script> <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/asset/script.js"></script>
+
+<link rel="stylesheet" href="/asset/style.css" />
+<link rel="stylesheet" href="/asset/loginform.css" />
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lte IE 8]>
+<link href="http://rack.3.mshcdn.com/assets/iehax-957092b11e263c6b850533d06d5aaa2c.css" media="screen" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+</head>
+
+<body class='body_posts body_index' data-jsid='posts/index' data-sec0='home' data-sec1='index' viewport='fixed'>
+{% if messages %}
+<section id="messages">
+  <ul>
+    {% for message in messages %}
+      <li>
+        {{ message }}
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+<div id="menu-container" class="top-nav-bar">
+  <ul id="menu">
+    <li><a href="/">MovieDuk</a></li>
+    {% if user.is_authenticated  %}
+      <li href="/logout">Sign Out</li>
+    {% else %}
+      <li><a href="/login">Sign In</a></li>
+      <li><a href="join">Sign Up</a></li>
+    {% endif %}
+    <li id="search-bar">
+      <div class="ui-widget">
+        <input name="searchBox" type="text" class="search-input" placeholder="제목,배우,감독 검색">
+        <div class="fake_search_btn">
+          <input type="submit" value="검색">
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+{% block content%}
+{% endblock content %}
+<div class="footer">
+<p>Copyright © 2013 Kim Tae Hoon</p>
+<p>Designed by carpedm20</p>
+</div>
+</html>
+</body>

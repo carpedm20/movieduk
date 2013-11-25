@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+{{ title }}
+
+<script type="text/javascript"> 
+   var a = "{{someDjangoVariable}}"
+</script>
+
+
+<ul id="info-list">
+  {% if movie.poster_url %}
+    <img src="{{ movie.poster_url }}" />
+  {% endif %}
+  <h2>
+    {{ movie.title1 }} {% if movie.title2 != '' %}({{ movie.title2 }}){% endif %}
+  </h2>
+  <div class="text-container" id="story">
+    {% if movie.story1 != '' %}
+      <div id="story1"><b>
+        {{ movie.story1|escape|safe }}
+      </b></div>
+    {% endif %}
+    {% if movie.story2 != '' %}
+      <div class="text-content short-text" id="story2">
+        {{ movie.story2|escape|safe }}
+      </div>
+      <div class="show-more">
+        <a href="#">펼쳐보기</a>
+      </div>
+    {% endif %}
+  </div>
+  <a href="#" id="{{ movie.code }}"><span>Check</span></a>
+  {% for m in mains %}
+    <li id="actors" class="llistItemMovie">
+      <div class="rank">
+        {{ movie.index }}
+        <!--<span class="positiondifference">
+          <span class="up down neutral">-
+          </span>
+        </span>-->
+      </div>
+      <div class="listImage">
+        <div class="profile" style="background: url(/var/covers/small/10/100.jpg);">
+        <h1>
+          <a href="/info/actor/{{m.actor.code}}">{{ m.actor.name }}</a> 
+          {% if m.actor.en_name != '' %}
+            ({{ m.actor.en_name }})
+          {% endif %}
+          {% if m.character != '' %}
+           - {{ m.character }}
+          {% endif %}
+          <!--<a href="{{ movie.detail_url }}" title ="{{ movie.title1 }}">{{ movie.title1 }} ({{ movie.title2 }} )</a>-->
+        </h1>
+          {% if m.actor.thumb_url %}
+            <img src="{{ m.actor.thumb_url }}" />
+          {% endif %}
+          {% if m.am_list != False %}
+          <h2>대표작</h2>
+          <div class="small_list">
+            {% for am in m.am_list %}
+            <div class="small_item">
+              <a href="/info/movie/{{ am.code }}"><img src="{{ am.poster_url }}?type=m203_290_2" />
+              <p>{{ am.title1 }}</p></a>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      <span class="info">
+      </span>
+      <!--<ul class="tagList">
+        <li>
+        </li>
+      </ul>-->
+    </li>
+  {% endfor %}
+</ul>
+{% endblock content %}

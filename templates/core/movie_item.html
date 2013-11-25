@@ -1,0 +1,90 @@
+{% for movie in movies %}
+  <li id="movie" class="llistItemMovie">
+    <div class="index_item">
+      <div class="rank">
+        {{ movie.index }}
+        <!--<span class="positiondifference">
+          <span class="up down neutral">-
+          </span>
+        </span>-->
+      </div>
+      <span class="coverImage" style="background: url(/var/covers/small/10/100.jpg);">
+        {% if movie.poster_url %}
+        <a href="/info/movie/{{ movie.code }}">
+          <img src="{{ movie.poster_url }}?type=m203_290_2" />
+        </a>
+        {% else %}
+        <img src="http://static.naver.net/movie/2012/06/dft_img203x290.png"/>
+        {% endif %}
+      </span>
+      <span class="info">
+        <h2>
+          <a href="/info/movie/{{ movie.code }}">{{ movie.title1 }}</a> ({{ movie.title2_with_link|escape|safe }})
+        </h2>
+        <div class="basic_info">
+          개요 : {% if movie.genre != '' %}
+            {% for g in movie.genre_as_list %}
+              {% if forloop.last %}
+                <a href="/search/movie/genre?query={{ g }}">{{ g }}</a>
+              {% else %}
+                <a href="/search/movie/genre?query={{ g }}">{{ g }}</a>, 
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+          {% if movie.country != '' %}
+            {% if movie.genre == '' %}
+              <a href="search/movie/country?query={{ movie.country }}">{{ movie.country }}</a>
+            {% else %}
+              | <a href="search/movie/country?query={{ movie.country }}">{{ movie.country }}</a>
+            {% endif %}
+          {% endif %}
+          {% if movie.time != '' %}
+            | {{ movie.time }}
+          {% endif %}
+        </div>
+        <div class="director">
+        감독 : {% for director in movie.director_list %}
+          <a href="/info/director/{{ director.code }}">{{ director.name }}</a>
+        {% endfor %}
+        </div>
+        <div class="main">
+        배우 : {% for main in movie.main_list|slice:":5"  %}
+          {% if forloop.last %}
+            {% if main.actor.code != -1 %}
+              <a href="/info/actor/{{ main.actor.code }}">{{ main.actor.name }}</a>
+            {% else %}
+              {{ main.actor.name }}
+            {% endif %}
+          {% else %}
+            {% if main.actor.code != -1 %}
+              <a href="/info/actor/{{ main.actor.code }}">{{ main.actor.name }}</a>, 
+            {% else %}
+              {{ main.actor.name }}, 
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        </div>
+        <div class="text-container" id="story">
+          {% if movie.story1 != '' %}
+            <div id="story1"><b>
+              {{ movie.story1|escape|safe }}
+            </b></div>
+          {% endif %}
+          {% if movie.story2 != '' %}
+            <div class="text-content short-text" id="story2">
+              {{ movie.story2|escape|safe }}
+            </div>
+            <div class="show-more">
+              <a href="#">펼쳐보기</a>
+            </div>
+          {% endif %}
+        </div>
+        <a href="#" class="check" id="{{ movie.code }}"><span>Check</span></a>
+      </span>
+      <!--<ul class="tagList">
+        <li>
+        </li>
+      </ul>-->
+    </li>
+  </div>
+{% endfor %}

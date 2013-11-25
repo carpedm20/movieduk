@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+{{ title }}
+
+<script type="text/javascript"> 
+   var a = "{{someDjangoVariable}}"
+</script>
+
+
+<ul id="info-list">
+  {% if actor.thumb_url %}
+    <img src="{{ actor.thumb_url }}" />
+  {% endif %}
+  <h2>
+    {{ actor.name }} {% if actor.en_name != '' %}({{ actor.en_name }}){% endif %}
+  </h2>
+  {% include "core/movie_item.html" %}
+</ul>
+{% endblock content %}

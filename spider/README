@@ -1,0 +1,15 @@
+scrapy startproject spider
+cd spider/spider
+
+vi spiders/spider.py
+
+cd ../
+
+scrapy crwal spider
+scrapy crawl spider -o some.json -t json 2> some.text
+
+rm items.josn // 매번 지워줘야함
+
+scrapy shell spider.py
+scrapy shell "http://www.kmdb.or.kr/SearchSF1/totalsearch.asp?tabState=tabcolKOR&collection=colKOR&searchMode=3&searchDivision=all&befQuery=&reSearch=&detailsearch=no&exQuery=&filterOperation=%28PROD_YEAR%3Cgte%3E2000+PROD_YEAR%3Clte%3E2013%29+&collectionQuery=&v_field=ALL&openflag=N&selectmode=total&nil_Search=btn&searchText=&sortTarget=RANK&iSortOrder=1&startCnt=0&viewCntV=1000"
+

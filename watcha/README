@@ -1,0 +1,3 @@
+rm watcha.json
+scrapy crawl watcha -o watcha.json -t json 2> some.txt
+

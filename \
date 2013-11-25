@@ -1,0 +1,71 @@
+$(function() {
+  function supports_placeholder() {
+    return !!document.createElement('input').placeholder;
+  }
+  if (!supports_placeholder()) {
+    // current browser does not support the placeholder
+    // attribute. Apply placeholder to input manually        
+    $("input[name='searchBox']").focus(function(){
+      if ($(this).val() === "제목,배우,감독 검색") {
+        $(this).val("");
+      }
+    }).blur(function(){
+      if ($(this).val() === "") {
+        $(this).val("제목,배우,감독 검색");
+      }
+    }).val("제목,배우,감독 검색");
+  }
+  $("input[name='searchBox']").autocomplete({
+    source: "/api/get_info/",
+    select: function( event, ui ) {
+      var url = "/info/" + ui.item.info + "/" + ui.item.code;    
+      $(location).attr('href',url);
+    },
+    minLength: 2,
+  });
+});
+
+$(document).ready(function(){
+  $(".show-more a").each(function() {
+    var $link = $(this);
+    var $content = $link.parent().prev("div .text-content");
+
+    console.log($link);
+
+    var visibleHeight = $content[0].clientHeight;
+    var actualHide = $content[0].scrollHeight - 1;
+
+    console.log(actualHide);
+    console.log(visibleHeight);
+
+    if (actualHide > visibleHeight) {
+      $link.show();
+    } else {
+      $link.hide();
+    }
+  });
+
+  $(".show-more a").on("click", function() {
+    var $link = $(this);
+    var $content = $link.parent().prev("div .text-content");
+    var linkText = $link.text();
+
+    $content.toggleClass("short-text, full-text");
+
+    $link.text(getShowLinkText(linkText));
+
+    return false;
+  });
+
+  function getShowLinkText(currentText) {
+    var newText = '';
+
+    if (currentText === "더보기") {
+        newText = "숨기기";
+    } else {
+        newText = "더보기";
+    }
+
+    return newText;
+  }
+});

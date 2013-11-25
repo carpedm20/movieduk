@@ -1,0 +1,4 @@
+vi naver/spiders/naver.py # change YEAR
+rm 1940.json
+scrapy crawl naver -o 1940.json -t json 2> some.text
+python ./import_to_django.py
