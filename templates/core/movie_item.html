@@ -33,7 +33,7 @@
           {% endif %}
           {% if movie.country != '' %}
             {% if movie.genre == '' %}
-              <a href="search/movie/country?query={{ movie.country }}">{{ movie.country }}</a>
+              <a href="/search/movie/country?query={{ movie.country }}">{{ movie.country }}</a>
             {% else %}
               | <a href="search/movie/country?query={{ movie.country }}">{{ movie.country }}</a>
             {% endif %}
@@ -44,7 +44,11 @@
         </div>
         <div class="director">
         감독 : {% for director in movie.director_list %}
-          <a href="/info/director/{{ director.code }}">{{ director.name }}</a>
+          {% if forloop.last %}
+            <a href="/info/director/{{ director.code }}">{{ director.name }}</a>
+          {% else %}
+            <a href="/info/director/{{ director.code }}">{{ director.name }}</a>, 
+          {% endif %}
         {% endfor %}
         </div>
         <div class="main">

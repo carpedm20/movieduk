@@ -12,32 +12,29 @@
     <p>You did not allow access</p>
   {% endif %}{% endif %}{% endif %}
 {% else %}
-<div class="step login loaded">
-  <h2 class="login">Log In</h2>
-
   <div class="alert">
   </div>
 {% endif %}
+<div class="login_background"></div>
 <div id="wrapper">
   <form name="login-form" class="login-form" action="" method="post">
     <div class="header">
       <h1>Sign in</h1>
-        <span>hello world!</span>
-      </div>
+      <span>hello world!</span>
+    </div>
     
-      <div class="content">
+    <div class="content">
       <input name="username" type="text" class="input username" placeholder="Username" />
       <div class="user-icon"></div>
       <input name="password" type="password" class="input password" placeholder="Password" />
       <div class="pass-icon"></div>       
-      </div>
+    </div>
 
-      <div class="footer">
+    <div class="footer">
       <input type="submit" name="submit" value="Login" class="button" />
       <input type="submit" name="submit" value="Register" class="register" />
-      </div>
-    </form>
-  </div>
-<div class="gradient"></div>
+    </div>
+  </form>
 <a href="https://graph.facebook.com/oauth/authorize?client_id={{ settings.FACEBOOK_APP_ID }}&redirect_uri={{ settings.FACEBOOK_REDIRECT_URI }}&scope=publish_stream,email&display=popup"><img src="http://developers.facebook.com/images/devsite/login-button.png"/></a>
+</div>
 {% endblock content %}
