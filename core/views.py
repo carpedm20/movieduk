@@ -8,7 +8,7 @@ from core.models import Movie, Director, Actor
 
 from django.http import HttpResponse
 
-from account import settings
+#from account import settings
 from md5 import md5
 import json
 
@@ -27,7 +27,7 @@ def index(request):
   for m in movies:
     m.director_list = m.directors.all()
     m.main_list = m.main.all()
-    print " RANK : " + str(m.rank)
+    #print " RANK : " + str(m.rank)
 
     if m.poster_url != '':
       #print " =====================> " + m.poster_url

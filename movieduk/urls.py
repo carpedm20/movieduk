@@ -10,7 +10,7 @@ admin.autodiscover()
 from movieduk import settings
 
 urlpatterns = patterns('',
-    (r'^account/', include('account.urls')),
+    #(r'^account/', include('account.urls')),
     (r'^media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
     (r'^asset/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.ASSET_ROOT}),
     url(r'^api/get_info/', 'core.views.get_info', name='get_info'),
@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     url(r'^info/actor/(?P<code>\d+)', 'core.views.actor_info'),
     url(r'^info/movie/(?P<code>\d+)', 'core.views.movie_info'),
     url(r'^login', 'account.views.sign_in'),
+    url(r'^facebook/login', 'facebook_account.views.login'),
     url(r'^logout', 'account.views.sign_out'),
     url(r'^join', 'account.views.sign_up', name='login'),
     url(r'^search/profile/', 'core.views.movie_search', name='movie_search'),

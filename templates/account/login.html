@@ -17,6 +17,9 @@
 {% endif %}
 <div class="login_background"></div>
 <div id="wrapper">
+{% if user.is_authenticated %}
+  <h1>Hello</h1>
+{% else %}
   <form name="login-form" class="login-form" action="" method="post">
     <div class="header">
       <h1>Sign in</h1>
@@ -35,6 +38,7 @@
       <input type="submit" name="submit" value="Register" class="register" />
     </div>
   </form>
-<a href="https://graph.facebook.com/oauth/authorize?client_id={{ settings.FACEBOOK_APP_ID }}&redirect_uri={{ settings.FACEBOOK_REDIRECT_URI }}&scope=publish_stream,email&display=popup"><img src="http://developers.facebook.com/images/devsite/login-button.png"/></a>
+  <a href="https://graph.facebook.com/oauth/authorize?client_id={{ settings.FACEBOOK_APP_ID }}&redirect_uri={{ settings.FACEBOOK_REDIRECT_URI }}&scope=publish_stream,email&display=popup"><img src="http://developers.facebook.com/images/devsite/login-button.png"/></a>
+{% endif %}
 </div>
 {% endblock content %}

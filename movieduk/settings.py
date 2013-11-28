@@ -104,6 +104,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 
     # Uncomment the next line for simple clickjacking protection:
@@ -135,6 +136,7 @@ INSTALLED_APPS = (
     'south',
     'core',
     'account',
+    'facebook_account',
     'social_auth',
 )
 
@@ -170,8 +172,12 @@ LOGGING = {
 # carpedm20
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.facebook.FacebookBackend',
+    'django.contrib.auth.backends.RemoteUserBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'facebook_account.backedns.FacebookBackend',
 )
+
+AUTH_USER_MODEL = 'account.DukUser'
 
 try:
     from localsettings import *

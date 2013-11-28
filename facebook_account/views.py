@@ -1,28 +1,20 @@
-# Create your views here.
-
+# -*- coding: utf-8 -*-
 from django.contrib import auth
-from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponse
-
-from django.contrib.auth import logout
 
 import cgi
 #import simplejson
 import urllib
 
-from account import settings, models
-
-#from django.core.context_processros import csrf
-from django.contrib.auth.decorators import login_required
-
-def sign_in(request):
-    title = 'login'
+from facebook_account import settings, models
+def login(request):
     error = None
 
     if request.user.is_authenticated():
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/run/')
     
     if request.GET:    
         if 'code' in request.GET:        
@@ -48,7 +40,7 @@ def sign_in(request):
                 if user.is_active:
                     auth.login(request, user)
                     
-                    return HttpResponseRedirect('/')
+                    return HttpResponseRedirect('/run/')
                 else:
                     error = 'AUTH_DISABLED'
             else:
@@ -56,21 +48,10 @@ def sign_in(request):
         elif 'error_reason' in request.GET:
             error = 'AUTH_DENIED'
 
-    template_context = {'settings': settings, 'error': error, 'title' : title}
+    template_context = {'settings': settings, 'error': error}
     print error
-    return render_to_response('account/login.html', template_context, context_instance=RequestContext(request))
+    return render_to_response('facebook_account/login.html', template_context, context_instance=RequestContext(request))
 
-def sign_up(request):
-  title = "sign up"
-  if request.user.is_authenticated():
-    return HttpResponseRedirect('/')
-  else:
-    error = 'AUTH_FAILED'
-    template_context = {'settings': settings, 'error': error, 'title' : title}
-    print error
-    return render_to_response('account/join.html', template_context, context_instance=RequestContext(request))
-
-def sign_out(request):
-  logout(request)
-  return HttpResponseRedirect('/')
-
+def run(request) :
+    s = 'hellow'
+    return HttpResponse(s)
