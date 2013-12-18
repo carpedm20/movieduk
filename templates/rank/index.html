@@ -10,9 +10,10 @@
 
 <div id="top" valign="top">
   <div id="topUserActorList" class="render-hidden" style="display: block;">
-    <ol id="olTopUserMovies" start="1" style="display: block;">
-      <li class>123</li>
-      <li class>123</li>
+    <ol id="topActors" start="1" style="display: block;">
+      {% for r in rank %}
+        <li class="topActor"><a target="_blank" href='./info/actor/{{ r.code }}'>{{ r.name }}</a></li>
+      {% endfor %}
     </ol>
   </div>
 </div>
@@ -22,16 +23,20 @@
   <div id="choice-left">                    
     <div id="movie-left" class="movie-info" style="display: block;">
       <div id="thumb-left">
-        <img id="leftThumb" src="{{ actor1.thumb_url }}" style="border-color: rgb(85, 85, 85); cursor: default;">                
+        <a target="_blank" href="./info/actor/{{ actor1.code }}"><img class="rank-thumb" id="leftThumb" src="{{ actor1.thumb_url }}" style="border-color: rgb(85, 85, 85); cursor: default;"></a>                
       </div>
       <div id="actor-name">
         <span id="leftActorName">
           {{ actor1.name }}
         </span> 
-        <span id="leftActorEnName">
-          {% if actor1.en_name != '' %}
+        <!-- <span id="leftActorEnName">
+        {% if actor1.en_name != '' %}
             ({{ actor1.en_name }})
           {% endif %}
+        </span> -->
+        <br>
+        <span id="actorRank">
+          # {{ actor1.rank }}
         </span>
       </div>
       <div id="actor-career">
@@ -50,23 +55,31 @@
       </div>
     </div>
     <div id="choice-left">
-      <input class="choice-button" type="button" value="Left">
+      <input class="choice-button" type="button" choice="Left" value="왼쪽">
     </div>
   </div>
-  <div id="choice-divider"></div>
+  <div id="choice-divider">
+    <div id="choice-middle">
+      <input class="choice-button" type="button" value="몰라">
+    </div>
+  </div>
   <div id="choice-right">            
     <div id="movie-right" class="movie-info" style="display: block;">
       <div id="thumb-right">
-        <img id="rightThumb" class="movieButton rightposter rightPosterImage posterImg" onerror="showDefaultPoster(this);" src="{{ actor2.thumb_url }}" style="border-color: rgb(85, 85, 85); cursor: default;">
+        <a target="_blank" href="./info/actor/{{ actor2.code }}"><img  class="rank-thumb" id="rightThumb" class="movieButton rightposter rightPosterImage posterImg" onerror="showDefaultPoster(this);" src="{{ actor2.thumb_url }}" style="border-color: rgb(85, 85, 85); cursor: default;"></a>
       </div>
       <div id="actor-name">
         <span id="rightActorName">
           {{ actor2.name }}
         </span>
-        <span id="rightMovieYear" class="rightMovieYear">
+        <!-- <span id="rightActorEnName" class="rightMovieYear">
           {% if actor2.en_name != '' %}
             ({{ actor2.en_name }})
           {% endif %}
+        </span> -->
+        <br/>
+        <span id="actorRank">
+          # {{ actor1.rank }}
         </span>
       </div>
       <div id="actor-career">
@@ -85,7 +98,7 @@
       </div>
     </div>
     <div id="choice-Right">
-      <input class="choice-button" type="button" value="Right">
+      <input class="choice-button" type="button" choice="Right" value="오른쪽">
     </div>
   </div>
 </div>

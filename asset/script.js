@@ -31,15 +31,14 @@ function randomItem(a) {
 };
 
 $(document).ready(function(){
-  $page = 0;
+  $page = 1;
 
   $(window).scroll(function() {
     if($(window).scrollTop() + $(window).height() == $(document).height()) {
       $page += 1;
 
       if ($("#loading-ball").length === 0) {
-        //$("#info-list").append('<li id="loading-ball"><div class="ball"></div><div class="ball1"></div></li>')
-        $("#info-list").append('<li id="loading-ball"><div class="ball1"></div><div class="footer"><p>Copyright © 2013 Kim Tae Hoon</p><p>Designed by carpedm20</p></div></li>')
+        $("#info-list").append('<li id="loading-ball"><div class="ball1"></div><div class="footer"><p>Copyright © 2013 Kim Tae Hoon</p><p>Designed by carpedm20</p></div></li>');
       }
 
       $.ajax({
@@ -49,9 +48,9 @@ $(document).ready(function(){
         success: function(data) {
           $("#loading-ball").width("101%").delay(200).fadeOut(400, function () {
              $(this).remove();
+             d = data[0];
+             $('#info-list').append(d.source);
           });
-          d = data[0];
-          $('#info-list').append(d.source);
         },
         statusCode: {
           400: function() {
@@ -67,12 +66,23 @@ $(document).ready(function(){
   });
 
   $(".choice-button").click(function(){
+    if($(this).attr("choice") == "Left")
+      $v = "left";
+    else if($(this).attr("choice") == "Right")
+      $v = "right";
+    else
+      $v = "middle";
+
     $.ajax({
       type: "GET",
-      url: "/api/get_rank/",
+      url: "/api/get_rank?value="+$v,
       dataType: "json",
       success: function(data) {
-        movie1 = data[0]
+        $(".topActor").remove();
+        for(var i = 0; i < 15; i++) {
+          $("#topActors").append("<li class='topActor'><a target='_blank' href='./info/actor/"+data[i+2].code+"'>"+data[i+2].name+"</a></li>");
+        }
+        movie1 = data[0];
         $('#leftThumb').attr("src", movie1.thumb_url);
         $('#leftActorName').text(movie1.name);
         $('#left_thumb_list').html('');
@@ -109,6 +119,13 @@ $(document).ready(function(){
           $(this).children('a').css('z-index', -1);
         });
         }
+    var $rank_choice = new Array('하...','갖고싶어','갖고싶다','가질래','라면 먹고 갈래?','내가 낫다','누구세요?','명배우','멋져!','머싯다','갖고싶니?','역시 왼쪽이..','완전 내스타일','하... 노답','느낌있는데?','오 느낌있어','누구지?','듣보잡?','...?','아름답다','미인!','미남!','내 룸메가 낫다','노답','뭐야 이건','흠','그렇군...','역시 이쪽이...','얜 뭐지?','아따 이쁘다','헿','고민되는데','이쪽인가','저쪽인가','모르겠다...','하핳','완전 내스타일','내꺼','헤헿','역시','내 이상형','내 여친','여친보다 이뻐','음...','안녕하세요?',"I'm your father",'으악','내 눈!','정화된다...','눈정화','역시 이 배우지','고민고민하지마','이쪽?','저쪽?','으잉?','모르겠다','깬또깬또','왼쪽일까?','오른쪽일까?','둘다 노답','하... 못고르겠어','내꺼찜','여신!','미래의...','개쩜','개간지','소간지');
+    var $i_dont_know = new Array('둘다 별로','둘다 으...','뭐지?','내가 낫다','내가 훨씬 낫다','노답들','노노노','스킵','다음 주세요','넥스트','투마로우','웟더','눈배림','내눈','내눈을 위하여','둘다 진짜...','둘다 여신','둘다 내스타일','둘다 내꺼','으악','정화가 필요해','다음','스킵스킵','노답노답','하...');
+
+    $("#choice-left input").attr("value",randomItem($rank_choice));
+    $("#choice-middle input").attr("value",randomItem($i_dont_know));
+    $("#choice-right input").attr("value",randomItem($rank_choice));
+
       },
       statusCode: {
         400: function() {

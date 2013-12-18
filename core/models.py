@@ -64,6 +64,7 @@ class Actor(models.Model):
   code = models.IntegerField(null=True, blank=True)
 
   rank = models.IntegerField(null=False, default = 0)
+  created_on = models.DateTimeField(auto_now_add=True, auto_now=True)
   previous_rank = models.IntegerField(null=False, default = 0)
 
   def __unicode__(self):

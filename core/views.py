@@ -19,6 +19,8 @@ PER_PAGE = 30
 MEDIA_URL = 'http://hexa.perl.sh/~carpedm30/img/'
 
 def index(request):
+  if not request.session.get('has_session'):
+    request.session['has_session'] = True
   #if request.user.is_authenticated():
   #  return HttpResponseRedirect('/run/')
   title = "hello world!"
