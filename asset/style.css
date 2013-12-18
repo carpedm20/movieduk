@@ -78,7 +78,11 @@ padding: 5px 10px 6px 10px;
 position: relative;
 }
 
-li #movie {
+li#loading-ball {
+border-bottom: 0;
+}
+
+li#movie {
 height: auto;
 }
 
@@ -223,7 +227,7 @@ right: 0;
 
 .footer {
 line-height: 5px;
-font-size: 10px;
+font-size: 11px;
 text-align: center;
 float: center;
 }
@@ -399,9 +403,9 @@ border-radius: 10px;
     box-shadow: 0 0 15px #2187e7;
     width: 30px;
     height: 30px;
-    margin: 0 auto;
+    margin: 40 auto 40;
     position: relative;
-    top: -50px;
+    //top: -50px;
     -moz-animation: spinoff .5s infinite linear;
     -webkit-animation: spinoff .5s infinite linear;
 }

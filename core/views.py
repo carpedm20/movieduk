@@ -217,6 +217,7 @@ def get_list(request):
     page = int(request.GET.get('page', '0'))
     
     movies = Movie.objects.order_by('-rank','-year')[page * count:page * count + count]
+    print "===================== : " + str(len(movies))
 
     f = open(settings.TEMPLATE_DIRS[0] + '/core/movie_item.html','r')
     r = f.read()

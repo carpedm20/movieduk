@@ -34,19 +34,23 @@ $(document).ready(function(){
   $page = 0;
 
   $(window).scroll(function() {
-    if($(window).scrollTop() + $(window).height() == $(document).height() - 1) {
+    if($(window).scrollTop() + $(window).height() == $(document).height()) {
       $page += 1;
 
       if ($("#loading-ball").length === 0) {
-        $("#info-list").append('<li id="loading-ball"><div class="ball"></div><div class="ball1"></div></li>')
+        //$("#info-list").append('<li id="loading-ball"><div class="ball"></div><div class="ball1"></div></li>')
+        $("#info-list").append('<li id="loading-ball"><div class="ball1"></div><div class="footer"><p>Copyright © 2013 Kim Tae Hoon</p><p>Designed by carpedm20</p></div></li>')
       }
 
       $.ajax({
         type: "GET",
-        url: "/api/get_list?count=10&page="+$page,
+        url: "/api/get_list?count=5&page="+$page,
         dataType: "json",
         success: function(data) {
-          d = data[0]
+          $("#loading-ball").width("101%").delay(200).fadeOut(400, function () {
+             $(this).remove();
+          });
+          d = data[0];
           $('#info-list').append(d.source);
         },
         statusCode: {
@@ -58,11 +62,6 @@ $(document).ready(function(){
             $('p').html(items.join(""));
           }
         },
-        success : function () {
-         $("#loading-ball").width("101%").delay(200).fadeOut(400, function () {
-           $(this).remove();
-        });
-      },
       });
     }
   });
