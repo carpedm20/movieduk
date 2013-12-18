@@ -25,12 +25,162 @@ $(function() {
   });
 });
 
+
 function randomItem(a) {
   return a[Math.floor(Math.random() * a.length)];
 };
 
 $(document).ready(function(){
-  var $walls = new Array('1_0_2008_07_09_13_20_50_32812.jpg',
+  $page = 0;
+
+  $(window).scroll(function() {
+    if($(window).scrollTop() + $(window).height() == $(document).height() - 1) {
+      $page += 1;
+
+      if ($("#loading-ball").length === 0) {
+        $("#info-list").append('<li id="loading-ball"><div class="ball"></div><div class="ball1"></div></li>')
+      }
+
+      $.ajax({
+        type: "GET",
+        url: "/api/get_list?count=10&page="+$page,
+        dataType: "json",
+        success: function(data) {
+          d = data[0]
+          $('#info-list').append(d.source);
+        },
+        statusCode: {
+          400: function() {
+            var items = [];
+            $.each( data, function( val ) {
+              items.push( val );
+            });
+            $('p').html(items.join(""));
+          }
+        },
+        success : function () {
+         $("#loading-ball").width("101%").delay(200).fadeOut(400, function () {
+           $(this).remove();
+        });
+      },
+      });
+    }
+  });
+
+  $(".choice-button").click(function(){
+    $.ajax({
+      type: "GET",
+      url: "/api/get_rank/",
+      dataType: "json",
+      success: function(data) {
+        movie1 = data[0]
+        $('#leftThumb').attr("src", movie1.thumb_url);
+        $('#leftActorName').text(movie1.name);
+        $('#left_thumb_list').html('');
+        for(var m in movie1.movies) {
+          m = movie1.movies[m];
+          $('#left_thumb_list').append('<li class="small_thumb_list_item" data-title="'+m.title1+'" style="display: list-item;"><div class="viewport"><a href="/info/movie/'+m.code+'" target="_blank"><span class="dark-background">'+m.title1+'</span><img src="'+m.poster_url+'?type=n77_110_2" width="48" height="60"></a></div></li>');
+          $('.viewport').mouseenter(function(e) {
+          $(this).children('a').children('img').animate({ height: '96', marginLeft: '-9.5', marginTop: '-18', width: '77'}, 0);
+          $(this).children('a').children('span').fadeIn(0);
+          $(this).children('a').css('position', 'relative');
+          $(this).children('a').css('z-index', 1000);
+        }).mouseleave(function(e) {
+          $(this).children('a').children('img').animate({ height: '60', marginLeft: '0', marginTop: '0', width: '48'}, 0);
+          $(this).children('a').children('span').fadeOut(0);
+          $(this).children('a').css('z-index', -1);
+        });
+        }
+        movie2 = data[1]
+        $('#rightThumb').attr("src", movie2.thumb_url);
+        $('#rightActorName').text(movie2.name);
+        $('#right_thumb_list').html('');
+        for(var m in movie2.movies) {
+          m = movie2.movies[m];
+          $('#right_thumb_list').append('<li class="small_thumb_list_item" data-title="'+m.title1+'" style="display: list-item;"><div class="viewport"><a href="/info/movie/'+m.code+'" target="_blank"><span class="dark-background">'+m.title1+'</span><img src="'+m.poster_url+'?type=n77_110_2" width="48" height="60"></a></div></li>');
+
+         $('.viewport').mouseenter(function(e) {
+          $(this).children('a').children('img').animate({ height: '96', marginLeft: '-9.5', marginTop: '-18', width: '77'}, 0);
+          $(this).children('a').children('span').fadeIn(0);
+          $(this).children('a').css('position', 'relative');
+          $(this).children('a').css('z-index', 1000);
+        }).mouseleave(function(e) {
+          $(this).children('a').children('img').animate({ height: '60', marginLeft: '0', marginTop: '0', width: '48'}, 0);
+          $(this).children('a').children('span').fadeOut(0);
+          $(this).children('a').css('z-index', -1);
+        });
+        }
+      },
+      statusCode: {
+        400: function() {
+          var items = [];
+          $.each( data, function( val ) {
+            items.push( val ); 
+          });
+          $('p').html(items.join(""));
+        }
+      }
+    });
+  });
+
+  $('.viewport').mouseenter(function(e) {
+    $(this).children('a').children('img').animate({ height: '96', marginLeft: '-9.5', marginTop: '-18', width: '77'}, 0);
+    $(this).children('a').children('span').fadeIn(0);
+    $(this).children('a').css('position', 'relative');
+    $(this).children('a').css('z-index', 1000);
+  }).mouseleave(function(e) {
+    $(this).children('a').children('img').animate({ height: '60', marginLeft: '0', marginTop: '0', width: '48'}, 0);
+    $(this).children('a').children('span').fadeOut(0);
+    $(this).children('a').css('z-index', -1);
+  });
+
+  $(".fake_search_btn input").click(function() {
+    var $query = $("input[name='searchBox']").val();
+    var url = "http://10.20.16.52:8000/search/movie/title?query=" + $query;
+    $(location).attr('href',url);
+  });
+
+  $("input[name='searchBox']").keydown(function (e){
+    if(e.keyCode == 13) {
+      var $query = $(this).val();
+      var url = "http://10.20.16.52:8000/search/movie/title?query=" + $query;
+      $(location).attr('href',url);
+    }
+  });
+
+  $(".show-more a").on("click", function() {
+    var $link = $(this);
+    var $content = $link.parent().prev("div.text-content");
+    var linkText = $link.text().toUpperCase();
+     
+    switchClasses($content);
+ 
+    $link.text(getShowLinkText(linkText));
+     
+    return false;
+  });
+ 
+  function switchClasses($content){
+    if($content.hasClass("short-text")){ 
+        $content.switchClass("short-text", "full-text", 400);
+    } else {
+        $content.switchClass("full-text", "short-text", 400);
+    }
+  }
+ 
+  function getShowLinkText(currentText){
+    var newText = '';
+     
+    if (currentText === "펼쳐보기") {
+        newText = "접기";
+    } else {
+        newText = "펼쳐보기";
+    }
+     
+    return newText;
+  }
+
+ var $walls = new Array('1_0_2008_07_09_13_20_50_32812.jpg',
 '1.jpg',
 '20(349).jpg',
 '2652_1.jpg',
@@ -107,50 +257,4 @@ $(document).ready(function(){
 'watchmen_movie-wallpaper-1920x1080.jpg',
 '-Pixar-Up-movie-Fresh-New-Hd-Wallpaper--.png');
   $('.login_background').css('background-image', 'url(/media/wallpaper/' + randomItem($walls) + ')');
-
-  $(".fake_search_btn input").click(function() {
-    var $query = $("input[name='searchBox']").val();
-    var url = "http://10.20.16.52:8000/search/movie/title?query=" + $query;
-    $(location).attr('href',url);
-  });
-
-  $("input[name='searchBox']").keydown(function (e){
-    if(e.keyCode == 13) {
-      var $query = $(this).val();
-      var url = "http://10.20.16.52:8000/search/movie/title?query=" + $query;
-      $(location).attr('href',url);
-    }
-  });
-
-  $(".show-more a").on("click", function() {
-    var $link = $(this);
-    var $content = $link.parent().prev("div.text-content");
-    var linkText = $link.text().toUpperCase();
-     
-    switchClasses($content);
- 
-    $link.text(getShowLinkText(linkText));
-     
-    return false;
-  });
- 
-  function switchClasses($content){
-    if($content.hasClass("short-text")){ 
-        $content.switchClass("short-text", "full-text", 400);
-    } else {
-        $content.switchClass("full-text", "short-text", 400);
-    }
-  }
- 
-  function getShowLinkText(currentText){
-    var newText = '';
-     
-    if (currentText === "펼쳐보기") {
-        newText = "접기";
-    } else {
-        newText = "펼쳐보기";
-    }
-     
-    return newText;
-  }
 });

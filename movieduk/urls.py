@@ -14,6 +14,10 @@ urlpatterns = patterns('',
     (r'^media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
     (r'^asset/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.ASSET_ROOT}),
     url(r'^api/get_info/', 'core.views.get_info', name='get_info'),
+    url(r'^api/get_list/', 'core.views.get_list', name='get_list'),
+
+    url(r'^rank', 'rank.views.index', name='index'),
+    url(r'^api/get_rank/', 'rank.views.get_rank', name='get_rank'),
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'core.views.index'),

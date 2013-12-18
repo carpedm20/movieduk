@@ -12,6 +12,9 @@ from django.http import HttpResponse
 from md5 import md5
 import json
 
+from django.template import Context, Template
+from django.conf import settings
+
 PER_PAGE = 30
 MEDIA_URL = 'http://hexa.perl.sh/~carpedm30/img/'
 
@@ -40,24 +43,7 @@ def index(request):
     if m.poster_url == '':
       m.poster_url = False
 
-  if request.method == 'POST':
-    action = request.Post['action'].lower()
-    core_list_form = CoreListForm(data = request.POST, movies = movies)
-
-    if core_list_form.is_valid():
-      selected = Movie.objects.filter(id__in = core_list_form.cleaned_data) 
-      #actions = {'done' : lambda items: itmes.update(is_done= True),
-      #           'delete' : lambda items: items.delete()}
-
-      #actions.get(action)(selected)
-
-      message.add_message(request, messages.SUCCESS, 'Finished')
-
-  else:
-    core_form = CoreForm()
-    core_list_form = CoreListForm(movies = movies)
-
-  context = {'MEDIA_URL': MEDIA_URL, 'core_list_form' : core_list_form, 'core_form' : core_form, 'movies' : movies, 'title': title}
+  context = {'MEDIA_URL': MEDIA_URL, 'movies' : movies, 'title': title}
   return render_to_response('core/index.html', context, RequestContext(request))
 
 # http://10.20.16.52:8000/search/movie/title?query=e
@@ -99,7 +85,7 @@ def director_info(request, code):
   title = "DIRECTOR PROFILE"
 
   director = Director.objects.get(code = int(code))
-  movies = Movie.objects.filter(directors = director)
+  movies = Movie.objects.filter(directors = director).order_by('-rank','-year')
 
   if director.thumb_url == "":
     director.thumb_url = False
@@ -127,7 +113,7 @@ def actor_info(request, code):
   title = "Actor PROFILE"
 
   actor = Actor.objects.get(code = int(code))
-  movies = Movie.objects.filter(main__actor__code = int(code))
+  movies = Movie.objects.filter(main__actor__code = int(code)).order_by('-rank','-year')
 
   if actor.thumb_url == "":
     actor.thumb_url = False
@@ -221,3 +207,48 @@ def get_info(request):
   mimetype = 'application/json'
   return HttpResponse(data, mimetype)
   #return HttpResponse(simplejson.dumps( [movie.field for movie in movies]))
+
+def get_list(request):
+  print " ^^^^^ GET INFO"
+  title = "Hello"
+
+  if request.is_ajax():
+    count = int(request.GET.get('count', '10'))
+    page = int(request.GET.get('page', '0'))
+    
+    movies = Movie.objects.order_by('-rank','-year')[page * count:page * count + count]
+
+    f = open(settings.TEMPLATE_DIRS[0] + '/core/movie_item.html','r')
+    r = f.read()
+    t = Template(r)
+
+    for m in movies:
+      m.director_list = m.directors.all()
+      m.main_list = m.main.all()
+
+      if m.poster_url != '':
+        url = m.poster_url
+        new_url = url[url.rfind('naver.net') + 9:]
+        m.poster = m.year + '/' + m.country_code + '/' + 'pic_' + md5(new_url).hexdigest() + '.jpg'
+      else:
+        m.poster = ''
+
+      if m.poster_url == '':
+        m.poster_url = False
+
+    context = {'MEDIA_URL': MEDIA_URL, 'movies' : movies, 'title': title}
+
+    html = t.render(Context(context))
+
+    movie_json = {}
+    movie_json['source'] = html
+
+    results = []
+    results.append(movie_json)
+
+    data = json.dumps(results)
+  else:
+    data = 'fail'
+
+  mimetype = 'application/json'
+  return HttpResponse(data, mimetype)

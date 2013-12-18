@@ -20,8 +20,8 @@ BODY STYLING
 #wrapper {
     /* Center wrapper perfectly */
     width: 300px;
-    height: 400px;
-    margin: 70px auto;
+    opacity: 0.95;
+    margin: auto auto;
 }
 
 /* Download Button (Demo Only) */

@@ -57,11 +57,14 @@ class Actor(models.Model):
   #movie_url = models.CharField(max_lenght=50, null=True)
 
   career1_title = models.CharField(max_length=20, null=True, blank=True)
-  career1_year= models.CharField(max_length=10, null=True, blank=True)
+  career1_year = models.CharField(max_length=10, null=True, blank=True)
   career2_title = models.CharField(max_length=20, null=True, blank=True)
   career2_year= models.CharField(max_length=10, null=True, blank=True)
 
   code = models.IntegerField(null=True, blank=True)
+
+  rank = models.IntegerField(null=False, default = 0)
+  previous_rank = models.IntegerField(null=False, default = 0)
 
   def __unicode__(self):
     return u"%s" % self.name

@@ -3,12 +3,11 @@
 {% block content %}
 {{ title }}
 
-<script type="text/javascript"> 
-   var a = "{{someDjangoVariable}}"
-</script>
-
-
 <ul id="info-list">
 {% include "core/movie_item.html" %}
+<li id="loading-ball">
+<div class="ball"></div>
+<div class="ball1"></div>
+</li>
 </ul>
 {% endblock content %}

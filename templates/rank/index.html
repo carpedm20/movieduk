@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+{{ title }}
+
+<script type="text/javascript">
+   var a = "{{someDjangoVariable}}"
+</script>
+
+
+<div id="top" valign="top">
+  <div id="topUserActorList" class="render-hidden" style="display: block;">
+    <ol id="olTopUserMovies" start="1" style="display: block;">
+      <li class>123</li>
+      <li class>123</li>
+    </ol>
+  </div>
+</div>
+
+<form method="post">{% csrf_token %}
+<div id="choices-area">
+  <div id="choice-left">                    
+    <div id="movie-left" class="movie-info" style="display: block;">
+      <div id="thumb-left">
+        <img id="leftThumb" src="{{ actor1.thumb_url }}" style="border-color: rgb(85, 85, 85); cursor: default;">                
+      </div>
+      <div id="actor-name">
+        <span id="leftActorName">
+          {{ actor1.name }}
+        </span> 
+        <span id="leftActorEnName">
+          {% if actor1.en_name != '' %}
+            ({{ actor1.en_name }})
+          {% endif %}
+        </span>
+      </div>
+      <div id="actor-career">
+        <ol class="thumb_list" id="left_thumb_list">
+          {% for m in actor1.movies %}
+            <li class="small_thumb_list_item" data-title="{{ m.title1 }}" style="display: list-item;">
+              <div class="viewport">
+                <a href="/info/movie/{{ m.code }}" target="_blank">
+                  <span class="dark-background">{{ m.title1 }}</span>
+                  <img src="{{ m.poster_url }}?type=n77_110_2" width="48" height="60">
+                </a>
+              </div>
+            </li>
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+    <div id="choice-left">
+      <input class="choice-button" type="button" value="Left">
+    </div>
+  </div>
+  <div id="choice-divider"></div>
+  <div id="choice-right">            
+    <div id="movie-right" class="movie-info" style="display: block;">
+      <div id="thumb-right">
+        <img id="rightThumb" class="movieButton rightposter rightPosterImage posterImg" onerror="showDefaultPoster(this);" src="{{ actor2.thumb_url }}" style="border-color: rgb(85, 85, 85); cursor: default;">
+      </div>
+      <div id="actor-name">
+        <span id="rightActorName">
+          {{ actor2.name }}
+        </span>
+        <span id="rightMovieYear" class="rightMovieYear">
+          {% if actor2.en_name != '' %}
+            ({{ actor2.en_name }})
+          {% endif %}
+        </span>
+      </div>
+      <div id="actor-career">
+        <ol class="thumb_list" id="right_thumb_list">
+          {% for m in actor2.movies %}
+            <li class="small_thumb_list_item" data-title="{{ m.title1 }}?type=n77_110_2" style="display: list-item;">
+              <div class="viewport">
+                <a href="/info/movie/{{ m.code }}" target="_blank">
+                  <span class="dark-background">{{ m.title1 }}</span>
+                  <img src="{{ m.poster_url }}?type=n77_110_2" width="48" height="60">
+                </a>
+              </div>
+            </li>
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+    <div id="choice-Right">
+      <input class="choice-button" type="button" value="Right">
+    </div>
+  </div>
+</div>
+
+</form>
+
+<div>
+  <div id="choice-none">
+    None
+  </div>
+</div>
+
+{% endblock content %}
