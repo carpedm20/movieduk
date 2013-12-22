@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class MovieList(models.Model):
+  movies = models.ManyToManyField('Movie')
+
 class Movie(models.Model):
   # list string -> import ast; ast.literal_eval(actors)
   main = models.ManyToManyField('Character') 

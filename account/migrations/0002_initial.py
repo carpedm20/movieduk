@@ -13,12 +13,10 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('password', self.gf('django.db.models.fields.CharField')(max_length=128)),
             ('last_login', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
-            ('username', self.gf('django.db.models.fields.CharField')(unique=True, max_length=254)),
+            ('username', self.gf('django.db.models.fields.CharField')(unique=True, max_length=30)),
             ('first_name', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
             ('last_name', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
             ('email', self.gf('django.db.models.fields.EmailField')(max_length=75, blank=True)),
-            ('synergy_level', self.gf('django.db.models.fields.IntegerField')()),
-            ('is_team_player', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal(u'account', ['DukUser'])
 
@@ -34,12 +32,10 @@ class Migration(SchemaMigration):
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_team_player': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'synergy_level': ('django.db.models.fields.IntegerField', [], {}),
-            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '254'})
+            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
         }
     }
 

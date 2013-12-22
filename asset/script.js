@@ -46,7 +46,7 @@ $(document).ready(function(){
         url: "/api/get_list?count=5&page="+$page,
         dataType: "json",
         success: function(data) {
-          $("#loading-ball").width("101%").delay(200).fadeOut(400, function () {
+          $("#loading-ball").delay(200).fadeOut(400, function () {
              $(this).remove();
              d = data[0];
              $('#info-list').append(d.source);

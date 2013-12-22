@@ -99,18 +99,6 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
-MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.RemoteUserMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
-)
-
 ROOT_URLCONF = 'movieduk.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -135,9 +123,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'south',
     'core',
+    'rank',
     'account',
-    'facebook_account',
-    'social_auth',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -169,17 +156,44 @@ LOGGING = {
     }
 }
 
-# carpedm20
-AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.facebook.FacebookBackend',
-    'django.contrib.auth.backends.RemoteUserBackend',
-    'django.contrib.auth.backends.ModelBackend',
-    'facebook_account.backedns.FacebookBackend',
+AUTH_USER_MODEL = 'account.DukUser'
+
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-AUTH_USER_MODEL = 'account.DukUser'
+AUTHENTICATION_BACKENDS = (
+    'account.backends.FacebookBackend',
+)
+
+# carpedm20
+#AUTHENTICATION_BACKENDS = (
+#  'account.backends.FacebookBackend',
+#)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.contrib.messages.context_processors.messages",
+    "django.core.context_processors.request",
+)
+
+FACEBOOK_APP_ID = '387661514698415'
+FACEBOOK_API_SECRET = '0e4e65e38f54da96e9421284e5b89b04'
+#FACEBOOK_REDIRECT_URI = 'http://carpedm20.qc.to/login/'
+FACEBOOK_REDIRECT_URI = 'http://movieduk.us.to:8001/facebook/login'
+
 
 try:
     from localsettings import *
 except ImportError:
     pass
+

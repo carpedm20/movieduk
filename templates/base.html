@@ -62,8 +62,8 @@
     <li><a href="/">Movie</a></li>
     <li><a href="/">List</a></li>
     <li><a href="/rank">Rank</a></li>
-    {% if user.is_authenticated  %}
-      <li href="/logout">Sign Out</li>
+    {% if request.session.fb %}
+      <li><a href="/logout">Sign Out</a></li>
     {% else %}
       <li><a href="/login">Sign In/Up</a></li>
     {% endif %}
