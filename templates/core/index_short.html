@@ -3,6 +3,10 @@
 {% block content %}
 
 <ul class="list-short" id="info-list">
+<li>
+<a id="filter-openner" href="#">Filter</a>
+{% include "core/filter.html" %}
+</li>
 {% include "core/movie_item_short.html" %}
 <li id="loading-ball">
 <div class="ball1"></div>

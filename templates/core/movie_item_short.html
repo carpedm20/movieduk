@@ -21,7 +21,7 @@
       </span>
       <span class="small_info">
         <h2>
-          <a href="/info/movie/{{ movie.code }}">{{ movie.title1 }}</a> ({{ movie.title2_with_link|escape|safe }})
+          <a href="/info/movie/{{ movie.code }}">{{ movie.title1 }}</a> <!--({{ movie.title2_with_link|escape|safe }})-->
         </h2>
         <div class="basic_info">
           {% if movie.year != '' %}
@@ -55,7 +55,7 @@
             <a href="/info/director/{{ director.code }}">{{ director.name }}</a>, 
           {% endif %}
         {% endfor %}
-        | {% for main in movie.main_list|slice:":5"  %}
+        | {% for main in movie.main_list|slice:":3"  %}
           {% if forloop.last %}
             {% if main.actor.code != -1 %}
               <a href="/info/actor/{{ main.actor.code }}">{{ main.actor.name }}</a>
@@ -83,6 +83,8 @@
             </div>
           {% endif %}
         </div>
+        <a href="#" class="like" id="{{ movie.code }}"><span>Like</span></a>
+        <a href="#" class="watch" id="{{ movie.code }}"><span>Watch</span></a>
         <a href="#" class="check" id="{{ movie.code }}"><span>Check</span></a>
       </span>
       <!--<ul class="tagList">

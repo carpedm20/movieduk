@@ -31,7 +31,15 @@ function randomItem(a) {
 };
 
 $(document).ready(function(){
+  $("div.filtering").hide();
   $page = 1;
+
+  $("#filter-openner").click(function() {
+    if($("div.filtering").is(':visible'))
+      $("div.filtering").hide();
+    else
+      $("div.filtering").show();
+  });
 
   $(window).scroll(function() {
     if($(window).scrollTop() + $(window).height() == $(document).height()) {
