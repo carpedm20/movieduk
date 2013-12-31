@@ -48,6 +48,36 @@ def index(request):
   context = {'MEDIA_URL': MEDIA_URL, 'movies' : movies, 'title': title}
   return render_to_response('core/index.html', context, RequestContext(request))
 
+def index_short(request):
+  if not request.session.get('has_session'):
+    request.session['has_session'] = True
+  #if request.user.is_authenticated():
+  #  return HttpResponseRedirect('/run/')
+  title = "hello world!"
+  #movies = Movie.objects.order_by('-year')[:20]
+  #movies = Movie.objects.all()
+  movies = Movie.objects.order_by('-rank','-year')[:10]
+  #movies = movies[len(movies)-10:]
+
+  for m in movies:
+    m.director_list = m.directors.all()
+    m.main_list = m.main.all()
+    #print " RANK : " + str(m.rank)
+
+    if m.poster_url != '':
+      #print " =====================> " + m.poster_url
+      url = m.poster_url
+      new_url = url[url.rfind('naver.net') + 9:]
+      m.poster = m.year + '/' + m.country_code + '/' + 'pic_' + md5(new_url).hexdigest() + '.jpg'
+    else:
+      m.poster = ''
+
+    if m.poster_url == '':
+      m.poster_url = False
+
+  context = {'MEDIA_URL': MEDIA_URL, 'movies' : movies, 'title': title}
+  return render_to_response('core/index_short.html', context, RequestContext(request))
+
 # http://10.20.16.52:8000/search/movie/title?query=e
 def movie_search(request, option = "title"):
   title = "SEARCH"
@@ -221,7 +251,55 @@ def get_list(request):
     movies = Movie.objects.order_by('-rank','-year')[page * count:page * count + count]
     print "===================== : " + str(len(movies))
 
+    print "===================== : " + str(request.path_info)
     f = open(settings.TEMPLATE_DIRS[0] + '/core/movie_item.html','r')
+    r = f.read()
+    t = Template(r)
+
+    for m in movies:
+      m.director_list = m.directors.all()
+      m.main_list = m.main.all()
+
+      if m.poster_url != '':
+        url = m.poster_url
+        new_url = url[url.rfind('naver.net') + 9:]
+        m.poster = m.year + '/' + m.country_code + '/' + 'pic_' + md5(new_url).hexdigest() + '.jpg'
+      else:
+        m.poster = ''
+
+      if m.poster_url == '':
+        m.poster_url = False
+
+    context = {'MEDIA_URL': MEDIA_URL, 'movies' : movies, 'title': title}
+
+    html = t.render(Context(context))
+
+    movie_json = {}
+    movie_json['source'] = html
+
+    results = []
+    results.append(movie_json)
+
+    data = json.dumps(results)
+  else:
+    data = 'fail'
+
+  mimetype = 'application/json'
+  return HttpResponse(data, mimetype)
+
+def get_short_list(request):
+  print " ^^^^^ GET INFO"
+  title = "Hello"
+
+  if request.is_ajax():
+    count = int(request.GET.get('count', '10'))
+    page = int(request.GET.get('page', '0'))
+
+    movies = Movie.objects.order_by('-rank','-year')[page * count:page * count + count]
+    print "===================== : " + str(len(movies))
+
+    print "===================== : " + str(request.path_info)
+    f = open(settings.TEMPLATE_DIRS[0] + '/core/movie_item_short.html','r')
     r = f.read()
     t = Template(r)
 

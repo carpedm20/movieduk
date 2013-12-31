@@ -1,0 +1,94 @@
+{% for movie in movies %}
+  <li id="movie" class="llistItemMovie">
+    <div class="index_item">
+      <div class="rank">
+        {{ movie.index }}
+        <!--<span class="positiondifference">
+          <span class="up down neutral">-
+          </span>
+        </span>-->
+      </div>
+      <span class="coverImageShort" style="background: url(/var/covers/small/10/100.jpg);">
+        {% if movie.poster_url %}
+        <a href="/info/movie/{{ movie.code }}">
+          <!--<img src="{{ movie.poster_url }}?type=m203_290_2" />-->
+          <img class="short" src="{{ movie.poster_url }}?type=n77_110_2" />
+        </a>
+        {% else %}
+          <!--<img src="http://static.naver.net/movie/2012/06/dft_img203x290.png"/>-->
+          <img src="http://static.naver.net/movie/2012/06/dft_img77x110.png"/>
+        {% endif %}
+      </span>
+      <span class="small_info">
+        <h2>
+          <a href="/info/movie/{{ movie.code }}">{{ movie.title1 }}</a> ({{ movie.title2_with_link|escape|safe }})
+        </h2>
+        <div class="basic_info">
+          {% if movie.year != '' %}
+            <a href="/search/movie/year?query={{ movie.year }}">{{ movie.year }}</a> |
+          {% endif %}
+          {% if movie.genre != '' %}
+            {% for g in movie.genre_as_list %}
+              {% if forloop.last %}
+                <a href="/search/movie/genre?query={{ g }}">{{ g }}</a>
+              {% else %}
+                <a href="/search/movie/genre?query={{ g }}">{{ g }}</a>, 
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+          {% if movie.country != '' %}
+            {% if movie.genre == '' %}
+              <a href="/search/movie/country?query={{ movie.country }}">{{ movie.country }}</a>
+            {% else %}
+              | <a href="search/movie/country?query={{ movie.country }}">{{ movie.country }}</a>
+            {% endif %}
+          {% endif %}
+          {% if movie.time != '' %}
+            | {{ movie.time }}
+          {% endif %}
+        </div>
+        <div class="director_actor">
+        {% for director in movie.director_list %}
+          {% if forloop.last %}
+            <a href="/info/director/{{ director.code }}">{{ director.name }}</a>
+          {% else %}
+            <a href="/info/director/{{ director.code }}">{{ director.name }}</a>, 
+          {% endif %}
+        {% endfor %}
+        | {% for main in movie.main_list|slice:":5"  %}
+          {% if forloop.last %}
+            {% if main.actor.code != -1 %}
+              <a href="/info/actor/{{ main.actor.code }}">{{ main.actor.name }}</a>
+            {% else %}
+              {{ main.actor.name }}
+            {% endif %}
+          {% else %}
+            {% if main.actor.code != -1 %}
+              <a href="/info/actor/{{ main.actor.code }}">{{ main.actor.name }}</a>, 
+            {% else %}
+              {{ main.actor.name }}, 
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        </div>
+        <div class="text-container" id="story">
+          {% if movie.story1 != '' %}
+            <div id="story1"><b>
+              {{ movie.story1|escape|safe }}
+            </b></div>
+          {% endif %}
+          {% if movie.story2 != '' %}
+            <div class="text-content short-text" id="story2">
+              {{ movie.story2|escape|safe }}
+            </div>
+          {% endif %}
+        </div>
+        <a href="#" class="check" id="{{ movie.code }}"><span>Check</span></a>
+      </span>
+      <!--<ul class="tagList">
+        <li>
+        </li>
+      </ul>-->
+    </li>
+  </div>
+{% endfor %}

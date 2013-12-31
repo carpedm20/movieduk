@@ -56,6 +56,38 @@ div {
 display: block;
 }
 
+
+img.short{
+display: inline-block;
+height: 60px;
+margin-left: 0px;
+margin-top: 0px;
+width: 48px;
+}
+
+span.small_info h2 {
+font-size: 1.3em;
+margin: 9 0 0 0;
+}
+
+span.small_info div {
+line-height: 1.5em;
+}
+
+span.small_info div.text-container {
+height:0;
+overflow: hidden;
+}
+
+span.coverImageShort{
+float: left;
+display: inline-block;
+padding-top: 10px;
+padding-bottom: 10px;
+text-align:center;
+width:75px;
+}
+
 div.index_item{
 display:block;
 overflow:auto;
@@ -163,6 +195,16 @@ font-family: 'Open Sans Condensed';
 
 #info-list {
 margin-top: 40px;
+-webkit-padding-start: 40px;
+-webkit-padding-end: 40px;
+}
+
+.list-short {
+overflow: visible;
+max-width: 800px;
+background: transparent;
+margin: 0 auto;
+-webkit-padding-start: 0px;
 }
 
 #info-list img {

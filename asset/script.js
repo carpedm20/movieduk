@@ -41,9 +41,14 @@ $(document).ready(function(){
         $("#info-list").append('<li id="loading-ball"><div class="ball1"></div><div class="footer"><p>Copyright © 2013 Kim Tae Hoon</p><p>Designed by carpedm20</p></div></li>');
       }
 
+      if (document.URL.indexOf("short") === -1)
+        $ajax_url =  "/api/get_list?count=5&page="+$page;
+      else
+        $ajax_url =  "/api/get_short_list?count=5&page="+$page;
+
       $.ajax({
         type: "GET",
-        url: "/api/get_list?count=5&page="+$page,
+        url: $ajax_url,
         dataType: "json",
         success: function(data) {
           $("#loading-ball").delay(200).fadeOut(400, function () {

@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     (r'^asset/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.ASSET_ROOT}),
     url(r'^api/get_info/', 'core.views.get_info', name='get_info'),
     url(r'^api/get_list/', 'core.views.get_list', name='get_list'),
+    url(r'^api/get_short_list/', 'core.views.get_short_list', name='get_short_list'),
 
     url(r'^rank', 'rank.views.index', name='index'),
     url(r'^api/get_rank/', 'rank.views.get_rank', name='get_rank'),
@@ -28,6 +29,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^$', 'core.views.index'),
+    url(r'^short', 'core.views.index_short'),
     url(r'^index$', 'core.views.index'),
 
     url(r'^search/movie/(?P<option>\w+)', 'core.views.movie_search', name='movie_search'),
