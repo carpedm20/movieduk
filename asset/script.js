@@ -34,13 +34,105 @@ $(document).ready(function(){
   $("div.filtering").hide();
   $page = 1;
 
-  $("#filter-openner").click(function() {
-    if($("div.filtering").is(':visible'))
-      $("div.filtering").hide();
-    else
-      $("div.filtering").show();
+  // filter
+  $(".submit_filtering").click(function() {
+    // genre
+    $genres = new Array();
+
+    if ($("input[name='genre']:first").is(':checked')) {
+      $genres.push("all");
+    } else {
+      $("input[name='genre']:not(:first):checked").each(function() {
+        $genres.push($(this).attr('id'));
+      });
+    }
+
+    // nation
+    $nations = new Array();
+
+    if ($("input[name='nation']:first").is(':checked')) {
+      $nations.push("all");
+    } else {
+      $("input[name='nation']:not(:first):checked").each(function() {
+        $nations.push($(this).attr('id'));
+      });
+    }
+
+    // year
+    $years = new Array();
+
+    if ($("input[name='year']:first").is(':checked')) {
+      $years.push("all");
+    } else {
+      $("input[name='year']:not(:first):checked").each(function() {
+        $years.push($(this).attr('id'));
+      });
+    }
   });
 
+  // hide filter when click outer space
+  $(document).click(function(event) { 
+    if (!$(event.target).closest('#filter-openner').length)
+      if (!$(event.target).closest('.filtering').length)
+        if ($('.filtering').is(":visible"))
+            $('.filtering').fadeOut("slow");
+  });
+
+  // show or hide filter
+  $("#filter-openner").click(function() {
+    if($("div.filtering").is(':visible'))
+      $("div.filtering").fadeOut("slow");
+    else
+      $("div.filtering").fadeIn("slow");
+  });
+
+  // default
+  $("input[type='checkbox']").attr("checked",false);
+  $(".default-check").attr('checked',true);
+
+  // filter default button
+  $(".submit_reset").click(function() {
+    $("input[type='checkbox']").attr("checked",false);
+    $(".default-check").attr('checked',true);
+  });
+
+  // if others are checked, ALL GENRE is unchecked
+  $("input[name='genre']:not(:first)").click(function() {
+    if($(this).is(':checked'))
+      $("input[name='genre']:first").attr("checked",false);
+  });
+
+  // if ALL GENRE is checked, uncheck others
+  $("input[name='genre']:first").click(function() {
+    if($(this).is(':checked'))
+      $("input[name='genre']:not(:first)").attr("checked",false);
+  });
+
+  // if others are checked, ALL NATION is unchecked
+  $("input[name='nation']:not(:first)").click(function() {
+    if($(this).is(':checked'))
+      $("input[name='nation']:first").attr("checked",false);
+  });
+
+  // if ALL NATION is checked, uncheck others
+  $("input[name='nation']:first").click(function() {
+    if($(this).is(':checked'))
+      $("input[name='nation']:not(:first)").attr("checked",false);
+  });
+
+  // if others are checked, ALL YEAR is unchecked
+  $("input[name='year']:not(:first)").click(function() {
+    if($(this).is(':checked'))
+      $("input[name='year']:first").attr("checked",false);
+  });
+
+  // if ALL NATION is checked, uncheck others
+  $("input[name='year']:first").click(function() {
+    if($(this).is(':checked'))
+      $("input[name='year']:not(:first)").attr("checked",false);
+  });
+
+  // infinite scroll
   $(window).scroll(function() {
     if($(window).scrollTop() + $(window).height() == $(document).height()) {
       $page += 1;
@@ -52,7 +144,7 @@ $(document).ready(function(){
       if (document.URL.indexOf("short") === -1)
         $ajax_url =  "/api/get_list?count=5&page="+$page;
       else
-        $ajax_url =  "/api/get_short_list?count=5&page="+$page;
+        $ajax_url =  "/api/get_short_list?count=10&page="+$page;
 
       $.ajax({
         type: "GET",
@@ -287,3 +379,4 @@ $(document).ready(function(){
 '-Pixar-Up-movie-Fresh-New-Hd-Wallpaper--.png');
   $('.login_background').css('background-image', 'url(/media/wallpaper/' + randomItem($walls) + ')');
 });
+

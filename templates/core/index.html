@@ -4,8 +4,10 @@
 
 <ul id="info-list">
 <li>
-<a id="filter-openner" href="#">Filter</a>
-{% include "core/filter.html" %}
+  <div id="filter-wrapper">
+    <button id="filter-openner">Filter</button>
+  </div>
+  {% include "core/filter.html" %}
 </li>
 {% include "core/movie_item.html" %}
 <li id="loading-ball">

@@ -78,6 +78,11 @@ def index_short(request):
   context = {'MEDIA_URL': MEDIA_URL, 'movies' : movies, 'title': title}
   return render_to_response('core/index_short.html', context, RequestContext(request))
 
+def movie_search(request):
+  genres = request.GET.get('genres')
+  nations = request.GET.get('nations')
+  years = request.GET.get('years')
+
 # http://10.20.16.52:8000/search/movie/title?query=e
 def movie_search(request, option = "title"):
   title = "SEARCH"
