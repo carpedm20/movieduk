@@ -45,7 +45,7 @@ def index(request):
     if m.poster_url == '':
       m.poster_url = False
 
-  context = {'MEDIA_URL': MEDIA_URL, 'movies' : movies, 'title': title}
+  context = {'MEDIA_URL': MEDIA_URL, 'movies' : movies, 'title': title, 'infinite': "true"}
   return render_to_response('core/index.html', context, RequestContext(request))
 
 def index_short(request):

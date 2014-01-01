@@ -134,6 +134,9 @@ $(document).ready(function(){
 
   // infinite scroll
   $(window).scroll(function() {
+    if($(".ball1").length == 0)
+      return;
+
     if($(window).scrollTop() + $(window).height() == $(document).height()) {
       $page += 1;
 

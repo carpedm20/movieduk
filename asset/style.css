@@ -233,7 +233,7 @@ box-shadow: 0px 1px 1px rgba(0,0,0,0.1);
 display:none;
 
 right: 0%;
-width: 630px;
+width: 700px;
 display: block;
 opacity: 1;
 z-index: 100;
@@ -258,7 +258,7 @@ padding: 30px 30px 0 30px;
 }
 
 .filter-wrapper {
-width: 120px;
+width: 140px;
 float: left;
 padding-top: 3px;
 }
@@ -359,15 +359,15 @@ margin-bottom: 8px;
 
 form fieldset.genre {
 margin-left: 0;
-width: 240px;
+width: 280px;
 }
 
 fieldset.nation {
-width: 120px;
+width: 140px;
 }
 
 fieldset.year{
-width: 120px;
+width: 140px;
 }
 
 #info-list {
