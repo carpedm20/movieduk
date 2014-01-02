@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<ul id="info-list">
+<li>
+  <div id="filter-wrapper">
+    <button id="filter-openner">Filter</button>
+  </div>
+  {% include "core/filter.html" %}
+</li>
+{% include "core/movie_item.html" %}
+<li class="loading-ball">
+<div class="ball1"></div>
+<div class="footer">
+<p>Copyright © 2013 Kim Tae Hoon</p>
+<p>Designed by carpedm20</p>
+</div>
+</li>
+</ul>
+{% endblock content %}

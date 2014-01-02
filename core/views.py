@@ -83,6 +83,7 @@ def index_short(request):
   context = {'MEDIA_URL': MEDIA_URL, 'movies' : movies, 'title': title}
   return render_to_response('core/index_short.html', context, RequestContext(request))
 
+@csrf_exempt
 def num_to_genre(num):
   # for watcha
   if num == '35':
@@ -117,6 +118,21 @@ def num_to_genre(num):
     return '모험'
 
 @csrf_exempt
+def num_to_nation(num):
+  if num == '1':
+    return '한국'
+  elif num == '2':
+    return '미국'
+  elif num == '3':
+    return '일본'
+  elif num == '4':
+    return '중국'
+  elif num == '5':
+    return '유럽'
+  elif num == '6':
+    return '기타'
+ 
+@csrf_exempt
 def movie_filter(request):
   print request.POST
 
@@ -124,21 +140,43 @@ def movie_filter(request):
   nations = request.POST.get('nations')
   years = request.POST.get('years')
 
-  movies = Movie.objects.all()
+  M = Movie.objects.all()
 
   if genres != 'all':
     genres = genres.split(',')
-    genres_str = []
     for g in genres:
       #genres_str.append(num_to_genre(g))
       print num_to_genre(g)
-      movies = movies.filter(genre__contains=num_to_genre(g))
-      print len(movies)
-    print movies
+      try:
+        movies |= M.filter(genre__contains = num_to_genre(g))
+      except:
+        movies = M.filter(genre__contains = num_to_genre(g))
     
+  if nations != 'all':
+    print nations
+    nations = nations.split(',')
+    for n in nations:
+      print num_to_nation(n)
+      try:
+        movies |= M.filter(country__contains = num_to_nation(n))
+      except:
+        movies = M.filter(country__contains = num_to_nation(n))
 
-  context = {'movies' : movies, 'title': title}
-  return render_to_response('core/index.html', context, RequestContext(request))
+  if years != 'all':
+    print years
+    years = years.split(',')
+    for y in years:
+      y_start, y_end = y.split('~')
+      year_list = range(int(y_start), int(y_end) + 1)
+      year_list = [str(y) for y in year_list]
+      
+      try:
+        movies |= M.filter(year__in = year_list)
+      except:
+        movies = M.filter(year__in = year_list)
+
+  context = {'movies' : movies.order_by('-rank','-year')[:10], }
+  return render_to_response('core/index_infinite.html', context, RequestContext(request))
 
 # http://10.20.16.52:8000/search/movie/title?query=e
 def movie_search(request, option = "title"):

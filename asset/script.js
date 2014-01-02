@@ -86,7 +86,7 @@ $(document).ready(function(){
     $.cookie("nations", $nations);
     $.cookie("years", $years);
 
-    post_to_url("./filter/movie", params, "post");
+    post_to_url("/filter/movie", params, "post");
   });
 
   // hide filter when click outer space
@@ -190,9 +190,11 @@ $(document).ready(function(){
           }
         },
       });
+
     }
   });
 
+  // actor ranking
   $(".choice-button").click(function(){
     if($(this).attr("choice") == "Left")
       $v = "left";
@@ -292,7 +294,9 @@ $(document).ready(function(){
     }
   });
 
-  $(".show-more a").on("click", function() {
+  // show more
+  // $(document) is added for a new added dom elements
+  $(document).on("click", ".show-more a", function() {
     var $link = $(this);
     var $content = $link.parent().prev("div.text-content");
     var linkText = $link.text().toUpperCase();
