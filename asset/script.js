@@ -78,6 +78,14 @@ $(document).ready(function(){
     params["nations"] = $nations;
     params["years"] = $years;
 
+    // save items to cookie, may be should save in user_info
+    // $.cookie("test", 1);
+    // $.removeCookie("test");
+
+    $.cookie("genres", $genres);
+    $.cookie("nations", $nations);
+    $.cookie("years", $years);
+
     post_to_url("./filter/movie", params, "post");
   });
 
