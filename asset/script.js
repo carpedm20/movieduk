@@ -15,6 +15,8 @@ $(function() {
       }
     }).val("제목,배우,감독 검색");
   }
+
+  // search box autocomplete
   $("input[name='searchBox']").autocomplete({
     source: "/api/get_info/",
     select: function( event, ui ) {
@@ -31,6 +33,7 @@ function randomItem(a) {
 };
 
 $(document).ready(function(){
+  // initial state
   $("div.filtering").hide();
   $page = 1;
 
@@ -43,7 +46,7 @@ $(document).ready(function(){
       $genres.push("all");
     } else {
       $("input[name='genre']:not(:first):checked").each(function() {
-        $genres.push($(this).attr('id'));
+        $genres.push($(this).attr('value'));
       });
     }
 
@@ -54,7 +57,7 @@ $(document).ready(function(){
       $nations.push("all");
     } else {
       $("input[name='nation']:not(:first):checked").each(function() {
-        $nations.push($(this).attr('id'));
+        $nations.push($(this).attr('value'));
       });
     }
 
@@ -65,9 +68,17 @@ $(document).ready(function(){
       $years.push("all");
     } else {
       $("input[name='year']:not(:first):checked").each(function() {
-        $years.push($(this).attr('id'));
+        $years.push($(this).attr('value'));
       });
     }
+
+    var params = new Array();
+
+    params["genres"] = $genres;
+    params["nations"] = $nations;
+    params["years"] = $years;
+
+    post_to_url("./filter/movie", params, "post");
   });
 
   // hide filter when click outer space
@@ -140,8 +151,8 @@ $(document).ready(function(){
     if($(window).scrollTop() + $(window).height() == $(document).height()) {
       $page += 1;
 
-      if ($("#loading-ball").length === 0) {
-        $("#info-list").append('<li id="loading-ball"><div class="ball1"></div><div class="footer"><p>Copyright © 2013 Kim Tae Hoon</p><p>Designed by carpedm20</p></div></li>');
+      if ($(".loading-ball").length === 0) {
+        $("#info-list").append('<li class="loading-ball"><div class="ball1"></div><div class="footer"><p>Copyright © 2013 Kim Tae Hoon</p><p>Designed by carpedm20</p></div></li>');
       }
 
       if (document.URL.indexOf("short") === -1)
@@ -154,10 +165,11 @@ $(document).ready(function(){
         url: $ajax_url,
         dataType: "json",
         success: function(data) {
-          $("#loading-ball").delay(200).fadeOut(400, function () {
-             $(this).remove();
-             d = data[0];
-             $('#info-list').append(d.source);
+          $(".loading-ball").delay(200).fadeOut(400, function () {
+            $(this).remove();
+            d = data[0];
+            $('#info-list').append(d.source);
+            $('#info-list').append('<li class="loading-ball"><div class="ball1"></div><div class="footer"><p>Copyright © 2013 Kim Tae Hoon</p><p>Designed by carpedm20</p></div></li>');
           });
         },
         statusCode: {
@@ -383,3 +395,26 @@ $(document).ready(function(){
   $('.login_background').css('background-image', 'url(/media/wallpaper/' + randomItem($walls) + ')');
 });
 
+function post_to_url(path, params, method) {
+    method = method || "post"; // Set method to post by default if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}

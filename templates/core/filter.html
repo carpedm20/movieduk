@@ -1,5 +1,5 @@
 <div class="filtering">
-  <form class="filtering-form">
+  <form class="filtering-form" method="post">{% csrf_token %}
     <fieldset class="genre ">
       <legend>장르</legend>
       <div id="filter-genre-wrapper-1" class="filter-wrapper">

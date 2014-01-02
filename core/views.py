@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 # Create your views here.
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
@@ -14,6 +16,9 @@ import json
 
 from django.template import Context, Template
 from django.conf import settings
+
+# csrf
+from django.views.decorators.csrf import csrf_exempt
 
 PER_PAGE = 30
 MEDIA_URL = 'http://hexa.perl.sh/~carpedm30/img/'
@@ -78,10 +83,62 @@ def index_short(request):
   context = {'MEDIA_URL': MEDIA_URL, 'movies' : movies, 'title': title}
   return render_to_response('core/index_short.html', context, RequestContext(request))
 
-def movie_search(request):
-  genres = request.GET.get('genres')
-  nations = request.GET.get('nations')
-  years = request.GET.get('years')
+def num_to_genre(num):
+  # for watcha
+  if num == '35':
+    return '범죄'
+  elif num == '36':
+    return '드라마'
+  elif num == '37':
+    return '코미디'
+  elif num == '38':
+    return '멜로/애정/로맨스'
+  elif num == '39':
+    return '스릴러'
+  elif num == '40':
+    return '로맨틱 코미디'
+  elif num == '41':
+    return '전쟁'
+  #################
+  elif num == '44':
+    return '판타지'
+  elif num == '45':
+    return '액션'
+  elif num == '46':
+    return 'SF'
+  elif num == '47':
+    return '애니메이션'
+  elif num == '46':
+    return '공포'
+  # below is for naver
+  elif num == '47':
+    return '미스터리'
+  elif num == '48':
+    return '모험'
+
+@csrf_exempt
+def movie_filter(request):
+  print request.POST
+
+  genres = request.POST.get('genres')
+  nations = request.POST.get('nations')
+  years = request.POST.get('years')
+
+  movies = Movie.objects.all()
+
+  if genres != 'all':
+    genres = genres.split(',')
+    genres_str = []
+    for g in genres:
+      #genres_str.append(num_to_genre(g))
+      print num_to_genre(g)
+      movies = movies.filter(genre__contains=num_to_genre(g))
+      print len(movies)
+    print movies
+    
+
+  context = {'movies' : movies, 'title': title}
+  return render_to_response('core/index.html', context, RequestContext(request))
 
 # http://10.20.16.52:8000/search/movie/title?query=e
 def movie_search(request, option = "title"):

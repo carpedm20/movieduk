@@ -117,7 +117,7 @@ padding: 5px 10px 6px 10px;
 position: relative;
 }
 
-li#loading-ball {
+li.loading-ball {
 border-bottom: 0;
 }
 
@@ -152,7 +152,7 @@ list-style-type: disc;
 
 #menu {
 overflow: visible;
-max-width: 960px;
+max-width: 870px;
 background: transparent;
 margin: 0 auto;
 text-align: center;
