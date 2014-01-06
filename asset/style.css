@@ -135,6 +135,10 @@ padding: 5px 10px 6px 10px;
 position: relative;
 }
 
+li.actors {
+padding: 15px 10px 15px 10px;
+}
+
 li.loading-ball {
 border-bottom: 0;
 }
@@ -581,7 +585,7 @@ height: 53px;
 .actor-name{
 position: absolute;
 left: 140;
-top: 16%;
+top: 19%;
 margin: -12px 0 0 0;
 }
 

@@ -51,9 +51,26 @@ $(document).ready(function(){
   $("div.filtering").hide();
   $page = 0;
 
+
   // youtube
-  $(window).resize(function() {
+  $(".video").load("change", function() {
     $('.video').attr('height',$('.video').width() * 104 / 185);
+  });
+
+  $youtubeLoop = new Array();
+  $(".youtube-loop").each(function() {
+    $youtubeLoop.push($(this).attr('src'));
+  });
+
+  $youtubeCount = 9;
+  $("#youtube-right").click(function() {
+    $youtubeCount = $youtubeCount + 1;
+    $(".video").attr('src', $youtubeLoop[$youtubeCount % 3]);
+  });
+
+  $("#youtube-left").click(function() {
+    $youtubeCount = $youtubeCount - 1;
+    $(".video").attr('src', $youtubeLoop[$youtubeCount % 3]);
   });
 
   // default

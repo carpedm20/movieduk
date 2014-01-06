@@ -36,7 +36,7 @@ def youtube_search(query):
   search_response = youtube.search().list(
     q=query,
     part="id,snippet",
-    maxResults=1,
+    maxResults=3,
   ).execute()
 
   img_list = []
@@ -419,10 +419,13 @@ def movie_info(request, code):
     movie.poster_url = False
 
   # youtube
-  if movie.title2 != '':
-    youtubes = youtube_search(movie.title2 + " trailer")
-  else:
-    youtubes = youtube_search(movie.title1 + " trailer")
+  try:
+    if movie.country != u'한국':
+      youtubes = youtube_search(movie.title2 + " " + movie.year + " trailer")
+    else:
+      youtubes = youtube_search(movie.title1 + " " + movie.year + " trailer")
+  except:
+    youtubes = False
 
   context = {'movie' : movie, 'youtubes' : youtubes, 'directors' : directors, 'mains' : mains, 'subs' : subs, 'title': title}
   return render_to_response('core/movie.html', context, RequestContext(request))
