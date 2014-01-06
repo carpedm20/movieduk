@@ -379,7 +379,7 @@ width: 140px;
 }
 
 #info-list {
-min-width: 640px;
+min-width: 690px;
 margin-top: 40px;
 -webkit-padding-start: 80px;
 -webkit-padding-end: 80px;
@@ -389,7 +389,7 @@ img.big-poster {
 width:90%;
 }
 
-#actor-info-list {
+#actor-info-list, #director-info-list {
 margin-top: 70px;
 -webkit-padding-start: 80px;
 -webkit-padding-end: 80px;
@@ -569,8 +569,25 @@ float: center;
 height: 53px;
 }
 
+.actor-name{
+position: absolute;
+left: 140;
+top: 16%;
+margin: -12px 0 0 0;
+}
+
+.major-work {
+position: absolute;
+left: 140;
+top: 36%;
+margin: -12px 0 0 0;
+}
+
 .movie_thumb_list {
-margin-bottom: 2em;
+position: absolute;
+left: 140;
+top: 53%;
+margin: -12px 0 0 0;
 display: inline-block;
 float: center;
 height: 53px;
@@ -582,8 +599,8 @@ padding: 0;
 display: block;
 float: left;
 position: relative;
-width: 48px;
-height: 60px;
+width: 54px;
+height: 68px;
 position:relative;
 }
 

@@ -27,6 +27,14 @@ $(function() {
   });
 });
 
+function actorThumbError(image){
+  image.onerror = "";
+  image.src = "http://static.naver.net/movie/2012/06/dft_img120x150.png";
+  image.width = 111;
+  image.height = 139;
+  return true;
+}
+
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -343,7 +351,7 @@ $(document).ready(function(){
     $(this).children('a').css('position', 'relative');
     $(this).children('a').css('z-index', 1000);
   }).mouseleave(function(e) {
-    $(this).children('a').children('img').animate({ height: '60', marginLeft: '0', marginTop: '0', width: '44'}, 0);
+    $(this).children('a').children('img').animate({ height: '68', marginLeft: '0', marginTop: '0', width: '50'}, 0);
     $(this).children('a').children('span').fadeOut(0);
     $(this).children('a').css('z-index', -1);
   });

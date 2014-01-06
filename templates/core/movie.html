@@ -56,7 +56,7 @@
             <img src="http://static.naver.net/movie/2012/06/dft_img120x150.png"  width="111" height="139"/>
           {% endif %}
           {% if d.dm_list != False %}
-          <h2>대표작</h2>
+          <h2 class="major-work">대표작</h2>
           <!--<div class="small_list">-->
           <ol class="movie_thumb_list" id="left_thumb_list">
             {% for dm in d.dm_list %}
@@ -65,7 +65,7 @@
               <div class="viewport">
                 <a href="/info/movie/{{ dm.code }}">
                   <span class="dark-background">{{ dm.title1 }}</span>
-                  <img src="{{ dm.poster_url }}?type=n77_110_2" width="44" height="60"/>
+                  <img src="{{ dm.poster_url }}?type=n77_110_2" width="50" height="68"/>
                 </a>
               </div>
             </li>
@@ -90,7 +90,7 @@
       </div>
       <div class="listImage">
         <div class="profile" style="background: url(/var/covers/small/10/100.jpg);">
-        <h1>
+        <h2 class="actor-name">
           <a href="/info/actor/{{m.actor.code}}">{{ m.actor.name }}</a> 
           {% if m.actor.en_name != '' %}
             ({{ m.actor.en_name }})
@@ -99,14 +99,14 @@
            - {{ m.character }}
           {% endif %}
           <!--<a href="{{ movie.detail_url }}" title ="{{ movie.title1 }}">{{ movie.title1 }} ({{ movie.title2 }} )</a>-->
-        </h1>
+        </h2>
           {% if m.actor.thumb_url %}
-            <img src="{{ m.actor.thumb_url }}" />
+            <img src="{{ m.actor.thumb_url }}" onerror="actorThumbError(this);"/>
           {% else %}
             <img src="http://static.naver.net/movie/2012/06/dft_img120x150.png"  width="111" height="139"/>
           {% endif %}
           {% if m.am_list != False %}
-          <h2>대표작</h2>
+          <h3 class="major-work">대표작</h3>
           <!--<div class="small_list">-->
           <ol class="movie_thumb_list" id="left_thumb_list">
             {% for am in m.am_list %}
@@ -115,7 +115,7 @@
               <div class="viewport">
                 <a href="/info/movie/{{ am.code }}">
                   <span class="dark-background">{{ am.title1 }}</span>
-                  <img src="{{ am.poster_url }}?type=n77_110_2" width="44" height="60"/>
+                  <img src="{{ am.poster_url }}?type=n77_110_2" width="50" height="68"/>
                 </a>
               </div>
             </li>
