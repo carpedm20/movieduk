@@ -16,11 +16,18 @@
   <h2>
     {{ movie.title1 }} {% if movie.title2 != '' %}({{ movie.title2_with_link|escape|safe  }}){% endif %}
   </h2>
+  {% for y in youtubes %}
+  <div class="youtube">
+    <iframe class="video" width="420" height="315" src="//www.youtube.com/embed/{{ y }}" frameborder="0" allowfullscreen></iframe>
+  </div>
+  {% endfor %}
   <div class="text-container" id="story">
     {% if movie.story1 != '' %}
       <div id="story1"><b>
         {{ movie.story1|escape|safe }}
       </b></div>
+    {% else %}
+      <br/>
     {% endif %}
     {% if movie.story2 != '' %}
       <!--<div class="text-content short-text" id="story2">-->

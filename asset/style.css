@@ -25,6 +25,16 @@ button {
 font-family: 'Nanum Gothic';
 }
 
+.youtube {
+width:100%;
+text-align: center;
+}
+
+iframe.video{
+z-index:-1;
+width: 80%;
+}
+
 a:hover {
 color: #b51435;
 text-decoration: underline;
@@ -380,9 +390,8 @@ width: 140px;
 
 #info-list {
 min-width: 690px;
-margin-top: 40px;
--webkit-padding-start: 80px;
--webkit-padding-end: 80px;
+width: 80%;
+margin: 50 auto;
 }
 
 img.big-poster {

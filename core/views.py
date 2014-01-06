@@ -19,6 +19,35 @@ from django.conf import settings
 
 import urllib
 
+# youtube
+from apiclient.discovery import build
+from apiclient.errors import HttpError
+from oauth2client.tools import argparser
+
+DEVELOPER_KEY = "AIzaSyDsEDIEMlR1A8ATswD9R7BpOeeDgxMJ6tU"
+YOUTUBE_API_SERVICE_NAME = "youtube"
+YOUTUBE_API_VERSION = "v3"
+
+youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,developerKey=DEVELOPER_KEY)
+
+def youtube_search(query):
+  global youtube
+
+  search_response = youtube.search().list(
+    q=query,
+    part="id,snippet",
+    maxResults=1,
+  ).execute()
+
+  img_list = []
+  id_list = [] # http://www.youtube.com/embed/LmkWh4ryih0
+
+  for i in search_response.get("items", []):
+    #img_list += i['snippet']['thumbnails']['default']['url']
+    id_list.append(i['id']['videoId'])
+
+  return id_list
+
 # csrf
 from django.views.decorators.csrf import csrf_exempt
 
@@ -389,7 +418,13 @@ def movie_info(request, code):
   if movie.poster_url == "":
     movie.poster_url = False
 
-  context = {'movie' : movie, 'directors' : directors, 'mains' : mains, 'subs' : subs, 'title': title}
+  # youtube
+  if movie.title2 != '':
+    youtubes = youtube_search(movie.title2 + " trailer")
+  else:
+    youtubes = youtube_search(movie.title1 + " trailer")
+
+  context = {'movie' : movie, 'youtubes' : youtubes, 'directors' : directors, 'mains' : mains, 'subs' : subs, 'title': title}
   return render_to_response('core/movie.html', context, RequestContext(request))
 
 # auto complete

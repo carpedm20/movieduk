@@ -51,6 +51,11 @@ $(document).ready(function(){
   $("div.filtering").hide();
   $page = 0;
 
+  // youtube
+  $(window).resize(function() {
+    $('.video').attr('height',$('.video').width() * 104 / 185);
+  });
+
   // default
   $("input[type='checkbox']").attr("checked",false);
   $(".default-check").attr('checked',true);
