@@ -110,10 +110,6 @@ text-align:center;
 width:22%;
 }
 
-.coverImage a img{
-width: 98%;
-}
-
 li {
 border-bottom: 1px solid #ccc;
 margin: 0;
@@ -598,7 +594,7 @@ position: absolute;
 text-align: center;
 text-decoration: none;
 width: 77;
-margin-top: 44;
+margin-top: 31;
 margin-left: -9.5;
 }
 

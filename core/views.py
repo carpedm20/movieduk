@@ -23,21 +23,68 @@ from django.views.decorators.csrf import csrf_exempt
 PER_PAGE = 30
 MEDIA_URL = 'http://hexa.perl.sh/~carpedm30/img/'
 
+@csrf_exempt
 def index(request):
   if not request.session.get('has_session'):
     request.session['has_session'] = True
-  #if request.user.is_authenticated():
-  #  return HttpResponseRedirect('/run/')
+
   title = "hello world!"
-  #movies = Movie.objects.order_by('-year')[:20]
-  #movies = Movie.objects.all()
-  movies = Movie.objects.order_by('-rank','-year')[:10]
-  #movies = movies[len(movies)-10:] 
+
+  M = Movie.objects.exclude(year='xxxx')
+
+  if request.method == 'POST':
+    try:
+      query = request.POST.get('query')
+    except:
+      query = ""
+    genres = request.POST.get('genres')
+    nations = request.POST.get('nations')
+    years = request.POST.get('years')
+
+    if query != None:
+      movies = M.filter(title1__contains = query) 
+
+    if genres != 'all' and genres != None and genres != "":
+      genres = genres.split(',')
+      for g in genres:
+        try:
+          movies |= M.filter(genre__contains = num_to_genre(g))
+        except:
+          movies = M.filter(genre__contains = num_to_genre(g))
+
+    if nations != 'all' and nations != None and nations != "":
+      print nations
+      nations = nations.split(',')
+      for n in nations:
+        print num_to_nation(n)
+        try:
+          movies |= M.filter(country__contains = num_to_nation(n))
+        except:
+          movies = M.filter(country__contains = num_to_nation(n))
+
+    if years != 'all' and years != None and years != "":
+      print years
+      years = years.split(',')
+      for y in years:
+        y_start, y_end = y.split('~')
+        year_list = range(int(y_start), int(y_end) + 1)
+        year_list = [str(y) for y in year_list]
+
+        try:
+          movies |= M.filter(year__in = year_list)
+        except:
+          movies = M.filter(year__in = year_list)
+  else:
+    movies = Movie.objects.exclude(year='xxxx')
+
+  try:
+    movies = movies.order_by('-rank','-year')[:10]
+  except:
+     movies = Movie.objects.exclude(year='xxxx').order_by('-rank','-year')[:10]
 
   for m in movies:
     m.director_list = m.directors.all()
     m.main_list = m.main.all()
-    #print " RANK : " + str(m.rank)
 
     if m.poster_url != '':
       #print " =====================> " + m.poster_url
@@ -60,7 +107,7 @@ def index_short(request):
   #  return HttpResponseRedirect('/run/')
   title = "hello world!"
   #movies = Movie.objects.order_by('-year')[:20]
-  #movies = Movie.objects.all()
+  #movies = Movie.objects.all().exclude(year='xxxx')
   movies = Movie.objects.order_by('-rank','-year')[:10]
   #movies = movies[len(movies)-10:]
 
@@ -140,7 +187,7 @@ def movie_filter(request):
   nations = request.POST.get('nations')
   years = request.POST.get('years')
 
-  M = Movie.objects.all()
+  M = Movie.objects.all().exclude(year='xxxx')
 
   if genres != 'all':
     genres = genres.split(',')
@@ -284,7 +331,7 @@ def movie_info(request, code):
         continue
       if am.poster_url != '':
         am_list.append({'poster_url':am.poster_url,'title1':am.title1,'code':am.code})
-      if len(am_list) == 4:
+      if len(am_list) == 10:
         break
     if len(am_list) == 0:
       am_list = False

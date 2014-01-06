@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-{{ title }}
 
 <script type="text/javascript"> 
    var a = "{{someDjangoVariable}}"
@@ -54,17 +53,28 @@
         </h1>
           {% if m.actor.thumb_url %}
             <img src="{{ m.actor.thumb_url }}" />
+          {% else %}
+            <img src="http://static.naver.net/movie/2012/06/dft_img120x150.png"  width="111" height="139"/>
           {% endif %}
           {% if m.am_list != False %}
           <h2>대표작</h2>
-          <div class="small_list">
+          <!--<div class="small_list">-->
+          <ol class="movie_thumb_list" id="left_thumb_list">
             {% for am in m.am_list %}
-            <div class="small_item">
-              <a href="/info/movie/{{ am.code }}"><img src="{{ am.poster_url }}?type=m203_290_2" />
-              <p>{{ am.title1 }}</p></a>
-            </div>
+            <li class="small_thumb_list_item" data-title="{{ m.title1 }}" style="display: list-item;">
+              <!--<div class="small_item">-->
+              <div class="viewport">
+                <a href="/info/movie/{{ am.code }}">
+                  <span class="dark-background">{{ am.title1 }}</span>
+                  <img src="{{ am.poster_url }}?type=n77_110_2" width="44" height="60"/>
+                </a>
+              </div>
+            </li>
             {% endfor %}
-          </div>
+          <!--</div>-->
+          </ol>
+          {% else %}
+            <br/>
           {% endif %}
         </div>
       </div>

@@ -59,7 +59,7 @@ $(document).ready(function(){
     $("input[value='" + value + "']").attr('checked',true);
   });
 
-  // apply filter
+  // filter
   $(".submit_filtering").click(function() {
     // genre
     $genres = new Array();
@@ -150,8 +150,6 @@ $(document).ready(function(){
   $("input[name='nation']:not(:first)").click(function() {
     if($(this).is(':checked'))
       $("input[name='nation']:first").attr("checked",false);
-    if($("input[name='nation']:not(:first):checked").length == 0)
-      $("input[name='nation']:first").attr("checked",true);
   });
 
   // if ALL NATION is checked, uncheck others
@@ -164,8 +162,6 @@ $(document).ready(function(){
   $("input[name='year']:not(:first)").click(function() {
     if($(this).is(':checked'))
       $("input[name='year']:first").attr("checked",false);
-    if($("input[name='year']:not(:first):checked").length == 0)
-      $("input[name='year']:first").attr("checked",true);
   });
 
   // if ALL NATION is checked, uncheck others

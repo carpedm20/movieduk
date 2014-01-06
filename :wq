@@ -37,29 +37,7 @@ $(document).ready(function(){
   $("div.filtering").hide();
   $page = 1;
 
-  // default
-  $("input[type='checkbox']").attr("checked",false);
-  $(".default-check").attr('checked',true);
-
-  $genres = $.cookie('genres').split(",");
-  $.each($genres, function(index, value) {
-    $("input[name='genre']:first").attr("checked",false);
-    $("input[value='" + value + "']").attr('checked',true);
-  });
-
-  $nations = $.cookie('nations').split(",");
-  $.each($nations, function(index, value) {
-    $("input[name='nation']:first").attr("checked",false);
-    $("input[value='" + value + "']").attr('checked',true);
-  });
-
-  $years = $.cookie('years').split(",");
-  $.each($years, function(index, value) {
-    $("input[name='year']:first").attr("checked",false);
-    $("input[value='" + value + "']").attr('checked',true);
-  });
-
-  // apply filter
+  // filter
   $(".submit_filtering").click(function() {
     // genre
     $genres = new Array();
@@ -108,8 +86,7 @@ $(document).ready(function(){
     $.cookie("nations", $nations, { expires: 7, path: '/' });
     $.cookie("years", $years, { expires: 7, path: '/' });
 
-    //post_to_url("/filter", params, "post");
-    post_to_url("/", params, "post");
+    post_to_url("/filter", params, "post");
   });
 
   // hide filter when click outer space
@@ -127,6 +104,10 @@ $(document).ready(function(){
     else
       $("div.filtering").fadeIn("slow");
   });
+
+  // default
+  $("input[type='checkbox']").attr("checked",false);
+  $(".default-check").attr('checked',true);
 
   // filter default button
   $(".submit_reset").click(function() {
@@ -150,8 +131,6 @@ $(document).ready(function(){
   $("input[name='nation']:not(:first)").click(function() {
     if($(this).is(':checked'))
       $("input[name='nation']:first").attr("checked",false);
-    if($("input[name='nation']:not(:first):checked").length == 0)
-      $("input[name='nation']:first").attr("checked",true);
   });
 
   // if ALL NATION is checked, uncheck others
@@ -164,8 +143,6 @@ $(document).ready(function(){
   $("input[name='year']:not(:first)").click(function() {
     if($(this).is(':checked'))
       $("input[name='year']:first").attr("checked",false);
-    if($("input[name='year']:not(:first):checked").length == 0)
-      $("input[name='year']:first").attr("checked",true);
   });
 
   // if ALL NATION is checked, uncheck others
@@ -241,14 +218,14 @@ $(document).ready(function(){
         $('#left_thumb_list').html('');
         for(var m in movie1.movies) {
           m = movie1.movies[m];
-          $('#left_thumb_list').append('<li class="small_thumb_list_item" data-title="'+m.title1+'" style="display: list-item;"><div class="viewport"><a href="/info/movie/'+m.code+'" target="_blank"><span class="dark-background">'+m.title1+'</span><img src="'+m.poster_url+'?type=n77_110_2" width="44" height="60"></a></div></li>');
+          $('#left_thumb_list').append('<li class="small_thumb_list_item" data-title="'+m.title1+'" style="display: list-item;"><div class="viewport"><a href="/info/movie/'+m.code+'" target="_blank"><span class="dark-background">'+m.title1+'</span><img src="'+m.poster_url+'?type=n77_110_2" width="48" height="60"></a></div></li>');
           $('.viewport').mouseenter(function(e) {
           $(this).children('a').children('img').animate({ height: '96', marginLeft: '-9.5', marginTop: '-18', width: '77'}, 0);
           $(this).children('a').children('span').fadeIn(0);
           $(this).children('a').css('position', 'relative');
           $(this).children('a').css('z-index', 1000);
         }).mouseleave(function(e) {
-          $(this).children('a').children('img').animate({ height: '60', marginLeft: '0', marginTop: '0', width: '44'}, 0);
+          $(this).children('a').children('img').animate({ height: '60', marginLeft: '0', marginTop: '0', width: '48'}, 0);
           $(this).children('a').children('span').fadeOut(0);
           $(this).children('a').css('z-index', -1);
         });
@@ -259,7 +236,7 @@ $(document).ready(function(){
         $('#right_thumb_list').html('');
         for(var m in movie2.movies) {
           m = movie2.movies[m];
-          $('#right_thumb_list').append('<li class="small_thumb_list_item" data-title="'+m.title1+'" style="display: list-item;"><div class="viewport"><a href="/info/movie/'+m.code+'" target="_blank"><span class="dark-background">'+m.title1+'</span><img src="'+m.poster_url+'?type=n77_110_2" width="44" height="60"></a></div></li>');
+          $('#right_thumb_list').append('<li class="small_thumb_list_item" data-title="'+m.title1+'" style="display: list-item;"><div class="viewport"><a href="/info/movie/'+m.code+'" target="_blank"><span class="dark-background">'+m.title1+'</span><img src="'+m.poster_url+'?type=n77_110_2" width="48" height="60"></a></div></li>');
 
          $('.viewport').mouseenter(function(e) {
           $(this).children('a').children('img').animate({ height: '96', marginLeft: '-9.5', marginTop: '-18', width: '77'}, 0);
@@ -267,7 +244,7 @@ $(document).ready(function(){
           $(this).children('a').css('position', 'relative');
           $(this).children('a').css('z-index', 1000);
         }).mouseleave(function(e) {
-          $(this).children('a').children('img').animate({ height: '60', marginLeft: '0', marginTop: '0', width: '44'}, 0);
+          $(this).children('a').children('img').animate({ height: '60', marginLeft: '0', marginTop: '0', width: '48'}, 0);
           $(this).children('a').children('span').fadeOut(0);
           $(this).children('a').css('z-index', -1);
         });
@@ -293,35 +270,27 @@ $(document).ready(function(){
   });
 
   $('.viewport').mouseenter(function(e) {
-    $(this).children('a').children('img').animate({ height: '110', marginLeft: '-9.5', marginTop: '-18', width: '77'}, 0);
+    $(this).children('a').children('img').animate({ height: '96', marginLeft: '-9.5', marginTop: '-18', width: '77'}, 0);
     $(this).children('a').children('span').fadeIn(0);
     $(this).children('a').css('position', 'relative');
     $(this).children('a').css('z-index', 1000);
   }).mouseleave(function(e) {
-    $(this).children('a').children('img').animate({ height: '60', marginLeft: '0', marginTop: '0', width: '44'}, 0);
+    $(this).children('a').children('img').animate({ height: '60', marginLeft: '0', marginTop: '0', width: '48'}, 0);
     $(this).children('a').children('span').fadeOut(0);
     $(this).children('a').css('z-index', -1);
   });
 
   $(".fake_search_btn input").click(function() {
     var $query = $("input[name='searchBox']").val();
-    var params = new Array();
-    params["query"] = $query;
-
-    post_to_url("/", params, "post");
-    //var url = "http://10.20.16.52:8000/search/movie/title?query=" + $query;
-    //$(location).attr('href',url);
+    var url = "http://10.20.16.52:8000/search/movie/title?query=" + $query;
+    $(location).attr('href',url);
   });
 
   $("input[name='searchBox']").keydown(function (e){
     if(e.keyCode == 13) {
       var $query = $(this).val();
-      var params = new Array();
-      params["query"] = $query;
-
-      post_to_url("/", params, "post");
-      //var url = "http://10.20.16.52:8000/search/movie/title?query=" + $query;
-      //$(location).attr('href',url);
+      var url = "http://10.20.16.52:8000/search/movie/title?query=" + $query;
+      $(location).attr('href',url);
     }
   });
 
