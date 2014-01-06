@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     (r'^media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
     (r'^asset/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.ASSET_ROOT}),
     url(r'^api/get_info/', 'core.views.get_info', name='get_info'),
+    url(r'^api/get_search_list/', 'core.views.get_search_list', name='get_search_list'),
     url(r'^api/get_list/', 'core.views.get_list', name='get_list'),
     url(r'^api/get_short_list/', 'core.views.get_short_list', name='get_short_list'),
 

@@ -8,11 +8,13 @@
 
 
 <ul id="info-list">
+  <li style="text-align: center;">
   {% if movie.poster_url %}
-    <img src="{{ movie.poster_url }}" />
+    <img class="big-poster" src="{{ movie.poster_url }}" />
   {% endif %}
+  </li>
   <h2>
-    {{ movie.title1 }} {% if movie.title2 != '' %}({{ movie.title2 }}){% endif %}
+    {{ movie.title1 }} {% if movie.title2 != '' %}({{ movie.title2_with_link|escape|safe  }}){% endif %}
   </h2>
   <div class="text-container" id="story">
     {% if movie.story1 != '' %}
@@ -21,15 +23,62 @@
       </b></div>
     {% endif %}
     {% if movie.story2 != '' %}
-      <div class="text-content short-text" id="story2">
+      <!--<div class="text-content short-text" id="story2">-->
+      <div class="text-content" id="story2">
         {{ movie.story2|escape|safe }}
       </div>
-      <div class="show-more">
+      <!--<div class="show-more">
         <a href="#">펼쳐보기</a>
-      </div>
+      </div>-->
     {% endif %}
   </div>
   <a href="#" id="{{ movie.code }}"><span>Check</span></a>
+  {% for d in directors %}
+    <li id="director" class="llistItemMovie">
+      <div class="rank">
+        <!--<span class="positiondifference">
+          <span class="up down neutral">-
+          </span>
+        </span>-->
+      </div>
+      <div class="listImage">
+        <div class="profile" style="background: url(/var/covers/small/10/100.jpg);">
+        <h1>
+          <a href="/info/director/{{ d.code }}">{{ d.name }}</a>
+          {% if d.en_name != '' %}
+            ({{ d.en_name }})
+          {% endif %}
+          - 감독
+        </h1>
+        {% if d.thumb_url %}
+            <img src="{{ d.thumb_url }}" />
+          {% else %}
+            <img src="http://static.naver.net/movie/2012/06/dft_img120x150.png"  width="111" height="139"/>
+          {% endif %}
+          {% if d.dm_list != False %}
+          <h2>대표작</h2>
+          <!--<div class="small_list">-->
+          <ol class="movie_thumb_list" id="left_thumb_list">
+            {% for dm in d.dm_list %}
+            <li class="small_thumb_list_item" data-title="{{ m.title1 }}" style="display: list-item;">
+              <!--<div class="small_item">-->
+              <div class="viewport">
+                <a href="/info/movie/{{ dm.code }}">
+                  <span class="dark-background">{{ dm.title1 }}</span>
+                  <img src="{{ dm.poster_url }}?type=n77_110_2" width="44" height="60"/>
+                </a>
+              </div>
+            </li>
+            {% endfor %}
+          <!--</div>-->
+          </ol>
+          {% else %}
+            <br/>
+          {% endif %}
+        </div>
+      </div>
+    </li>
+  {% endfor %}
   {% for m in mains %}
     <li id="actors" class="llistItemMovie">
       <div class="rank">

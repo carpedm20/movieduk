@@ -12,13 +12,17 @@
   box-shadow: #b51435 1px 0 6px 1px;
 }
 
-body {
+body{
 color: #666666;
 font-family: 'Nanum Gothic';
 font-size: 13px;
 line-height: 24px;
 margin: 0;
 display: flex;
+}
+
+button {
+font-family: 'Nanum Gothic';
 }
 
 a:hover {
@@ -110,7 +114,7 @@ text-align:center;
 width:22%;
 }
 
-.coverImage a img{
+.coverImage a img, .coverImage img{
 width: 98%;
 }
 
@@ -375,7 +379,18 @@ width: 140px;
 }
 
 #info-list {
+min-width: 640px;
 margin-top: 40px;
+-webkit-padding-start: 80px;
+-webkit-padding-end: 80px;
+}
+
+img.big-poster {
+width:90%;
+}
+
+#actor-info-list {
+margin-top: 70px;
 -webkit-padding-start: 80px;
 -webkit-padding-end: 80px;
 }

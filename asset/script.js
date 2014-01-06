@@ -27,6 +27,12 @@ $(function() {
   });
 });
 
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
 
 function randomItem(a) {
   return a[Math.floor(Math.random() * a.length)];
@@ -35,29 +41,44 @@ function randomItem(a) {
 $(document).ready(function(){
   // initial state
   $("div.filtering").hide();
-  $page = 1;
+  $page = 0;
 
   // default
   $("input[type='checkbox']").attr("checked",false);
   $(".default-check").attr('checked',true);
 
-  $genres = $.cookie('genres').split(",");
-  $.each($genres, function(index, value) {
-    $("input[name='genre']:first").attr("checked",false);
-    $("input[value='" + value + "']").attr('checked',true);
-  });
+  if($.cookie('genres') != null) {
+    $genres = $.cookie('genres').split(",");
+    if($genres != "all") {
+      $.each($genres, function(index, value) {
+        $("input[name='genre']:first").attr("checked",false);
+        $("input[value='" + value + "']").attr('checked',true);
+      });
+    }
+  }
 
-  $nations = $.cookie('nations').split(",");
-  $.each($nations, function(index, value) {
-    $("input[name='nation']:first").attr("checked",false);
-    $("input[value='" + value + "']").attr('checked',true);
-  });
+  if($.cookie('nations') != null) {
+    $nations = $.cookie('nations').split(",");
+    if($nations != "all") {
+      $.each($nations, function(index, value) {
+        $("input[name='nation']:first").attr("checked",false);
+        $("input[value='" + value + "']").attr('checked',true);
+      });
+    }
+  }
 
-  $years = $.cookie('years').split(",");
-  $.each($years, function(index, value) {
-    $("input[name='year']:first").attr("checked",false);
-    $("input[value='" + value + "']").attr('checked',true);
-  });
+  if($.cookie('years') != null) {
+    $years = $.cookie('years').split(",");
+    if ($years != "all") {
+      $.each($years, function(index, value) {
+        $("input[name='year']:first").attr("checked",false);
+        $("input[value='" + value + "']").attr('checked',true);
+      });
+    }
+  }
+
+  if($.cookie('genres') != null && $.cookie('genres') != "all" || $.cookie('nations') != null && $.cookie('nations') != "all" || $.cookie('years') != null && $.cookie('years') != "all")
+    $("#filter-openner").text("필터링됨")
 
   // apply filter
   $(".submit_filtering").click(function() {
@@ -109,7 +130,10 @@ $(document).ready(function(){
     $.cookie("years", $years, { expires: 7, path: '/' });
 
     //post_to_url("/filter", params, "post");
-    post_to_url("/", params, "post");
+    if(document.URL.indexOf("/short") != -1)
+      post_to_url("/short", params, "post");
+    else
+      post_to_url("/", params, "post");
   });
 
   // hide filter when click outer space
@@ -138,6 +162,8 @@ $(document).ready(function(){
   $("input[name='genre']:not(:first)").click(function() {
     if($(this).is(':checked'))
       $("input[name='genre']:first").attr("checked",false);
+    if($("input[name='genre']:not(:first):checked").length == 0)
+      $("input[name='genre']:first").attr("checked",true);
   });
 
   // if ALL GENRE is checked, uncheck others
@@ -179,28 +205,47 @@ $(document).ready(function(){
     if($(".ball1").length == 0)
       return;
 
-    if($(window).scrollTop() + $(window).height() == $(document).height()) {
+    if($(window).scrollTop() + $(window).height() == $(document).height() || $(window).scrollTop() + $(window).height() == $(document).height() - 1) {
       $page += 1;
 
       if ($(".loading-ball").length === 0) {
         $("#info-list").append('<li class="loading-ball"><div class="ball1"></div><div class="footer"><p>Copyright © 2013 Kim Tae Hoon</p><p>Designed by carpedm20</p></div></li>');
       }
 
-      if (document.URL.indexOf("short") === -1)
-        $ajax_url =  "/api/get_list?count=5&page="+$page;
+      if (document.URL.indexOf("/search") !== -1) {
+        $ajax_url =  "/api/get_search_list/";
+      }
+      else if (document.URL.indexOf("/short") === -1)
+        $ajax_url =  "/api/get_list/";
       else
-        $ajax_url =  "/api/get_short_list?count=10&page="+$page;
+        $ajax_url =  "/api/get_short_list/";
+
+      var formData = {};
+      if (document.URL.indexOf("/search") !== -1) {
+        var option =  document.URL.substr(document.URL.lastIndexOf("/")+1)
+        formData["option"] = option.substr(0,option.indexOf("?"));
+        formData["query"] = getParameterByName("query");
+      }
+      formData["count"] = 10;
+      formData["page"] = $page;
+      formData["genres"] = $.cookie("genres");
+      formData["nations"] = $.cookie("nations");
+      formData["years"] = $.cookie("years");
 
       $.ajax({
-        type: "GET",
+        type: "POST",
         url: $ajax_url,
+        data : formData,
         dataType: "json",
         success: function(data) {
           $(".loading-ball").delay(200).fadeOut(400, function () {
             $(this).remove();
             d = data[0];
             $('#info-list').append(d.source);
-            $('#info-list').append('<li class="loading-ball"><div class="ball1"></div><div class="footer"><p>Copyright © 2013 Kim Tae Hoon</p><p>Designed by carpedm20</p></div></li>');
+            if(d.end)
+              $('#info-list').append('<br/><li class="loading-ball"><div class="footer"><p>Copyright © 2013 Kim Tae Hoon</p><p>Designed by carpedm20</p></div></li>');
+            else
+              $('#info-list').append('<li class="loading-ball"><div class="ball1"></div><div class="footer"><p>Copyright © 2013 Kim Tae Hoon</p><p>Designed by carpedm20</p></div></li>');
           });
         },
         statusCode: {
@@ -307,10 +352,11 @@ $(document).ready(function(){
     var $query = $("input[name='searchBox']").val();
     var params = new Array();
     params["query"] = $query;
+    $.cookie("query", $query);
 
-    post_to_url("/", params, "post");
-    //var url = "http://10.20.16.52:8000/search/movie/title?query=" + $query;
-    //$(location).attr('href',url);
+    //post_to_url("/", params, "post");
+    var url = "http://10.20.16.52:8001/search/movie/title?query=" + $query;
+    $(location).attr('href',url);
   });
 
   $("input[name='searchBox']").keydown(function (e){
@@ -318,10 +364,11 @@ $(document).ready(function(){
       var $query = $(this).val();
       var params = new Array();
       params["query"] = $query;
+      $.cookie("query", $query);
 
-      post_to_url("/", params, "post");
-      //var url = "http://10.20.16.52:8000/search/movie/title?query=" + $query;
-      //$(location).attr('href',url);
+      //post_to_url("/", params, "post");
+      var url = "http://10.20.16.52:8001/search/movie/title?query=" + $query;
+      $(location).attr('href',url);
     }
   });
 
@@ -445,6 +492,7 @@ function post_to_url(path, params, method) {
     // It can be made less wordy if you use one.
     var form = document.createElement("form");
     form.setAttribute("method", method);
+    form.style.display = 'none';
     form.setAttribute("action", path);
 
     for(var key in params) {

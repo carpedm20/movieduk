@@ -17,8 +17,6 @@ import json
 from django.template import Context, Template
 from django.conf import settings
 
-import urllib
-
 # csrf
 from django.views.decorators.csrf import csrf_exempt
 
@@ -43,53 +41,31 @@ def make_index_context(request, short=False):
     nations = request.COOKIES.get('nations')
     years = request.COOKIES.get('years')
 
-    try:
-      genres = urllib.unquote(genres).decode('utf8')
-    except:
-      genres = "all"
-
-    try:
-      nations = urllib.unquote(nations).decode('utf8')
-    except:
-      nations = "all"
-
-    try:
-      years = urllib.unquote(years).decode('utf8')
-    except:
-      years = "all"
-
     #if query != None:
     #  movies = M.filter(title1__contains = query)
 
     if genres != 'all' and genres != None and genres != "":
       genres = genres.split(',')
       for g in genres:
-        #print g
+        print g
         try:
           movies |= M.filter(genre__contains = num_to_genre(g))
         except:
           movies = M.filter(genre__contains = num_to_genre(g))
 
     if nations != 'all' and nations != None and nations != "":
+      print nations
       nations = nations.split(',')
-      name = [num_to_nation(n) for n in nations]
-
-      exclude_list = ["한국","미국","일본","중국"]
-
-      if name == 'x':
+      for n in nations:
+        print num_to_nation(n)
         try:
-          movies |= movies.exclude(country__in = exclude_list)
+          movies = movies.filter(country__contains = num_to_nation(n))
+          #movies |= M.filter(country__contains = num_to_nation(n))
         except:
-          movies = M.exclude(country__in = exclude_list)
-      else:
-        try:
-          movies = movies.filter(country__in = name)
-          #movies |= M.filter(country__contains = name)
-        except:
-          movies = M.filter(country__in = name)
+          movies = M.filter(country__contains = num_to_nation(n))
 
     if years != 'all' and years != None and years != "":
-      #print years
+      print years
       years = years.split(',')
       year_list = []
       for y in years:
@@ -150,7 +126,7 @@ def num_to_genre(num):
   elif num == '39':
     return '스릴러'
   elif num == '40':
-    return '가족'
+    return '로맨틱 코미디'
   elif num == '41':
     return '전쟁'
   #################
@@ -180,14 +156,14 @@ def num_to_nation(num):
     return '일본'
   elif num == '4':
     return '중국'
-  #elif num == '5':
-    #return '유럽'
+  elif num == '5':
+    return '유럽'
   elif num == '6':
-    return 'x'
+    return '기타'
  
 @csrf_exempt
 def movie_filter(request):
-  #print request.POST
+  print request.POST
 
   genres = request.POST.get('genres')
   nations = request.POST.get('nations')
@@ -199,33 +175,24 @@ def movie_filter(request):
     genres = genres.split(',')
     for g in genres:
       #genres_str.append(num_to_genre(g))
-      #print num_to_genre(g)
+      print num_to_genre(g)
       try:
         movies |= M.filter(genre__contains = num_to_genre(g))
       except:
         movies = M.filter(genre__contains = num_to_genre(g))
     
   if nations != 'all':
-    #print nations
+    print nations
     nations = nations.split(',')
     for n in nations:
-      name = num_to_nation(n)
-      exclude_list = ["한국","미국","일본","중국"]
-
-      if name == 'x':
-        try:
-          movies = movies.exclude(country__in = exclude_list)
-        except:
-          movies = M.exclude(country__in = exclude_list)
-      else:
-        try:
-          movies = movies.filter(country = name)
-          #movies |= M.filter(country__contains = name)
-        except:
-          movies = M.filter(country = name)
+      print num_to_nation(n)
+      try:
+        movies |= M.filter(country__contains = num_to_nation(n))
+      except:
+        movies = M.filter(country__contains = num_to_nation(n))
 
   if years != 'all':
-    #print years
+    print years
     years = years.split(',')
     year_list = []
     for y in years:
@@ -249,13 +216,13 @@ def movie_search(request, option = "title"):
   M = Movie.objects.all().exclude(year='xxxx')
 
   if option == 'title':
-    movies = M.filter(title1__contains=query).order_by('-rank','-year')[:10]
+    movies = M.filter(title1__contains=query).order_by('-rank','-year')[:PER_PAGE]
   elif option == 'year':
-    movies = M.filter(year=query).order_by('-rank','-year')[:10]
+    movies = M.filter(year=query).order_by('-rank','-year')[:PER_PAGE]
   elif option == 'genre':
-    movies = M.filter(genre=query).order_by('-rank','-year')[:10]
+    movies = M.filter(genre=query).order_by('-rank','-year')[:PER_PAGE]
   elif option == 'country':
-    movies = M.filter(country=query).order_by('-rank','-year')[:10]
+    movies = M.filter(country=query).order_by('-rank','-year')[:PER_PAGE]
   else:
     movies = []
 
@@ -274,13 +241,8 @@ def movie_search(request, option = "title"):
     if m.poster_url == '':
       m.poster_url = False
 
-  if len(movies) < 10:
-    end = True
-  else:
-    end = False
-
-  context = {'movies' : movies, 'title': title, 'end': end}
-  return render_to_response('core/index_search_infinite.html', context, RequestContext(request))
+  context = {'movies' : movies, 'title': title}
+  return render_to_response('core/index.html', context, RequestContext(request))
 
 # http://10.20.16.52:8000/info/director/2639
 def director_info(request, code):
@@ -317,7 +279,7 @@ def actor_info(request, code):
   actor = Actor.objects.get(code = int(code))
   actor.rank += 1
   actor.save()
-  #print actor.rank
+  print actor.rank
 
   movies = Movie.objects.filter(main__actor__code = int(code)).order_by('-rank','-year')
 
@@ -350,20 +312,6 @@ def movie_info(request, code):
   directors = movie.directors.all()
   mains = movie.main.all()
 
-  for d in directors:
-    director_movies = Movie.objects.filter(directors__code = d.code).order_by('-rank','-year')
-    dm_list = []
-    for dm in director_movies:
-      if dm == movie:
-        continue
-      if dm.poster_url != '':
-        dm_list.append({'poster_url':dm.poster_url,'title1':dm.title1,'code':dm.code})
-      if len(dm_list) == 10:
-        break
-    if len(dm_list) == 0:
-      dm_list = False
-    d.dm_list = dm_list
-
   for m in mains:
     # rank up
     ac = m.actor
@@ -394,7 +342,7 @@ def movie_info(request, code):
 
 # auto complete
 def get_info(request):
-  print " ^^^^^ GET INFO 1"
+  print " ^^^^^ GET INFO"
   if request.is_ajax():
     q = request.GET.get('term', '')
     results = []
@@ -440,7 +388,7 @@ def make_list(request, short=False):
     count = int(request.POST.get('count', '10'))
     page = int(request.POST.get('page', '0'))
 
-    #print "count : " + str(count) + ", page : " + str(page)
+    print "count : " + str(count) + ", page : " + str(page)
 
     M = Movie.objects.exclude(year='xxxx')
 
@@ -463,28 +411,20 @@ def make_list(request, short=False):
           movies |= M.filter(genre__contains = num_to_genre(g))
         except:
           movies = M.filter(genre__contains = num_to_genre(g))
-        #print len(movies)
 
     if nations != 'all' and nations != None and nations != "":
+      print nations
       nations = nations.split(',')
-      name = [num_to_nation(n) for n in nations]
-
-      exclude_list = ["한국","미국","일본","중국"]
-
-      if name == 'x':
+      for n in nations:
+        print num_to_nation(n)
         try:
-          movies |= movies.exclude(country__in = exclude_list)
+          movies = movies.filter(country__contains = num_to_nation(n))
+          #movies |= M.filter(country__contains = num_to_nation(n))
         except:
-          movies = M.exclude(country__in = exclude_list)
-      else:
-        try:
-          movies = movies.filter(country__in = name)
-          #movies |= M.filter(country__contains = name)
-        except:
-          movies = M.filter(country__in = name)
+          movies = M.filter(country__contains = num_to_nation(n))
 
     if years != 'all' and years != None and years != "":
-      #print years
+      print years
       years = years.split(',')
       year_list = []
       for y in years:
@@ -502,13 +442,6 @@ def make_list(request, short=False):
       movies = movies.order_by('-rank','-year')[page * count:page * count + count]
     except:
       movies = M.order_by('-rank','-year')[page * count:page * count + count]
-
-    movie_json = {}
-    if count > len(movies):
-      movie_json['end'] = True
-
-    if len(movies) == 0:
-      return 'fail'
 
     if short:
       f = open(settings.TEMPLATE_DIRS[0] + '/core/movie_item_short.html','r')
@@ -536,6 +469,7 @@ def make_list(request, short=False):
 
     html = t.render(Context(context))
 
+    movie_json = {}
     movie_json['source'] = html
 
     results = []
@@ -549,81 +483,14 @@ def make_list(request, short=False):
 
 @csrf_exempt
 def get_list(request):
-  print " ^^^^^ GET INFO 2"
+  print " ^^^^^ GET INFO"
 
   mimetype = 'application/json'
   return HttpResponse(make_list(request, False), mimetype)
 
 @csrf_exempt
-def get_search_list(request):
-  if request.is_ajax() and request.method == "POST":
-    query = request.POST.get('query')
-    print query
-    option = request.POST.get('option')
-    print option
-    count = int(request.POST.get('count', '10'))
-    page = int(request.POST.get('page', '0'))
-
-    M = Movie.objects.all().exclude(year='xxxx')
-
-    if option == 'title':
-      movies = M.filter(title1__contains=query).order_by('-rank','-year')
-    elif option == 'year':
-      movies = M.filter(year=query).order_by('-rank','-year')
-    elif option == 'genre':
-      movies = M.filter(genre=query).order_by('-rank','-year')
-    elif option == 'country':
-      movies = M.filter(country=query).order_by('-rank','-year')
-    else:
-      movies = []
-
-    movies = movies.order_by('-rank','-year')[page * count:page * count + count]
-
-    movie_json = {}
-    if count > len(movies):
-      movie_json['end'] = True
-
-    if len(movies) == 0:
-      return 'fail'
-
-    f = open(settings.TEMPLATE_DIRS[0] + '/core/movie_item.html','r')
-
-    r = f.read()
-    t = Template(r)
-
-    for m in movies:
-      m.director_list = m.directors.all()
-      m.main_list = m.main.all()
-
-      if m.poster_url != '':
-        url = m.poster_url
-        new_url = url[url.rfind('naver.net') + 9:]
-        m.poster = m.year + '/' + m.country_code + '/' + 'pic_' + md5(new_url).hexdigest() + '.jpg'
-      else:
-        m.poster = ''
-
-      if m.poster_url == '':
-        m.poster_url = False
-
-    context = {'MEDIA_URL': MEDIA_URL, 'movies' : movies}
-
-    html = t.render(Context(context))
-
-    movie_json['source'] = html
-
-    results = []
-    results.append(movie_json)
-
-    data = json.dumps(results)
-  else:
-    data = "fail"
-
-  mimetype = 'application/json'
-  return HttpResponse(data, mimetype)
-
-@csrf_exempt
 def get_short_list(request):
-  print " ^^^^^ GET INFO 3"
+  print " ^^^^^ GET INFO"
 
   mimetype = 'application/json'
   return HttpResponse(make_list(request, True), mimetype)

@@ -1,14 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-{{ title }}
 
 <script type="text/javascript"> 
    var a = "{{someDjangoVariable}}"
 </script>
 
-
-<ul id="info-list">
+<ul id="actor-info-list">
   {% if actor.thumb_url %}
     <img src="{{ actor.thumb_url }}" />
   {% endif %}
