@@ -116,6 +116,22 @@ div {
 display: block;
 }
 
+a.like {
+margin: -12px 0 0 0;
+position: absolute;
+right: 100;
+top: 50%;
+z-index: 20;
+}
+
+a.watch {
+margin: -12px 0 0 0;
+position: absolute;
+right: 46;
+top: 50%;
+z-index: 20;
+}
+
 a.check {
 margin: -12px 0 0 0;
 position: absolute;
@@ -450,10 +466,10 @@ width:90%;
 }
 
 #actor-info-list, #director-info-list {
+width: 75%;
 min-width: 690px;
 margin-top: 70px;
--webkit-padding-start: 80px;
--webkit-padding-end: 80px;
+margin: 50 auto;
 }
 
 .list-short {
