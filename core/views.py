@@ -43,10 +43,11 @@ def youtube_search(query):
   id_list = [] # http://www.youtube.com/embed/LmkWh4ryih0
 
   for i in search_response.get("items", []):
-    #img_list += i['snippet']['thumbnails']['default']['url']
+    #img_list.append(i['snippet']['thumbnails']['default']['url'])
+    img_list.append(i['snippet']['thumbnails']['medium']['url'])
     id_list.append(i['id']['videoId'])
 
-  return id_list
+  return id_list, img_list
 
 # csrf
 from django.views.decorators.csrf import csrf_exempt
@@ -421,13 +422,22 @@ def movie_info(request, code):
   # youtube
   try:
     if movie.country != u'한국':
-      youtubes = youtube_search(movie.title2 + " " + movie.year + " trailer")
+      youtube_query = movie.title2 + " " + movie.year + " trailer"
     else:
-      youtubes = youtube_search(movie.title1 + " " + movie.year + " trailer")
+      youtube_query = movie.title1 + " " + movie.year
+
+    print youtube_query
+    youtubes, youtube_thumbs = youtube_search(youtube_query)
   except:
     youtubes = False
+    youtube_thumbs = False
 
-  context = {'movie' : movie, 'youtubes' : youtubes, 'directors' : directors, 'mains' : mains, 'subs' : subs, 'title': title}
+  if youtubes != False:
+    youtube = zip(youtubes, youtube_thumbs)
+  else:
+    youtube = False
+
+  context = {'movie' : movie, 'youtube' : youtube, 'directors' : directors, 'mains' : mains, 'subs' : subs, 'title': title}
   return render_to_response('core/movie.html', context, RequestContext(request))
 
 # auto complete

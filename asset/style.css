@@ -25,9 +25,55 @@ button {
 font-family: 'Nanum Gothic';
 }
 
-.youtube {
+h4.movie-sub-info {
+line-height: 0.2em;
+}
+
+div.youtube {
 width:100%;
-text-align: center;
+}
+
+ul.youtube_list {
+-webkit-margin-start: 0px;
+-webkit-margin-end: 0px;
+-webkit-padding-start: 0px;
+}
+
+li.youtube_thumb {
+width:30%;
+display: inline-block;
+margin: 0 auto;
+list-style-type: none;
+border-bottom: 0px solid #ccc;
+}
+
+img.stillcut {
+width: 100%;
+-webkit-filter: grayscale(100%);
+-moz-filter: grayscale(100%);
+filter: grayscale(100%);
+filter: gray;
+}
+
+.stillcut-black-layer {
+left: 1px;
+top: 1px;
+width: 100%;
+height: inherit%;
+background-color: rgba(0,0,0,0.5);
+}
+
+.play-icon {
+text-indent: -9999px;
+overflow: hidden;
+position: absolute;
+left: 45%;
+top: 41%;
+height: 48px;
+width: 48px;
+display: block;
+background-position: 0 -96px;
+background: url(/asset/play.png) no-repeat;
 }
 
 iframe.video{
@@ -173,6 +219,7 @@ list-style-type: disc;
 }
 
 #menu {
+min-width: 690px;
 overflow: visible;
 max-width: 870px;
 background: transparent;
@@ -394,7 +441,7 @@ width: 140px;
 
 #info-list {
 min-width: 690px;
-width: 80%;
+width: 75%;
 margin: 50 auto;
 }
 
@@ -403,6 +450,7 @@ width:90%;
 }
 
 #actor-info-list, #director-info-list {
+min-width: 690px;
 margin-top: 70px;
 -webkit-padding-start: 80px;
 -webkit-padding-end: 80px;

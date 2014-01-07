@@ -63,10 +63,11 @@ $(document).ready(function(){
   });
 
   $youtubeCount = 9;
-  $("#youtube-right").click(function() {
+  $(".colorbox").colorbox({iframe:true, rel:'colorbox', innerWidth:750, innerHeight:500});
+  /*$("#youtube-right").click(function() {
     $youtubeCount = $youtubeCount + 1;
     $(".video").attr('src', $youtubeLoop[$youtubeCount % 3]);
-  });
+  });*/
 
   $("#youtube-left").click(function() {
     $youtubeCount = $youtubeCount - 1;
