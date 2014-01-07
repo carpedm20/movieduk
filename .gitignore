@@ -19,3 +19,4 @@ naver_detail/config.py
 naver_detail/tmp
 venv
 tmp
+scrapy

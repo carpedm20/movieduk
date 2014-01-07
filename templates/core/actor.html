@@ -7,12 +7,14 @@
 </script>
 
 <ul id="actor-info-list">
+<li>
   {% if actor.thumb_url %}
     <img src="{{ actor.thumb_url }}" />
   {% endif %}
   <h2>
     {{ actor.name }} {% if actor.en_name != '' %}({{ actor.en_name }}){% endif %}
   </h2>
+</li>
   {% include "core/movie_item.html" %}
 <li class="loading-ball">
 <div class="footer">
