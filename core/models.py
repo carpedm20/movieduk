@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class MovieList(models.Model):
-  movies = models.ManyToManyField('Movie')
+from django.conf import settings
 
 class Movie(models.Model):
   # list string -> import ast; ast.literal_eval(actors)
@@ -70,8 +69,26 @@ class Actor(models.Model):
   created_on = models.DateTimeField(auto_now_add=True, auto_now=True)
   previous_rank = models.IntegerField(null=False, default = 0)
 
+  # 2014.01.07 update
+  birth = models.CharField(max_length=30, null=True, blank=True)
+  country = models.CharField(max_length=30, null=True, blank=True)
+  detail = models.TextField(null=True)
+  awards = models.ManyToManyField('Award')
+
   def __unicode__(self):
     return u"%s" % self.name
+
+class Award(models.Model):
+  year = models.IntegerField(null=True, blank=True)
+  # best actor
+  name =  models.CharField(max_length=30, null=True, blank=True)
+  # Golden Razberry
+  prize =  models.CharField(max_length=30, null=True, blank=True)
+  rnd = models.IntegerField(null=True, blank=True)
+  movie = models.ManyToManyField('Movie')
+
+  def __unicode__(self):
+    return u"%s (%s)" %(self.prize, self.name)
 
 class Character(models.Model):
   actor = models.ForeignKey(Actor)
@@ -102,17 +119,25 @@ class Director(models.Model):
   def __unicode__(self):
     return u"%s" % self.name
 
-class Movie_List(models.Model):
-  name = models.CharField(max_length=30)
-  description = models.CharField(max_length=300)
+class Tag(models.Model):
+  name = models.CharField(max_length=35, null=True, blank=True)
 
-  like = models.IntegerField()
-  dislike = models.IntegerField()
+  def __unicode__(self):
+    return self.name
 
-  movie = models.ManyToManyField(Movie)
+class MovieList(models.Model):
+  name = models.CharField(max_length=30, blank=True, null=True)
+  description = models.CharField(max_length=300, blank=True, null = True)
+  tag = models.ManyToManyField('Tag')
+
+  like = models.IntegerField(default = 0)
+  dislike = models.IntegerField(default = 0)
+
+  movie = models.ManyToManyField('Movie')
 
   #creator = models.ForeignKey('account.models.UserProfile')
-  created_date = models.DateField()
+  creator = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+  created_date = models.DateField(auto_now_add = True, null=True)
 
   def __unicode__(self):
     return u"%s" % self.name

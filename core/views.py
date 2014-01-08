@@ -422,7 +422,7 @@ def movie_info(request, code):
   # youtube
   try:
     if movie.country != u'한국':
-      youtube_query = movie.title2 + " " + movie.year + " trailer"
+      youtube_query = movie.title2 + " trailer"
     else:
       youtube_query = movie.title1 + " " + movie.year
 

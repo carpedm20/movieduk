@@ -14,31 +14,34 @@ from social_auth.backends.facebook import FacebookBackend
 
 
 def is_complete_authentication(request):
-  return request.user.is_authenticated() and \
-    FacebookBackend.__name__ in request.session.get(
-      BACKEND_SESSION_KEY, ''
-    )
+    return request.user.is_authenticated() and \
+           FacebookBackend.__name__ in request.session.get(
+                BACKEND_SESSION_KEY, ''
+            )
+
 
 def get_access_token(user):
-  key = str(user.id)
-  access_token = cache.get(key)
+    key = str(user.id)
+    access_token = cache.get(key)
 
-  # If cache is empty read the database
-  if access_token is None:
-    try:
-      social_user = user.social_user if hasattr(user, 'social_user') \
-        else UserSocialAuth.objects.get(
-          user=user.id, provider=FacebookBackend.name
-        )
-    except UserSocialAuth.DoesNotExist:
-      return None
+    # If cache is empty read the database
+    if access_token is None:
+        try:
+            social_user = user.social_user if hasattr(user, 'social_user') \
+                          else UserSocialAuth.objects.get(
+                                  user=user.id, provider=FacebookBackend.name
+                               )
+        except UserSocialAuth.DoesNotExist:
+            return None
 
-   if social_user.extra_data:
-     access_token = social_user.extra_data.get('access_token')
-     expires = social_user.extra_data.get('expires')
+        if social_user.extra_data:
+            access_token = social_user.extra_data.get('access_token')
+            expires = social_user.extra_data.get('expires')
 
-     cache.set(key, access_token, int(expires) if expires is not None else 0)
-  return access_token
+            cache.set(key, access_token, int(expires) if expires is not None
+                                                       else 0)
+    return access_token
+
 
 # Facebook decorator to setup environment
 def facebook_decorator(func):
@@ -77,12 +80,14 @@ def facebook_decorator(func):
 @csrf_exempt
 @facebook_decorator
 def facebook_view(request, *args, **kwargs):
-  # If there is a ready response just return it. Not recommended though.
-  auth_response = kwargs.get('auth_response')
+    # If there is a ready response just return it. Not recommended though.
+    auth_response = kwargs.get('auth_response')
+
+    print "=========================================>>>>>>>>>>FACEB"
+
     if auth_response:
         return auth_response
     return render_to_response('facebook.html', {
         'fb_app_id': getattr(settings, 'FACEBOOK_APP_ID', None),
          'warning': request.method == 'GET'
     }, RequestContext(request))
-

@@ -35,7 +35,7 @@
             {% if movie.genre == '' %}
               <a href="/search/movie/country?query={{ movie.country }}">{{ movie.country }}</a>
             {% else %}
-              | <a href="search/movie/country?query={{ movie.country }}">{{ movie.country }}</a>
+              | <a href="/search/movie/country?query={{ movie.country }}">{{ movie.country }}</a>
             {% endif %}
           {% endif %}
           {% if movie.time != '' %}

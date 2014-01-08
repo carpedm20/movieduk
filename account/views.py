@@ -20,8 +20,6 @@ import cgi
 #from django.core.context_processros import csrf
 from django.contrib.auth.decorators import login_required
 
-from facebook.models import FacebookSession
-
 def sign_in(request):
   title = 'login'
   error = None

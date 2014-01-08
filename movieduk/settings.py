@@ -118,13 +118,15 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admin',
 
     # carpedm20
-    'django.contrib.admin',
     'south',
     'core',
     'rank',
     'account',
+    'social_auth',
+    'django_extensions', # for ER diagram
 )
 
 # A sample logging configuration. The only tangible logging
@@ -156,8 +158,6 @@ LOGGING = {
     }
 }
 
-AUTH_USER_MODEL = 'account.DukUser'
-
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -168,13 +168,9 @@ MIDDLEWARE_CLASSES = (
 )
 
 AUTHENTICATION_BACKENDS = (
-    'account.backends.FacebookBackend',
+  'social_auth.backends.facebook.FacebookBackend',
+  'django.contrib.auth.backends.ModelBackend',
 )
-
-# carpedm20
-#AUTHENTICATION_BACKENDS = (
-#  'account.backends.FacebookBackend',
-#)
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
@@ -184,13 +180,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.contrib.messages.context_processors.messages",
     "django.core.context_processors.request",
+    'social_auth.context_processors.social_auth_by_type_backends',
 )
-
-FACEBOOK_APP_ID = '387661514698415'
-FACEBOOK_API_SECRET = '0e4e65e38f54da96e9421284e5b89b04'
-#FACEBOOK_REDIRECT_URI = 'http://carpedm20.qc.to/login/'
-FACEBOOK_REDIRECT_URI = 'http://movieduk.us.to:8001/facebook/login'
-
 
 try:
     from localsettings import *

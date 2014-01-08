@@ -20,3 +20,5 @@ naver_detail/tmp
 venv
 tmp
 scrapy
+movieduk/localsettings.py
+localsettings.py

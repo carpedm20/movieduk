@@ -1,63 +1,47 @@
-from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
+from core.models import *
 
-from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+class CustomUserManager(models.Manager):
+  def create_user(self, username, email=None):
+    return self.model._default_manager.create(username=username)
 
-import urllib2
-from django.contrib.auth import authenticate
+class DukUser(models.Model):
+  #social_auth requirements
+  username = models.CharField(max_length=30)
+  email = models.EmailField(blank=True, null=True)
+  last_login = models.DateTimeField(blank=True, null=True)
+  is_active = models.BooleanField(default=True)
 
-from django.contrib.auth.models import UserManager
+  friends = models.ManyToManyField('self', blank = True, null = True)
 
-class FacebookSessionError(Exception):
-    def __init__(self, error_type, message):
-        self.message = message
-        self.type = error_type
-    def get_message(self):
-        return self.message
-    def get_type(self):
-        return self.type
-    def __unicode__(self):
-        return u'%s: "%s"' % (self.type, self.message)
+  gender = models.CharField(max_length=10, blank=True)
+  locale = models.CharField(max_length=10, blank=True)
 
-class UserManager(BaseUserManager):
-    def create_user(self, username, password=None):
-        user = self.model(username=username)
-        return user
+  objects = CustomUserManager()
 
-    def create_superuser(self, username, password):
-        user = self.create_user(username, password=password)
-        user.is_team_player = True
-        user.save()
-        return use
+  own_movielist = models.ManyToManyField(MovieList, related_name = 'own_movielist')
+  liked_movielist = models.ManyToManyField(MovieList, related_name = 'liked_movielist')
+  hated_movielist = models.ManyToManyField(MovieList, related_name = 'hated_movielist')
 
-class DukUser(AbstractBaseUser):
-  username = models.CharField(max_length=30, unique=True)
-  first_name = models.CharField(max_length=30, blank=True)
-  last_name = models.CharField(max_length=30, blank=True)
-  email = models.EmailField(blank=True)
+  watched_movie = models.ManyToManyField(Movie, related_name = 'watched_movie')
+  liked_movie = models.ManyToManyField(Movie, related_name = 'liked_movie')
+  hated_movie = models.ManyToManyField(Movie, related_name = 'hated_movie')
+  watchlist_movie  = models.ManyToManyField(Movie, related_name = 'watchlist_movie')
 
-  access_token = models.CharField(max_length=103, unique=True, null=True)
-  expires = models.IntegerField(null=True)
-  uid = models.BigIntegerField(unique=True, null=True)
+  followed_tag = models.ManyToManyField(Tag, blank=True, null = True)
 
-  objects = UserManager()
+  def __unicode__(self):
+    return self.username
 
-  class Meta:
-    unique_together = (('username', 'uid'), ('access_token', 'expires'))
+  def is_authenticated(self):
+    return True
 
-  USERNAME_FIELD = 'username'
+  def facebook_extra_values(sender, user,response, details, **kwargs):     
+    profile = user.get_profile()
+    current_user = user 
+    profile, new = UserProfile.objects.get_or_create(user=current_user)
 
-  def facebook_authenticate(self, profile, token):
-    self.set_unusable_password()
-    self.email = profile['email']
-    self.username = profile['username']
-    self.first_name = profile['first_name']
-    self.last_name = profile['last_name']
-    self.save()
-
-    self.uid = profile['id']
-    self.save()
-
-    user = authenticate(access_token=token)
-    return user
+    profile.gender = response.get('gender')
+    profile.locale = response.get('locale')
+    profile.save()
+    return True
