@@ -66,10 +66,14 @@
     <li><a href="/">Movie</a></li>
     <li><a href="/short">List</a></li>
     <li><a href="/rank">Rank</a></li>
-    {% if request.session.fb %}
+    {% if request.session.DukUser %}
+      <li><a href="/account">Account</a></li>
       <li><a href="/logout">Sign Out</a></li>
     {% else %}
-      <li><a href="/login">Sign In/Up</a></li>
+      <li>
+        <a href="/login">Sign In/Up</a>
+        <!--<a href="#" onClick="window.open('https://graph.facebook.com/oauth/authorize?client_id={{ settings.FACEBOOK_APP_ID }}&redirect_uri={{ settings.FACEBOOK_REDIRECT_URI }}&scope=publish_stream,email&display=popup','Facebook Login','width=546,height=346')">123</a>-->
+      </li>
     {% endif %}
     <li id="search-bar">
       <div class="ui-widget">

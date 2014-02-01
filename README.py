@@ -1,3 +1,13 @@
+rm -rf account/migrations
+python manage.py schemamigration account --init
+python manage.py schemamigration account --auto
+python manage.py migrate account --delete-ghost-migrations
+
+from account.models import *
+DukUser.objects.all()
+DukUser.objects.all()[0].delete()
+
+
 ######################
 # django-social-auth #
 ######################
@@ -5,12 +15,19 @@
 # dict, .json, not callable blabla error
 sudo pip install requests --upgrade
 
+##################
+# make sql query #
+##################
+
+# python manage.py sqlall account
+
 #########
 # south #
 #########
 
 # no such column
 python manage.py schemamigration account --add-field DukUser.is_active
+python manage.py schemamigration core --add-model File
 python manage.py migrate account
 
 """

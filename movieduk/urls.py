@@ -23,10 +23,9 @@ urlpatterns = patterns('',
     url(r'^rank', 'rank.views.index', name='index'),
     url(r'^api/get_rank/', 'rank.views.get_rank', name='get_rank'),
 
-    url(r'', include('social_auth.urls')),
-    #url(r'^fb/', facebook_view, name='fb_app'),
-    #url(r'^login', 'account.views.sign_in'),
-    #url(r'^facebook/login', 'account.views.sign_in'),
+    #url(r'', include('social_auth.urls')),
+    url(r'^login', 'account.views.sign_in'),
+    url(r'^facebook/login', 'account.views.sign_in'),
     url(r'^logout', 'account.views.sign_out'),
     url(r'^join', 'account.views.sign_up', name='login'),
 

@@ -58,6 +58,9 @@
     </div>
     <!--<a id="youtube-right">right</a>-->
   {% endif %}
+  {% for i in movie.file_links %}
+    <a href="asset/{{ i }}">{{ i }}</a> 
+  {% endfor %}
   <div class="text-container" id="story">
     {% if movie.story1 != '' %}
       <div id="story1"><b>

@@ -160,11 +160,15 @@ def make_index_context(request, short=False):
 
 @csrf_exempt
 def index(request):
-  return render_to_response('core/index_infinite.html', make_index_context(request), RequestContext(request))
+  context = make_index_context(request)
+  context['settings'] = settings
+  return render_to_response('core/index_infinite.html', context, RequestContext(request))
 
 @csrf_exempt
 def index_short(request):
-  return render_to_response('core/index_short.html', make_index_context(request), RequestContext(request))
+  context = make_index_context(request)
+  context['settings'] = settings
+  return render_to_response('core/index_short.html', context, RequestContext(request))
 
 @csrf_exempt
 def num_to_genre(num):

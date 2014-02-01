@@ -22,3 +22,10 @@ tmp
 scrapy
 movieduk/localsettings.py
 localsettings.py
+video
+asset/video
+*.avi
+*.smi
+*.srt
+*.mkv
+.*

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
+import datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
@@ -8,145 +8,18 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'DukUser'
-        db.create_table(u'account_dukuser', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('username', self.gf('django.db.models.fields.CharField')(max_length=30)),
-            ('first_name', self.gf('django.db.models.fields.CharField')(max_length=10, null=True, blank=True)),
-            ('last_name', self.gf('django.db.models.fields.CharField')(max_length=10, null=True, blank=True)),
-            ('password', self.gf('django.db.models.fields.CharField')(max_length=30)),
-            ('email', self.gf('django.db.models.fields.EmailField')(max_length=75, null=True, blank=True)),
-            ('last_login', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('is_active', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('gender', self.gf('django.db.models.fields.CharField')(max_length=10, blank=True)),
-            ('locale', self.gf('django.db.models.fields.CharField')(max_length=10, blank=True)),
-        ))
-        db.send_create_signal(u'account', ['DukUser'])
-
-        # Adding M2M table for field friends on 'DukUser'
-        m2m_table_name = db.shorten_name(u'account_dukuser_friends')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('from_dukuser', models.ForeignKey(orm[u'account.dukuser'], null=False)),
-            ('to_dukuser', models.ForeignKey(orm[u'account.dukuser'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['from_dukuser_id', 'to_dukuser_id'])
-
-        # Adding M2M table for field own_movielist on 'DukUser'
-        m2m_table_name = db.shorten_name(u'account_dukuser_own_movielist')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('dukuser', models.ForeignKey(orm[u'account.dukuser'], null=False)),
-            ('movielist', models.ForeignKey(orm[u'core.movielist'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['dukuser_id', 'movielist_id'])
-
-        # Adding M2M table for field liked_movielist on 'DukUser'
-        m2m_table_name = db.shorten_name(u'account_dukuser_liked_movielist')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('dukuser', models.ForeignKey(orm[u'account.dukuser'], null=False)),
-            ('movielist', models.ForeignKey(orm[u'core.movielist'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['dukuser_id', 'movielist_id'])
-
-        # Adding M2M table for field hated_movielist on 'DukUser'
-        m2m_table_name = db.shorten_name(u'account_dukuser_hated_movielist')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('dukuser', models.ForeignKey(orm[u'account.dukuser'], null=False)),
-            ('movielist', models.ForeignKey(orm[u'core.movielist'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['dukuser_id', 'movielist_id'])
-
-        # Adding M2M table for field watched_movie on 'DukUser'
-        m2m_table_name = db.shorten_name(u'account_dukuser_watched_movie')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('dukuser', models.ForeignKey(orm[u'account.dukuser'], null=False)),
-            ('movie', models.ForeignKey(orm[u'core.movie'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['dukuser_id', 'movie_id'])
-
-        # Adding M2M table for field liked_movie on 'DukUser'
-        m2m_table_name = db.shorten_name(u'account_dukuser_liked_movie')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('dukuser', models.ForeignKey(orm[u'account.dukuser'], null=False)),
-            ('movie', models.ForeignKey(orm[u'core.movie'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['dukuser_id', 'movie_id'])
-
-        # Adding M2M table for field hated_movie on 'DukUser'
-        m2m_table_name = db.shorten_name(u'account_dukuser_hated_movie')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('dukuser', models.ForeignKey(orm[u'account.dukuser'], null=False)),
-            ('movie', models.ForeignKey(orm[u'core.movie'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['dukuser_id', 'movie_id'])
-
-        # Adding M2M table for field watchlist_movie on 'DukUser'
-        m2m_table_name = db.shorten_name(u'account_dukuser_watchlist_movie')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('dukuser', models.ForeignKey(orm[u'account.dukuser'], null=False)),
-            ('movie', models.ForeignKey(orm[u'core.movie'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['dukuser_id', 'movie_id'])
+        # Adding field 'Movie.file_links'
+        db.add_column(u'core_movie', 'file_links',
+                      self.gf('core.models.ListField')(default=[]),
+                      keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting model 'DukUser'
-        db.delete_table(u'account_dukuser')
-
-        # Removing M2M table for field friends on 'DukUser'
-        db.delete_table(db.shorten_name(u'account_dukuser_friends'))
-
-        # Removing M2M table for field own_movielist on 'DukUser'
-        db.delete_table(db.shorten_name(u'account_dukuser_own_movielist'))
-
-        # Removing M2M table for field liked_movielist on 'DukUser'
-        db.delete_table(db.shorten_name(u'account_dukuser_liked_movielist'))
-
-        # Removing M2M table for field hated_movielist on 'DukUser'
-        db.delete_table(db.shorten_name(u'account_dukuser_hated_movielist'))
-
-        # Removing M2M table for field watched_movie on 'DukUser'
-        db.delete_table(db.shorten_name(u'account_dukuser_watched_movie'))
-
-        # Removing M2M table for field liked_movie on 'DukUser'
-        db.delete_table(db.shorten_name(u'account_dukuser_liked_movie'))
-
-        # Removing M2M table for field hated_movie on 'DukUser'
-        db.delete_table(db.shorten_name(u'account_dukuser_hated_movie'))
-
-        # Removing M2M table for field watchlist_movie on 'DukUser'
-        db.delete_table(db.shorten_name(u'account_dukuser_watchlist_movie'))
+        # Deleting field 'Movie.file_links'
+        db.delete_column(u'core_movie', 'file_links')
 
 
     models = {
-        u'account.dukuser': {
-            'Meta': {'object_name': 'DukUser'},
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'null': 'True', 'blank': 'True'}),
-            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '10', 'null': 'True', 'blank': 'True'}),
-            'friends': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['account.DukUser']", 'null': 'True', 'blank': 'True'}),
-            'gender': ('django.db.models.fields.CharField', [], {'max_length': '10', 'blank': 'True'}),
-            'hated_movie': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'hated_movie'", 'null': 'True', 'symmetrical': 'False', 'to': u"orm['core.Movie']"}),
-            'hated_movielist': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'hated_movielist'", 'null': 'True', 'symmetrical': 'False', 'to': u"orm['core.MovieList']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'last_login': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '10', 'null': 'True', 'blank': 'True'}),
-            'liked_movie': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'liked_movie'", 'null': 'True', 'symmetrical': 'False', 'to': u"orm['core.Movie']"}),
-            'liked_movielist': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'liked_movielist'", 'null': 'True', 'symmetrical': 'False', 'to': u"orm['core.MovieList']"}),
-            'locale': ('django.db.models.fields.CharField', [], {'max_length': '10', 'blank': 'True'}),
-            'own_movielist': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'own_movielist'", 'null': 'True', 'symmetrical': 'False', 'to': u"orm['core.MovieList']"}),
-            'password': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
-            'username': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
-            'watched_movie': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'watched_movie'", 'null': 'True', 'symmetrical': 'False', 'to': u"orm['core.Movie']"}),
-            'watchlist_movie': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'watchlist_movie'", 'null': 'True', 'symmetrical': 'False', 'to': u"orm['core.Movie']"})
-        },
         u'auth.group': {
             'Meta': {'object_name': 'Group'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -165,7 +38,7 @@ class Migration(SchemaMigration):
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
+            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Group']", 'symmetrical': 'False', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -173,7 +46,7 @@ class Migration(SchemaMigration):
             'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
+            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
         },
         u'contenttypes.contenttype': {
@@ -228,15 +101,6 @@ class Migration(SchemaMigration):
             'profile_url': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
             'thumb_url': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'})
         },
-        u'core.file': {
-            'Meta': {'object_name': 'File'},
-            'directory': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '20'}),
-            'episode': ('django.db.models.fields.IntegerField', [], {'default': '-1'}),
-            'file_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '20'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_drama': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'season': ('django.db.models.fields.IntegerField', [], {'default': '-1'})
-        },
         u'core.movie': {
             'Meta': {'object_name': 'Movie'},
             'code': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
@@ -244,7 +108,7 @@ class Migration(SchemaMigration):
             'country_code': ('django.db.models.fields.CharField', [], {'max_length': '5', 'null': 'True', 'blank': 'True'}),
             'detail_url': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
             'directors': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['core.Director']", 'symmetrical': 'False'}),
-            'files': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['core.File']", 'symmetrical': 'False'}),
+            'file_links': ('core.models.ListField', [], {'default': '[]'}),
             'form': ('django.db.models.fields.CharField', [], {'max_length': '10', 'null': 'True', 'blank': 'True'}),
             'genre': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
             'grade': ('django.db.models.fields.CharField', [], {'max_length': '10', 'null': 'True', 'blank': 'True'}),
@@ -270,9 +134,9 @@ class Migration(SchemaMigration):
             'dislike': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'like': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'movie': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['core.Movie']", 'null': 'True', 'blank': 'True'}),
+            'movie': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['core.Movie']", 'symmetrical': 'False'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'null': 'True', 'blank': 'True'}),
-            'tag': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['core.Tag']", 'null': 'True', 'blank': 'True'})
+            'tag': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['core.Tag']", 'symmetrical': 'False'})
         },
         u'core.subcharacter': {
             'Meta': {'object_name': 'SubCharacter'},
@@ -287,4 +151,4 @@ class Migration(SchemaMigration):
         }
     }
 
-    complete_apps = ['account']
+    complete_apps = ['core']

@@ -1,5 +1,7 @@
 # Create your views here.
 
+from django.conf import settings
+
 from django.contrib import auth
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
@@ -12,7 +14,7 @@ from django.contrib.auth import logout
 from django.conf import settings
 from django.contrib.auth import models as auth_models
 
-from account import settings, models
+from account import models
 
 import urllib, urllib2
 import cgi
@@ -20,13 +22,87 @@ import cgi
 #from django.core.context_processros import csrf
 from django.contrib.auth.decorators import login_required
 
+from django.views.decorators.csrf import csrf_exempt
+
+# Just for simple login
+from django.http import *
+from django.shortcuts import render_to_response,redirect
+from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+
+import sys
+
+from account.models import *
+
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
+import datetime
+
+def movie_like(request):
+  try:
+    user = request.session['DukUser']
+
+    if request.is_ajax() and request.method == "POST":
+      movieId = request.POST.get('movieId')
+
+      #if user.watched_movie.all()
+
+    else:
+      data = "fail"
+  except:
+    data = "fail"
+
+  mimetype = 'application/json'
+  return HttpResponse(data, mimetype)
+
+@csrf_exempt
 def sign_in(request):
   title = 'login'
   error = None
 
+  # Just for simple login
+  username = password = ''
+  context = RequestContext(request)
+
+  try:
+    if request.session['DukUser']:
+      return HttpResponseRedirect('/')
+  except:
+    z = 123
+
+  if request.POST:
+    username = request.POST['username']
+    password = request.POST['password']
+    try:
+      user = DukUser.objects.get_or_create(username=username,first_name='',last_name='',email='',last_login=datetime.datetime.now(),password=password)
+    except:
+      try:
+        user = DukUser.objects.get(username=username, password=password)
+        request.session['DukUser'] = user
+      except:
+        context['message'] = "Wrong password!"
+        return render_to_response('account/login.html', context)
+
+    return HttpResponseRedirect('/')
+
+  try:
+    if user is not None:
+      if user.is_active:
+        login(request, user)
+        return HttpResponseRedirect('/')
+  except:
+    for e in sys.exc_info():
+      print e
+    z = 123
+
+  return render_to_response('account/login.html', context)
+
   if request.user.is_authenticated():
     return HttpResponseRedirect('/')
 
+  # I DON'T KNOW!!!
   if request.GET:    
     if 'code' in request.GET:        
       args = {
@@ -37,9 +113,11 @@ def sign_in(request):
       }
       url = 'https://graph.facebook.com/oauth/access_token?' + \
         urllib.urlencode(args)
-      response = cgi.parse_qs(urllib.urlopen(url).read())
+      r = urllib.urlopen(url).read()
+      response = cgi.parse_qs(r)
 
-      #print response
+      print url
+      print r
 
       access_token = response['access_token'][0]
       expires = response['expires'][0]
@@ -77,5 +155,9 @@ def sign_up(request):
     return render_to_response('account/join.html', template_context, context_instance=RequestContext(request))
 
 def sign_out(request):
-  logout(request.user)
+  try:
+    del request.session['DukUser']
+  except:
+    z=123
+  #logout(request.user)
   return HttpResponseRedirect('/')

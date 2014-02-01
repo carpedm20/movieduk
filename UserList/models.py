@@ -1,12 +1,7 @@
 from django.db import models
 from core.models import *
 
-class CustomUserManager(models.Manager):
-  def create_user(self, username, email=None):
-    print "==============DUKUSERCREATE"
-    return self.model._default_manager.create(username=username, first_name='')
-
-class DukUser(models.Model):
+class MovieUser(models.Model):
   print "==============DUKUSERCREATE"
   #social_auth requirements
   username = models.CharField(max_length=30)
@@ -18,14 +13,12 @@ class DukUser(models.Model):
   last_login = models.DateTimeField(blank=True, null=True)
   is_active = models.BooleanField(default=True)
 
-  friends = models.ManyToManyField('self', blank = True, null = True, symmetrical=False)
+  friends = models.ManyToManyField('self', blank = True, null = True, related_name='friends', through='followed_friends', symmetrical=False)
 
   gender = models.CharField(max_length=10, blank=True)
   locale = models.CharField(max_length=10, blank=True)
 
-  objects = CustomUserManager()
-
-  own_movielist = models.ManyToManyField(MovieList, blank=True, null=True, related_name = 'own_movielist')
+  own_movielists = models.ManyToManyField(MovieList, blank=True, null=True, related_name = 'own_movielists')
   liked_movielist = models.ManyToManyField(MovieList, blank=True, null=True, related_name = 'liked_movielist')
   hated_movielist = models.ManyToManyField(MovieList, blank=True, null=True, related_name = 'hated_movielist')
 
@@ -36,16 +29,3 @@ class DukUser(models.Model):
 
   def __unicode__(self):
     return self.username
-
-  def is_authenticated(self):
-    return True
-
-  def facebook_extra_values(sender, user,response, details, **kwargs):     
-    profile = user.get_profile()
-    current_user = user 
-    profile, new = UserProfile.objects.get_or_create(user=current_user)
-
-    profile.gender = response.get('gender')
-    profile.locale = response.get('locale')
-    profile.save()
-    return True

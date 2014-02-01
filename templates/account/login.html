@@ -19,11 +19,7 @@
   <form name="login-form" class="login-form" action="" method="post">
     <div class="header">
       <h1>Sign in</h1>
-      {% if request.session.fb %}
-        <span>Welcome!</span>
-      {% else %}
-        <span>hello world!</span>
-      {% endif %}
+      <span style='color:red'>{{ message }}</span>
     </div>
     
     <div class="content">
