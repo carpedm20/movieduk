@@ -57,132 +57,230 @@ function check_movie(func, code) {
   });
 }
 
+function popup_login() {
+  var loginBox = $("#login-box");
+  //Fade in the Popup
+  $(loginBox).fadeIn(300);
+    
+  //Set the center alignment padding + border see css style
+  var popMargTop = ($(loginBox).height() + 24) / 2; 
+  var popMargLeft = ($(loginBox).width() + 24) / 2; 
+  
+  $(loginBox).css({ 
+    'margin-top' : -popMargTop,
+    'margin-left' : -popMargLeft
+  });
+    
+  // Add the mask to body
+  $('body').append('<div id="mask"></div>');
+  $('#mask').fadeIn(300);
+    
+  return false;
+}
+
+$is_login = false;
+
+function is_login() {
+  $ajax_url = "/api/is_login";
+  $.ajax({
+    type: "GET",
+    url: $ajax_url,
+    dataType: "json",
+    success: function(data) {
+      $is_login = data;
+    },
+  });
+}
+
 $(document).ready(function(){
+  is_login();
+
   // initial state
   $("div.filtering").hide();
   $page = 0;
 
+  // click outside of popup_login
+  $('a.close, #mask').live('click', function() { 
+    $('#mask , .login-popup').fadeOut(300 , function() {
+      $('#mask').remove();  
+  })
+
   // like_count
   $(document).on("click", "a.like_count", function() {
+      return false;
+    });
     return false;
   });
 
   // movie
   $(document).on("click", "a.like", function() {
-    $code = $(this).attr('id');
-    check_movie("like", $code);
-    $(this).switchClass("like","liked");
+    if ($is_login) {
+      $code = $(this).attr('id');
+      check_movie("like", $code);
+      $(this).switchClass("like","liked");
 
-    $obj =  $(".like_count[id='"+$code+"']");
-    $obj.text(parseInt($obj.text()) + 1);
-
+      $obj =  $(".like_count[id='"+$code+"']");
+      $obj.text(parseInt($obj.text()) + 1);
+    } else {
+      popup_login();
+    }
     return false;
   });
 
   $(document).on("click", "a.liked", function() {
-    $code = $(this).attr('id');
-    check_movie("like", $code);
-    $(this).switchClass("liked","like");
+    if ($is_login) {
+      $code = $(this).attr('id');
+      check_movie("like", $code);
+      $(this).switchClass("liked","like");
 
-    $obj =  $(".like_count[id='"+$code+"']");
-    $obj.text(parseInt($obj.text()) - 1);
-
+      $obj =  $(".like_count[id='"+$code+"']");
+      $obj.text(parseInt($obj.text()) - 1);
+    } else {
+      popup_login();
+    }
     return false;
   });
 
   $(document).on("click", "a.dislike", function() {
-    $code = $(this).attr('id');
-    check_movie("dislike", $code);
-    $(this).switchClass("dislike","disliked");
+    if ($is_login) {
+      $code = $(this).attr('id');
+      check_movie("dislike", $code);
+      $(this).switchClass("dislike","disliked");
 
-    $obj =  $(".dislike_count[id='"+$code+"']");
-    $obj.text(parseInt($obj.text()) + 1);
+      $obj =  $(".dislike_count[id='"+$code+"']");
+      $obj.text(parseInt($obj.text()) + 1);
+    } else {
+      popup_login();
+    }
 
     return false;
   });
 
   $(document).on("click", "a.disliked", function() {
-    $code = $(this).attr('id');
-    check_movie("dislike", $code);
-    $(this).switchClass("disliked","dislike");
+    if ($is_login) {
+      $code = $(this).attr('id');
+      check_movie("dislike", $code);
+      $(this).switchClass("disliked","dislike");
 
-    $obj =  $(".dislike_count[id='"+$code+"']");
-    $obj.text(parseInt($obj.text()) - 1);
-
+      $obj =  $(".dislike_count[id='"+$code+"']");
+      $obj.text(parseInt($obj.text()) - 1);
+    } else {
+      popup_login();
+    }
     return false;
   });
 
   // actor
   $(document).on("click", "a.actor_like", function() {
-    $code = $(this).attr('id');
-    check_movie("actor_like", $code);
-    $(this).switchClass("actor_like","actor_liked");
+    if ($is_login) {
+      $code = $(this).attr('id');
+      check_movie("actor_like", $code);
+      $(this).switchClass("actor_like","actor_liked");
 
-    $obj =  $(".actor_like_count[id='"+$code+"']");
-    $obj.text(parseInt($obj.text()) + 1);
-
+      $obj =  $(".actor_like_count[id='"+$code+"']");
+      $obj.text(parseInt($obj.text()) + 1);
+    } else {
+      popup_login();
+    }
     return false;
   });
 
   $(document).on("click", "a.actor_liked", function() {
-    $code = $(this).attr('id');
-    check_movie("actor_like", $code);
-    $(this).switchClass("actor_liked","actor_like");
+    if ($is_login) {
+      $code = $(this).attr('id');
+      check_movie("actor_like", $code);
+      $(this).switchClass("actor_liked","actor_like");
 
-    $obj =  $(".actor_like_count[id='"+$code+"']");
-    $obj.text(parseInt($obj.text()) - 1);
-
+      $obj =  $(".actor_like_count[id='"+$code+"']");
+      $obj.text(parseInt($obj.text()) - 1);
+    } else {
+      popup_login();
+    }
     return false;
   });
 
   $(document).on("click", "a.actor_dislike", function() {
-    $code = $(this).attr('id');
-    check_movie("actor_dislike", $code);
-    $(this).switchClass("actor_dislike","actor_disliked");
+    if ($is_login) {
+      $code = $(this).attr('id');
+      check_movie("actor_dislike", $code);
+      $(this).switchClass("actor_dislike","actor_disliked");
 
-    $obj =  $(".actor_dislike_count[id='"+$code+"']");
-    $obj.text(parseInt($obj.text()) + 1);
-
+      $obj =  $(".actor_dislike_count[id='"+$code+"']");
+      $obj.text(parseInt($obj.text()) + 1);
+    } else {
+      popup_login();
+    }
     return false;
   });
 
   $(document).on("click", "a.actor_disliked", function() {
-    $code = $(this).attr('id');
-    check_movie("actor_dislike", $code);
-    $(this).switchClass("actor_disliked","actor_dislike");
+    if ($is_login) {
+      $code = $(this).attr('id');
+      check_movie("actor_dislike", $code);
+      $(this).switchClass("actor_disliked","actor_dislike");
 
-    $obj =  $(".actor_dislike_count[id='"+$code+"']");
-    $obj.text(parseInt($obj.text()) - 1);
-
+      $obj =  $(".actor_dislike_count[id='"+$code+"']");
+      $obj.text(parseInt($obj.text()) - 1);
+    } else {
+      popup_login();
+    }
     return false;
   });
 
   // director
   $(document).on("click", "a.director_like", function() {
-    $code = $(this).attr('id');
-    check_movie("director_like", $code);
-    $(this).switchClass("director_like","director_liked");
+    if ($is_login) {
+      $code = $(this).attr('id');
+      check_movie("director_like", $code);
+      $(this).switchClass("director_like","director_liked");
+
+      $obj =  $(".director_dislike_count[id='"+$code+"']");
+      $obj.text(parseInt($obj.text()) + 1);
+    } else {
+      popup_login();
+    }
     return false;
   });
 
   $(document).on("click", "a.director_liked", function() {
-    $code = $(this).attr('id');
-    check_movie("director_like", $code);
-    $(this).switchClass("director_liked","director_like");
+    if ($is_login) {
+      $code = $(this).attr('id');
+      check_movie("director_like", $code);
+      $(this).switchClass("director_liked","director_like");
+
+      $obj =  $(".director_dislike_count[id='"+$code+"']");
+      $obj.text(parseInt($obj.text()) - 1);
+    } else {
+      popup_login();
+    }
     return false;
   });
 
   $(document).on("click", "a.director_dislike", function() {
-    $code = $(this).attr('id');
-    check_movie("director_dislike", $code);
-    $(this).switchClass("director_dislike","director_disliked");
+    if ($is_login) {
+      $code = $(this).attr('id');
+      check_movie("director_dislike", $code);
+      $(this).switchClass("director_dislike","director_disliked");
+
+      $obj =  $(".director_dislike_count[id='"+$code+"']");
+      $obj.text(parseInt($obj.text()) + 1);
+    } else {
+      popup_login();
+    }
     return false;
   });
 
   $(document).on("click", "a.director_disliked", function() {
-    $code = $(this).attr('id');
-    check_movie("director_dislike", $code);
-    $(this).switchClass("director_disliked","director_dislike");
+    if ($is_login) {
+      $code = $(this).attr('id');
+      check_movie("director_dislike", $code);
+      $(this).switchClass("director_disliked","director_dislike");
+
+      $obj =  $(".director_dislike_count[id='"+$code+"']");
+      $obj.text(parseInt($obj.text()) - 1);
+    } else {
+      popup_login();
+    }
     return false;
   });
 

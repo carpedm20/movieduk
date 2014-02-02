@@ -42,9 +42,29 @@ User = get_user_model()
 
 import datetime
 
+def social(request):
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+
+    users = DukUser.objects.all().exclude(username = username)
+
+    context = {"user":user, "users":users}
+
+    return render_to_response('account/social.html', context, RequestContext(request))
+
+  except:
+    for e in sys.exc_info():
+      print e
+    return HttpResponseRedirect('/')
+
 def profile(request):
   try:
     username = request.session['DukUser']
+
+    if request.GET.get('username'):
+      username = request.GET.get('username')
+
     user = DukUser.objects.get(username = username)
     ui = user.usermovie_set.all()[0]
 
@@ -133,6 +153,21 @@ def profile(request):
     for e in sys.exc_info():
       print e
     return HttpResponseRedirect('/')
+
+def is_login(request):
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+  except:
+    user = None
+
+  if user:
+    data = "true"
+  else:
+    data = "false"
+
+  mimetype = 'application/json'
+  return HttpResponse(data, mimetype)
 
 def check_movie(request):
   try:

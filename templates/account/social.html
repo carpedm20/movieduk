@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<ul id="info-list">
+  <li>
+    <h1> {{ user.username }} </h1>
+  </li>
+
+  <ul class="user_list">
+    <li>
+      <h2> All User </h2>
+    </li>
+    {% for u in users %}
+    <li>
+      <a href="/profile?username={{ u.username }}">{{ u.username }}</a>
+    </li>
+    {% endfor %}
+  <ul>
+  <ul class="profile_footer">
+    <div class="footer">
+      <p>Copyright © 2013 Kim Tae Hoon</p>
+      <p>Designed by carpedm20</p>
+    </div>
+  </ul>
+</ul>
+{% endblock content %}

@@ -30,6 +30,7 @@
 
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
 <link rel="stylesheet" href="/asset/colorbox.css" />
+<link rel="stylesheet" href="/asset/popup_login.css" />
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript">
 </script> <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
@@ -67,13 +68,15 @@
     <li><a href="/short">List</a></li>
     <li><a href="/rank">Rank</a></li>
     {% if request.session.DukUser %}
-      <li><a href="/account">Account</a></li>
+      <li><a href="/social">Social</a></li>
+      <li><a href="/profile">Profile</a></li>
       <li><a href="/logout">Sign Out</a></li>
     {% else %}
       <li>
         <a href="/login">Sign In/Up</a>
         <!--<a href="#" onClick="window.open('https://graph.facebook.com/oauth/authorize?client_id={{ settings.FACEBOOK_APP_ID }}&redirect_uri={{ settings.FACEBOOK_REDIRECT_URI }}&scope=publish_stream,email&display=popup','Facebook Login','width=546,height=346')">123</a>-->
       </li>
+      {% include "account/popup_login.html" %} 
     {% endif %}
     <li id="search-bar">
       <div class="ui-widget">
@@ -91,5 +94,18 @@
 <p>Copyright © 2013 Kim Tae Hoon</p>
 <p>Designed by carpedm20</p>
 </div>-->
-</html>
+ <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'movieduk'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    
 </body>
+</html>
