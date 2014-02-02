@@ -13,7 +13,7 @@
 
       <ul class="profile_movie_list">
       <img class="social_like_img" src="/asset/like.png"/>
-      <p class="social_like_count"> {{ u.like_count }} </p>
+      <p class="social_like_count"><a href="/profile?username={{ u.username }}">{{ u.like_count }}</a></p>
       <li><div class="social_like">
         {% if u.like_list != False %}
         <ol class="social_movie_thumb_list" id="left_thumb_list">
@@ -35,7 +35,7 @@
         {% endif %}
       </div></li>
       <img class="social_dislike_img" src="/asset/dislike.png"/>
-      <p class="social_dislike_count"> {{ u.dislike_count }} </p>
+      <p class="social_dislike_count"><a href="/profile?username={{ u.username }}">{{ u.dislike_count }}</a></p>
       <li><div class="social_dislike">
         {% if u.dislike_list != False %}
         <ol class="social_movie_thumb_list" id="left_thumb_list">
@@ -60,7 +60,7 @@
     </li>
     {% endfor %}
   <ul>
-  <ul class="profile_footer">
+  <ul class="profile_footer" style="margin-top:30px">
     <div class="footer">
       <p>Copyright © 2013 Kim Tae Hoon</p>
       <p>Designed by carpedm20</p>
