@@ -1,4 +1,4 @@
-{% for actor in actor_like %}
+{% for actor in actor_dislike %}
     <li class="actors" class="llistItemMovie">
       <div class="listImage">
         <div class="profile" style="background: url(/var/covers/small/10/100.jpg);">
@@ -14,12 +14,12 @@
           {% else %}
             <img src="http://static.naver.net/movie/2012/06/dft_img120x150.png"  width="111" height="139"/>
           {% endif %}
-          {% if m.am_list != False %}
+          {% if actor.am_list != False %}
           <h3 class="major-work">대표작</h3>
           <!--<div class="small_list">-->
           <ol class="movie_thumb_list" id="left_thumb_list">
-            {% for am in m.am_list %}
-            <li class="small_thumb_list_item" data-title="{{ m.title1 }}" style="display: list-item;">
+            {% for am in actor.am_list %}
+            <li class="small_thumb_list_item" data-title="{{ am.title1 }}" style="display: list-item;">
               <!--<div class="small_item">-->
               <div class="viewport">
                 <a href="/info/movie/{{ am.code }}">

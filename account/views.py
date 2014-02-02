@@ -65,12 +65,12 @@ def profile(request):
         for am in actor_movies:
           if am.poster_url != '':
             am_list.append({'poster_url':am.poster_url,'title1':am.title1,'code':am.code})
-          if len(am_list) == 9:
+          if len(am_list) == 8:
             break
         if len(am_list) == 0:
           am_list = False
 
-        m.am_list = am_list 
+        actor.am_list = am_list 
 
     context = {"user":user, "like":like, "dislike":dislike, "actor_like":actor_like, "actor_dislike":actor_dislike}
 
