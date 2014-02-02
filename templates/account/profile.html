@@ -1,19 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
-{{ title }}
 
-<p>
-{{ user.first_name }}
-</p>
-<p>
-{{ user.username }}
-</p>
-<p>
-{{ user.last_name }}
-</p>
-<p>
-{{ user.school }} 
-</p>
+<ul id="info-list">
+  <li>
+    <h1> {{ user.username }} </h1>
+  </li>
 
+  <ul class="like_list">
+    <li>
+      <h2> Movie like list </h2>
+    </li>
+    {% include "core/movie_like.html" %}
+  </ul>
+  <ul class="dislike_list">
+    <li>
+      <h2> Movie dislike list </h2>
+    </li>
+    {% include "core/movie_dislike.html" %}
+  </ul>
+  <ul class="actor_like_list">
+    <li>
+      <h2> Actor like list </h2>
+    </li>
+    {% include "core/actor_like.html" %}
+  </ul>
+  <ul class="actor_dislike_list">
+    <li>
+      <h2> Actor dislike list </h2>
+    </li>
+    {% include "core/actor_dislike.html" %}
+  </ul>
+
+  <ul class="profile_footer">
+    <div class="footer">
+      <p>Copyright © 2013 Kim Tae Hoon</p>
+      <p>Designed by carpedm20</p>
+    </div>
+  </ul>
+</ul>
 {% endblock content %}

@@ -48,7 +48,37 @@ def profile(request):
     user = DukUser.objects.get(username = username)
     ui = user.usermovie_set.all()[0]
 
+    like = ui.liked.all()
+    dislike = ui.disliked.all()
+    actor_like = ui.actor_liked.all()
+    actor_dislike = ui.actor_disliked.all()
+
+    for movie_list in [like, dislike]:
+      for m in movie_list:
+        m.director_list = m.directors.all()
+        m.main_list = m.main.all()[:1]
+
+    for actor_list in [actor_like, actor_dislike]:
+      for actor in actor_list:
+        actor_movies = Movie.objects.filter(main__actor__code = actor.code).order_by('-rank','-year')
+        am_list = []
+        for am in actor_movies:
+          if am.poster_url != '':
+            am_list.append({'poster_url':am.poster_url,'title1':am.title1,'code':am.code})
+          if len(am_list) == 9:
+            break
+        if len(am_list) == 0:
+          am_list = False
+
+        m.am_list = am_list 
+
+    context = {"user":user, "like":like, "dislike":dislike, "actor_like":actor_like, "actor_dislike":actor_dislike}
+
+    return render_to_response('account/profile.html', context)
+
   except:
+    for e in sys.exc_info():
+      print e
     return HttpResponseRedirect('/')
 
 def check_movie(request):

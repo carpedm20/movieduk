@@ -120,7 +120,23 @@ div {
 display: block;
 }
 
-a.like, a.liked, a.dislike, a.disliked {
+ul.like_list, ul.dislike_list, ul.actor_like_list, ul.actor_dislike_list, ul.profile_footer {
+width:45%;
+float:left;
+margin: 0, auto;
+-webkit-padding-start:2.5%; 
+}
+
+ ul.actor_like_list, ul.actor_dislike_list {
+width: 90%;
+}
+
+ul.profile_footer {
+width:90%;
+margin-top: 20px;
+}
+
+a.like, a.liked, a.dislike, a.disliked, a.actor_like, a.actor_liked, a.actor_dislike, a.actor_disliked {
 margin: -12px 0 0 0;
 width: 15px;
 height: 15px;
@@ -129,22 +145,22 @@ top: 50%;
 z-index: 20;
 }
 
-a.like {
+a.like, a.actor_like {
 background: url(/asset/like_fade.png) no-repeat;
 right: 22;
 }
 
-a.like:hover, a.liked {
+a.like:hover, a.liked, a.actor_like:hover, a.actor_liked {
 background: url(/asset/like.png) no-repeat;
 right: 22;
 }
 
-a.dislike {
+a.dislike, a.actor_dislike {
 background: url(/asset/dislike_fade.png) no-repeat;
 right: 0;
 }
 
-a.dislike:hover, a.disliked {
+a.dislike:hover, a.disliked, a.actor_dislike:hover, a.actor_disliked {
 background: url(/asset/dislike.png) no-repeat;
 right: 0;
 }

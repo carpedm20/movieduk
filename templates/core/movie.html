@@ -172,6 +172,16 @@
           {% else %}
             <br/>
           {% endif %}
+          {% if m.actor.like %}
+            <a href="#" class="actor_liked" id="{{ m.actor.code }}"><span></span></a>
+          {% else %}
+            <a href="#" class="actor_like" id="{{ m.actor.code }}"><span></span></a>
+          {% endif %}
+          {% if m.actor.dislike %}
+            <a href="#" class="actor_disliked" id="{{ m.actor.code }}"><span></span></a>
+          {% else %}
+            <a href="#" class="actor_dislike" id="{{ m.actor.code }}"><span></span></a>
+          {% endif %}
         </div>
       </div>
       {% if m.actor.like %}

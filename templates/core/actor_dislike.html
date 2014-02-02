@@ -1,0 +1,39 @@
+{% for actor in actor_like %}
+    <li class="actors" class="llistItemMovie">
+      <div class="listImage">
+        <div class="profile" style="background: url(/var/covers/small/10/100.jpg);">
+        <h2 class="actor-name">
+          <a href="/info/actor/{{actor.code}}">{{ actor.name }}</a>
+          {% if actor.en_name != '' %}
+            ({{ actor.en_name }})
+          {% endif %}
+          <!--<a href="{{ movie.detail_url }}" title ="{{ movie.title1 }}">{{ movie.title1 }} ({{ movie.title2 }} )</a>-->
+        </h2>
+          {% if actor.thumb_url %}
+            <img src="{{ actor.thumb_url }}" onerror="actorThumbError(this);"/>
+          {% else %}
+            <img src="http://static.naver.net/movie/2012/06/dft_img120x150.png"  width="111" height="139"/>
+          {% endif %}
+          {% if m.am_list != False %}
+          <h3 class="major-work">대표작</h3>
+          <!--<div class="small_list">-->
+          <ol class="movie_thumb_list" id="left_thumb_list">
+            {% for am in m.am_list %}
+            <li class="small_thumb_list_item" data-title="{{ m.title1 }}" style="display: list-item;">
+              <!--<div class="small_item">-->
+              <div class="viewport">
+                <a href="/info/movie/{{ am.code }}">
+                  <span class="dark-background">{{ am.title1 }}</span>
+                  <img src="{{ am.poster_url }}?type=n77_110_2" width="50" height="68"/>
+                </a>
+              </div>
+            </li>
+            {% endfor %}
+          <!--</div>-->
+          </ol>
+          {% else %}
+            <br/>
+          {% endif %}
+        </div>
+      </div>
+{% endfor %}

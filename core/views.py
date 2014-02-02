@@ -432,7 +432,7 @@ def movie_info(request, code):
         continue
       if am.poster_url != '':
         am_list.append({'poster_url':am.poster_url,'title1':am.title1,'code':am.code})
-      if len(am_list) == 10:
+      if len(am_list) == 9:
         break
     if len(am_list) == 0:
       am_list = False
