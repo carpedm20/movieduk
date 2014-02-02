@@ -3,17 +3,60 @@
 {% block content %}
 
 <ul id="info-list">
-  <li>
-    <h1> {{ user.username }} </h1>
-  </li>
-
-  <ul class="user_list">
+  <ul class="user_list" style="-webkit-padding-start: 0px;">
     <li>
-      <h2> All User </h2>
+      <h1> All User </h1>
     </li>
     {% for u in users %}
-    <li style="width:45%; float:left">
-      <a href="/profile?username={{ u.username }}">{{ u.username }}</a>
+    <li style="width:47%; float:left; text-align:center;">
+      <a href="/profile?username={{ u.username }}"><h2>{{ u.username }}</h2></a>
+
+      <ul class="profile_movie_list">
+      <img class="social_like_img" src="/asset/like.png"/>
+      <p class="social_like_count"> {{ u.like_count }} </p>
+      <li><div class="social_like">
+        {% if u.like_list != False %}
+        <ol class="social_movie_thumb_list" id="left_thumb_list">
+          {% for m in u.like_list %}
+          <li class="small_thumb_list_item" data-title="{{ m.title1 }}" style="display: list-item;">
+            <!--<div class="small_item">-->
+            <div class="viewport">
+              <a href="/info/movie/{{ m.code }}">
+                <span class="dark-background">{{ m.title1 }}</span>
+                <img src="{{ m.poster_url }}?type=n77_110_2" width="50" height="68"/>
+              </a>
+            </div>
+          </li>
+          {% endfor %}
+          <!--</div>-->
+        </ol>
+        {% else %}
+        <br/>
+        {% endif %}
+      </div></li>
+      <img class="social_dislike_img" src="/asset/dislike.png"/>
+      <p class="social_dislike_count"> {{ u.dislike_count }} </p>
+      <li><div class="social_dislike">
+        {% if u.dislike_list != False %}
+        <ol class="social_movie_thumb_list" id="left_thumb_list">
+          {% for m in u.dislike_list %}
+          <li class="small_thumb_list_item" data-title="{{ m.title1 }}" style="display: list-item;">
+            <!--<div class="small_item">-->
+            <div class="viewport">
+              <a href="/info/movie/{{ m.code }}">
+                <span class="dark-background">{{ m.title1 }}</span>
+                <img src="{{ m.poster_url }}?type=n77_110_2" width="50" height="68"/>
+              </a>
+            </div>
+          </li>
+          {% endfor %}
+          <!--</div>-->
+        </ol>
+        {% else %}
+        <br/>
+        {% endif %}
+      </div></li>
+      </ul>
     </li>
     {% endfor %}
   <ul>

@@ -150,6 +150,46 @@ top: 47%;
 z-index: 20;
 }
 
+div.social_like, div.social_dislike {
+width:100%;
+}
+
+ul.profile_movie_list {
+-webkit-padding-start: 10px;
+}
+
+ul.profile_movie_list li{
+border-bottom: 0;
+}
+
+p.social_like_count, p.social_dislike_count, img.social_like_img, img.social_dislike_img {
+width: 15px;
+height: 15px;
+position: absolute;
+top: 34%;
+z-index: 20;
+right: -0.6em;
+}
+
+p.social_dislike_count {
+top: 68%;
+right: -0.6em;
+}
+
+img.social_like_img {
+top: 42%;
+right: 1em;
+}
+
+img.social_dislike_img {
+top: 77%;
+right: 1em;
+}
+
+ol.social_movie_thumb_list {
+
+}
+
 a.like_count, a.actor_like_count, a.director_like_count {
 color:#3684de;
 top: 52%;

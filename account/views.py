@@ -42,6 +42,7 @@ User = get_user_model()
 
 import datetime
 
+LIKE_COUNT = 5
 
 def social(request):
   try:
@@ -49,6 +50,40 @@ def social(request):
     user = DukUser.objects.get(username = username)
 
     users = DukUser.objects.all().exclude(username = username)
+
+    for u in users:
+      ui = u.usermovie_set.all()[0]
+
+      u.like_count = len(ui.liked.all())
+      u.dislike_count = len(ui.disliked.all())
+
+      movies = ui.liked.all().order_by('?')
+
+      like_list = []
+      for m in movies:
+        if m.poster_url != '':
+          like_list.append({'poster_url':m.poster_url,'title1':m.title1,'code':m.code})
+        if len(like_list) == LIKE_COUNT:
+          break
+
+      if len(like_list) == 0:
+        like_list = False
+
+      u.like_list = like_list
+
+      movies = ui.disliked.all().order_by('?')
+
+      dislike_list = []
+      for m in movies:
+        if m.poster_url != '':
+          dislike_list.append({'poster_url':m.poster_url,'title1':m.title1,'code':m.code})
+        if len(dislike_list) == LIKE_COUNT:
+          break
+
+      if len(dislike_list) == 0:
+        dislike_list = False
+
+      u.dislike_list = dislike_list
 
     context = {"user":user, "users":users}
 
