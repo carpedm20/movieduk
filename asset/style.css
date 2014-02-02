@@ -160,29 +160,30 @@ ul.profile_movie_list {
 
 ul.profile_movie_list li{
 border-bottom: 0;
+margin-top: 10px;
 }
 
 p.social_like_count, p.social_dislike_count, img.social_like_img, img.social_dislike_img {
 width: 15px;
 height: 15px;
 position: absolute;
-top: 34%;
+top: 36%;
 z-index: 20;
 right: -0.6em;
 }
 
 p.social_dislike_count {
-top: 68%;
+top: 70%;
 right: -0.6em;
 }
 
 img.social_like_img {
-top: 42%;
+top: 44%;
 right: 1em;
 }
 
 img.social_dislike_img {
-top: 77%;
+top: 79%;
 right: 1em;
 }
 
@@ -552,6 +553,13 @@ width: 140px;
 
 #info-list {
 min-width: 690px;
+max-width: 740px;
+width: 75%;
+margin: 40 auto;
+}
+
+#social-list {
+max-width: 690px;
 width: 75%;
 margin: 40 auto;
 }
