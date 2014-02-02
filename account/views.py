@@ -34,21 +34,50 @@ from django.contrib.auth import authenticate, login, logout
 import sys
 
 from account.models import *
-from UserInfo.models import *
+from UserMovie.models import *
+from core.models import *
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
 import datetime
 
-def movie_like(request):
+def profile(request):
   try:
     user = request.session['DukUser']
+    ui = ca.usermovie_set.all()[0]
+
+  except:
+    return HttpResponseRedirect('/')
+
+def check_movie(request):
+  try:
+    user = request.session['DukUser']
+    ui = ca.usermovie_set.all()[0]
 
     if request.is_ajax() and request.method == "POST":
-      movieId = request.POST.get('movieId')
+      code = request.GET.get('code')
+      func = request.GET.get('func')
 
-      #if user.watched_movie.all()
+      if func == "like":
+        ui = ui.liked
+        m = Movie.objects.get(code = code)
+      elif func == "dislike":
+        ui = ui.disliked
+        m = Movie.objects.get(code = code)
+      elif func == "actor_like":
+        ui = ui.actor_liked
+        m = Actor.objects.get(code = code)
+      elif func == "actor_dislike":
+        ui = ui.actor_disliked
+        m = Actor.objects.get(code = code)
+
+      if m in ui.objects.all():
+        ui.remove(m)
+        data = "remove success : " + str(m)
+      else:
+        ui.add(m)
+        data = "add success : " + str(m)
 
     else:
       data = "fail"
@@ -78,9 +107,9 @@ def sign_in(request):
     password = request.POST['password']
     try:
       user = DukUser.objects.create(username=username,first_name='',last_name='',email='',last_login=datetime.datetime.now(),password=password)
-      ui = UserInfo()
-      user.userinfo_set = ui
-      user.asave()
+      ui = UserMovie()
+      user.usermovie_set.add(ui)
+      user.save()
       request.session['DukUser'] = user.username
       return HttpResponseRedirect('/')
     except:

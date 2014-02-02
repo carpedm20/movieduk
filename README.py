@@ -1,3 +1,10 @@
+sqlite3 movieduk.sqlite
+drop south_migrationhistory;
+drop table account_dukuser;
+...
+drop table userinfo_liked_list;
+...
+
 rm -rf account/migrations
 python manage.py schemamigration account --init
 python manage.py schemamigration account --auto
@@ -7,6 +14,30 @@ from account.models import *
 DukUser.objects.all()
 DukUser.objects.all()[0].delete()
 
+drop table UserInfo_userinfo;
+drop table UserInfo_userinfo_actor_disliked;
+drop table UserInfo_userinfo_actor_liked;
+drop table UserInfo_userinfo_director_disliked;
+drop table UserInfo_userinfo_director_liked;
+drop table UserInfo_userinfo_disliked;
+drop table UserInfo_userinfo_disliked_list;
+drop table UserInfo_userinfo_liked;
+drop table UserInfo_userinfo_liked_list;
+drop table UserInfo_userinfo_own_list;
+drop table UserInfo_userinfo_watched;
+drop table UserInfo_userinfo_watchlist;
+drop table UserMovie_userinfo;
+drop table UserMovie_userinfo_actor_disliked;
+drop table UserMovie_userinfo_actor_liked;
+drop table UserMovie_userinfo_director_disliked;
+drop table UserMovie_userinfo_director_liked;
+drop table UserMovie_userinfo_disliked;
+drop table UserMovie_userinfo_disliked_list;
+drop table UserMovie_userinfo_liked;
+drop table UserMovie_userinfo_liked_list;
+drop table UserMovie_userinfo_own_list;
+drop table UserMovie_userinfo_watched;
+drop table UserMovie_userinfo_watchlist;
 
 ######################
 # django-social-auth #

@@ -51,7 +51,6 @@ function check_movie(func, code) {
   $.ajax({
     type: "POST",
     url: $ajax_url,
-    data : formData,
     dataType: "json",
     success: function(data) {
     },
@@ -62,6 +61,64 @@ $(document).ready(function(){
   // initial state
   $("div.filtering").hide();
   $page = 0;
+
+  // movie
+  $(document).on("click", "a.like", function() {
+    $code = $(this).attr('id');
+    check_movie("like", $code);
+    $(this).switchClass("like","liked");
+    return false;
+  });
+
+  $(document).on("click", "a.liked", function() {
+    $code = $(this).attr('id');
+    check_movie("like", $code);
+    $(this).switchClass("liked","like");
+    return false;
+  });
+
+  $(document).on("click", "a.dislike", function() {
+    $code = $(this).attr('id');
+    check_movie("dislike", $code);
+    $(this).switchClass("dislike","disliked");
+    return false;
+  });
+
+  $(document).on("click", "a.dislike", function() {
+    $code = $(this).attr('id');
+    check_movie("dislike", $code);
+    $(this).switchClass("dislike","disliked");
+    return false;
+  });
+
+  // actor
+  $(document).on("click", "a.actor_like", function() {
+    $code = $(this).attr('id');
+    check_movie("actor_like", $code);
+    $(this).switchClass("actor_like","actor_liked");
+    return false;
+  });
+
+  $(document).on("click", "a.actor_liked", function() {
+    $code = $(this).attr('id');
+    check_movie("actor_like", $code);
+    $(this).switchClass("actor_liked","actor_like");
+    return false;
+  });
+
+  $(document).on("click", "a.actor_dislike", function() {
+    $code = $(this).attr('id');
+    check_movie("actor_dislike", $code);
+    $(this).switchClass("actor_dislike","actor_disliked");
+    return false;
+  });
+
+  $(document).on("click", "a.actor_dislike", function() {
+    $code = $(this).attr('id');
+    check_movie("actor_dislike", $code);
+    $(this).switchClass("actor_dislike","actor_disliked");
+    return false;
+  });
 
   // youtube
   $(".video").load("change", function() {
