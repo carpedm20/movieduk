@@ -181,6 +181,13 @@ def make_index_context(request, short=False):
   context = {'MEDIA_URL': MEDIA_URL, 'movies' : movies, 'title': title, 'infinite': "true"}
   return context
 
+def random(request):
+  random_movie = Movie.objects.exclude(poster_url='').order_by('?')[:300]
+
+  context = {"random_movie":random_movie}
+
+  return render_to_response('core/random.html', context, RequestContext(request))
+
 @csrf_exempt
 def index(request):
   context = make_index_context(request)

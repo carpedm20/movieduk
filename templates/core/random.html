@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<ul id="social-list">
+  <ul class="user_list" style="-webkit-padding-start: 0px;">
+    <li>
+      <h1> Random Movie </h1>
+    </li>
+    <li style="width:100%; float:left; text-align:center;">
+      <ul class="profile_movie_list">
+      <li><div class="social_like">
+        {% if random_movie != False %}
+        <ol class="social_movie_thumb_list" id="left_thumb_list">
+          {% for m in random_movie %}
+          <li class="small_thumb_list_item" data-title="{{ m.title1 }}" style="display: list-item;">
+            <!--<div class="small_item">-->
+            <div class="viewport">
+              <a href="/info/movie/{{ m.code }}">
+                <span class="dark-background">{{ m.title1 }}</span>
+                <img src="{{ m.poster_url }}?type=n77_110_2" width="50" height="68"/>
+              </a>
+            </div>
+          </li>
+          {% endfor %}
+          <!--</div>-->
+        </ol>
+        {% else %}
+        <br/>
+        {% endif %}
+      </div></li>
+    </li>
+  <ul>
+  <ul class="profile_footer" style="margin-top:30px">
+    <div class="footer">
+      <p>Copyright © 2013 Kim Tae Hoon</p>
+      <p>Designed by carpedm20</p>
+    </div>
+  </ul>
+</ul>
+{% endblock content %}

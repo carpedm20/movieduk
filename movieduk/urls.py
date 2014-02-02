@@ -35,6 +35,7 @@ urlpatterns = patterns('',
     url(r'^$', 'core.views.index'),
     url(r'^short', 'core.views.index_short'),
     url(r'^index$', 'core.views.index'),
+    url(r'^random', 'core.views.random', name='index'),
 
     url(r'^search/movie/(?P<option>\w+)', 'core.views.movie_search', name='movie_search'),
     url(r'^filter', 'core.views.movie_filter'),
