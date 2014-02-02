@@ -788,9 +788,9 @@ def get_search_list(request):
       user = None
 
     query = request.POST.get('query')
-    print query
+    #print query
     option = request.POST.get('option')
-    print option
+    #print option
     count = int(request.POST.get('count', '10'))
     page = int(request.POST.get('page', '0'))
 

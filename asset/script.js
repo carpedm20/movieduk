@@ -103,12 +103,32 @@ $(document).ready(function(){
   $('a.close, #mask').live('click', function() { 
     $('#mask , .login-popup').fadeOut(300 , function() {
       $('#mask').remove();  
-  })
+    });
+    return false;
+  });
 
   // like_count
   $(document).on("click", "a.like_count", function() {
-      return false;
-    });
+    return false;
+  });
+
+  $(document).on("click", "a.dislike_count", function() {
+    return false;
+  });
+
+  $(document).on("click", "a.actor_like_count", function() {
+    return false;
+  });
+
+  $(document).on("click", "a.actor_dislike_count", function() {
+    return false;
+  });
+
+  $(document).on("click", "a.director_like_count", function() {
+    return false;
+  });
+
+  $(document).on("click", "a.director_dislike_count", function() {
     return false;
   });
 
@@ -540,8 +560,8 @@ $(document).ready(function(){
       dataType: "json",
       success: function(data) {
         $(".topActor").remove();
-        for(var i = 0; i < 15; i++) {
-          $("#topActors").append("<li class='topActor'><a target='_blank' href='./info/actor/"+data[i+2].code+"'>"+data[i+2].name+"</a></li>");
+        for(var i = 0; i < 100; i++) {
+          $("#topActors").append("<li class='topActor'><a target='_blank' href='./info/actor/"+data[i+2].code+"'>"+"#"+(i+1)+" "+data[i+2].name+"</a></li>");
         }
         movie1 = data[0];
         $('#leftThumb').attr("src", movie1.thumb_url);
@@ -618,7 +638,7 @@ $(document).ready(function(){
     $.cookie("query", $query);
 
     //post_to_url("/", params, "post");
-    var url = "http://10.20.16.52:8001/search/movie/title?query=" + $query;
+    var url = "http://moza.us.to:8000/search/movie/title?query=" + $query;
     $(location).attr('href',url);
   });
 
@@ -630,7 +650,7 @@ $(document).ready(function(){
       $.cookie("query", $query);
 
       //post_to_url("/", params, "post");
-      var url = "http://10.20.16.52:8001/search/movie/title?query=" + $query;
+      var url = "http://moza.us.to:8000/search/movie/title?query=" + $query;
       $(location).attr('href',url);
     }
   });

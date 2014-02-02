@@ -18,7 +18,7 @@
   </div>
 </div>
 
-<form method="post">{% csrf_token %}
+<form id="choice-form" method="post">{% csrf_token %}
 <div id="choices-area">
   <div id="choice-left">                    
     <div id="movie-left" class="movie-info" style="display: block;">
@@ -58,11 +58,11 @@
       <input class="choice-button" type="button" choice="Left" value="왼쪽">
     </div>
   </div>
-  <div id="choice-divider">
+  <!--<div id="choice-divider">
     <div id="choice-middle">
       <input class="choice-button" type="button" value="몰라">
     </div>
-  </div>
+  </div>-->
   <div id="choice-right">            
     <div id="movie-right" class="movie-info" style="display: block;">
       <div id="thumb-right">

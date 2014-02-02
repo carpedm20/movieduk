@@ -9,36 +9,42 @@
 
   <ul class="like_list">
     <li>
+      <p class="profile_like_count">#{{ like | length }}</p>
       <h2> 좋아하는 영화 </h2>
     </li>
     {% include "core/movie_like.html" %}
   </ul>
   <ul class="dislike_list">
     <li>
-      <h2> 싫어하는 영화 </h2>
+      <p class="profile_like_count">#{{ dislike | length }}</p>
+      <h2> 싫어하는 영화 </h2> 
     </li>
     {% include "core/movie_dislike.html" %}
   </ul>
   <ul class="actor_like_list">
     <li>
+      <p class="profile_like_count">#{{ actor_like | length }}</p>
       <h2> 좋아하는 배우 </h2>
     </li>
     {% include "core/actor_like.html" %}
   </ul>
   <ul class="director_like_list">
     <li>
+      <p class="profile_like_count">#{{ director_like | length }}</p>
       <h2> 좋아하는 감독 </h2>
     </li>
     {% include "core/director_like.html" %}
   </ul>
   <ul class="actor_dislike_list">
     <li>
+      <p class="profile_like_count">#{{ actor_dislike | length }}</p>
       <h2> 싫어하는 배우 </h2>
     </li>
     {% include "core/actor_dislike.html" %}
   </ul>
   <ul class="director_dislike_list">
     <li>
+      <p class="profile_like_count">#{{ director_dislike | length }}</p>
       <h2> 싫어하는 감독 </h2>
     </li>
     {% include "core/director_dislike.html" %}

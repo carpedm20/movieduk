@@ -120,6 +120,11 @@ div {
 display: block;
 }
 
+.profile_like_count {
+float:right;
+margin-top:15px;
+}
+
 ul.like_list, ul.dislike_list, ul.actor_like_list, ul.actor_dislike_list, ul.profile_footer, ul.director_like_list, ul.director_dislike_list {
 width:45%;
 float:left;
@@ -141,19 +146,19 @@ margin: -12px 0 0 0;
 width: 15px;
 height: 15px;
 position: absolute;
-top: 50%;
+top: 47%;
 z-index: 20;
 }
 
 a.like_count, a.actor_like_count, a.director_like_count {
 color:#3684de;
-top: 55%;
+top: 52%;
 right: 21;
 }
 
 a.dislike_count, a.actor_dislike_count, a.director_dislike_count {
 color:#3684de;
-top: 55%;
+top: 52%;
 right: 0;
 }
 
@@ -217,10 +222,14 @@ text-align:center;
 width:75px;
 }
 
-div.index_item{
+div.index_item, div.index_item_short {
 display:block;
 overflow:auto;
 overflow: hidden;
+}
+
+div.index_item_short {
+width: 95%;
 }
 
 span.coverImage{
@@ -626,6 +635,12 @@ margin-right:10px;
     font-weight:700;
     padding:2px 12px;
     height:28px
+}
+
+#choice-form {
+position: fixed;
+margin-top: 120;
+margin-left: 50;
 }
 
 #choices-area {

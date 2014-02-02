@@ -42,6 +42,7 @@ User = get_user_model()
 
 import datetime
 
+
 def social(request):
   try:
     username = request.session['DukUser']

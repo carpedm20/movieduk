@@ -12,6 +12,9 @@ import json
 
 session_table = {}
 
+MOVIE_COUNT = 5
+RANK_COUNT = 100
+
 def index(request):
   global session_table
   if not request.session.get('has_session'):
@@ -27,12 +30,12 @@ def index(request):
     winner.rank += 1
 
   for actor in actors:
-    actor.movies = Movie.objects.filter(main__actor__code = int(actor.code)).exclude(poster_url = '')[:5]
+    actor.movies = Movie.objects.filter(main__actor__code = int(actor.code)).exclude(poster_url = '')[:MOVIE_COUNT]
     actor.thumb_url = actor.thumb_url[actor.thumb_url.index('&q=')+3:]
 
   session_table[request.session.session_key] = actors
 
-  rank = Actor.objects.order_by('-rank','-created_on')[:15]
+  rank = Actor.objects.order_by('-rank','-created_on')[:RANK_COUNT]
 
   context = {'actor1':actors[0], 'actor2':actors[1], 'rank':rank}
   return render_to_response('rank/index.html', context, RequestContext(request))
@@ -59,7 +62,7 @@ def get_rank(request):
     session_table[request.session.session_key] = actors
 
     for actor in actors:
-      actor.movies = Movie.objects.filter(main__actor__code = int(actor.code)).exclude(poster_url = '').order_by('-rank','-year')[:6]
+      actor.movies = Movie.objects.filter(main__actor__code = int(actor.code)).exclude(poster_url = '').order_by('-rank','-year')[:MOVIE_COUNT]
       actor.thumb_url = actor.thumb_url[actor.thumb_url.index('&q=')+3:]
 
       a_json = {}
@@ -77,7 +80,7 @@ def get_rank(request):
       a_json['en_name'] = actor.en_name
       results.append(a_json)
 
-    rank = Actor.objects.order_by('-rank','-created_on')[:15]
+    rank = Actor.objects.order_by('-rank','-created_on')[:RANK_COUNT]
 
     for index, r in enumerate(rank):
       r_json = {}
