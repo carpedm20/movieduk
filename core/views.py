@@ -646,7 +646,11 @@ def get_info(request):
 
 def make_list(request, short=False):
   if request.is_ajax() and request.method == "POST":
-    count = int(request.POST.get('count', '10'))
+    if short:
+      count = int(request.POST.get('count', '15'))
+    else:
+      count = int(request.POST.get('count', '10'))
+
     page = int(request.POST.get('page', '0'))
 
     #print "count : " + str(count) + ", page : " + str(page)
