@@ -1,24 +1,24 @@
-{% for actor in actor_dislike %}
-    <li class="actors" class="llistItemMovie">
+{% for director in director_like %}
+    <li class="directors" class="llistItemMovie">
       <div class="listImage">
         <div class="profile" style="background: url(/var/covers/small/10/100.jpg);">
-        <h2 class="actor-name">
-          <a href="/info/actor/{{actor.code}}">{{ actor.name }}</a>
-          {% if actor.en_name != '' %}
-            ({{ actor.en_name }})
+        <h2 class="director-name">
+          <a href="/info/director/{{director.code}}">{{ director.name }}</a>
+          {% if director.en_name != '' %}
+            ({{ director.en_name }})
           {% endif %}
           <!--<a href="{{ movie.detail_url }}" title ="{{ movie.title1 }}">{{ movie.title1 }} ({{ movie.title2 }} )</a>-->
         </h2>
-          {% if actor.thumb_url %}
-            <img src="{{ actor.thumb_url }}" onerror="actorThumbError(this);"/>
+          {% if director.thumb_url %}
+            <img src="{{ director.thumb_url }}" onerror="directorThumbError(this);"/>
           {% else %}
             <img src="http://static.naver.net/movie/2012/06/dft_img120x150.png"  width="111" height="139"/>
           {% endif %}
-          {% if actor.am_list != False %}
+          {% if director.dm_list != False %}
           <h3 class="major-work">대표작</h3>
           <!--<div class="small_list">-->
           <ol class="movie_thumb_list" id="left_thumb_list">
-            {% for am in actor.am_list %}
+            {% for am in director.dm_list %}
             <li class="small_thumb_list_item" data-title="{{ am.title1 }}" style="display: list-item;">
               <!--<div class="small_item">-->
               <div class="viewport">
@@ -34,15 +34,15 @@
           {% else %}
             <br/>
           {% endif %}
-          {% if actor.like %}
-            <a href="#" class="actor_liked" id="{{ actor.code }}"><span></span></a>
+          {% if director.like %}
+            <a href="#" class="director_liked" id="{{ director.code }}"><span></span></a>
           {% else %}
-            <a href="#" class="actor_like" id="{{ actor.code }}"><span></span></a>
+            <a href="#" class="director_like" id="{{ director.code }}"><span></span></a>
           {% endif %}
-          {% if actor.dislike %}
-            <a href="#" class="actor_disliked" id="{{ actor.code }}"><span></span></a>
+          {% if director.dislike %}
+            <a href="#" class="director_disliked" id="{{ director.code }}"><span></span></a>
           {% else %}
-            <a href="#" class="actor_dislike" id="{{ actor.code }}"><span></span></a>
+            <a href="#" class="director_dislike" id="{{ director.code }}"><span></span></a>
           {% endif %}
         </div>
       </div>

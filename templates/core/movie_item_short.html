@@ -23,11 +23,13 @@
         {% else %}
           <a href="#" class="like" id="{{ movie.code }}"><span></span></a>
         {% endif %}
+        <a href="#" class="like_count" id="{{ movie.code }}">{{ movie.like_count }}</a>
         {% if movie.dislike %}
           <a href="#" class="disliked" id="{{ movie.code }}"><span></span></a>
         {% else %}
           <a href="#" class="dislike" id="{{ movie.code }}"><span></span></a>
         {% endif %}
+        <a href="#" class="dislike_count" id="{{ movie.code }}">{{ movie.dislike_count }}</a>
       </span>
       <span class="small_info">
         <h2>

@@ -164,6 +164,9 @@ def make_index_context(request, short=False):
     if m.poster_url == '':
       m.poster_url = False
 
+    m.like_count = len(DukUser.objects.filter(usermovie__liked = m))
+    m.dislike_count = len(DukUser.objects.filter(usermovie__disliked = m))
+
     if user:
       if m in ui.liked.all():
         m.like = True
@@ -404,7 +407,28 @@ def movie_info(request, code):
   directors = movie.directors.all()
   mains = movie.main.all()
 
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
+  except:
+    user = None
+
   for d in directors:
+    d.like_count = len(DukUser.objects.filter(usermovie__director_liked = d))
+    d.dislike_count = len(DukUser.objects.filter(usermovie__director_disliked = d))
+
+    if user:
+      if d in ui.director_liked.all():
+        d.like= True
+      else:
+        d.like = False
+
+      if d in ui.director_disliked.all():
+        d.dislike = True
+      else:
+        d.dislike = False
+
     director_movies = Movie.objects.filter(directors__code = d.code).order_by('-rank','-year')
     dm_list = []
     for dm in director_movies:
@@ -424,6 +448,20 @@ def movie_info(request, code):
     #ac.rank += 0.1
     #ac.save()
 
+    ac.like_count = len(DukUser.objects.filter(usermovie__actor_liked = ac))
+    ac.dislike_count = len(DukUser.objects.filter(usermovie__actor_disliked = ac))
+
+    if user:
+      if ac in ui.actor_liked.all():
+        ac.like= True
+      else:
+        ac.like = False
+
+      if ac in ui.actor_disliked.all():
+        ac.dislike = True
+      else:
+        ac.dislike = False
+
     # popular movie for actor
     actor_movies = Movie.objects.filter(main__actor__code = m.actor.code).order_by('-rank','-year')
     am_list = []
@@ -434,6 +472,7 @@ def movie_info(request, code):
         am_list.append({'poster_url':am.poster_url,'title1':am.title1,'code':am.code})
       if len(am_list) == 9:
         break
+
     if len(am_list) == 0:
       am_list = False
     m.am_list = am_list
@@ -600,6 +639,9 @@ def make_list(request, short=False):
     for m in movies:
       m.director_list = m.directors.all()
       m.main_list = m.main.all()
+
+      m.like_count = len(DukUser.objects.filter(usermovie__liked = m))
+      m.dislike_count = len(DukUser.objects.filter(usermovie__disliked = m))
 
       if m.poster_url != '':
         url = m.poster_url

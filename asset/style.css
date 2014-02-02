@@ -120,14 +120,14 @@ div {
 display: block;
 }
 
-ul.like_list, ul.dislike_list, ul.actor_like_list, ul.actor_dislike_list, ul.profile_footer {
+ul.like_list, ul.dislike_list, ul.actor_like_list, ul.actor_dislike_list, ul.profile_footer, ul.director_like_list, ul.director_dislike_list {
 width:45%;
 float:left;
 margin: 0, auto;
 -webkit-padding-start:2.5%; 
 }
 
- ul.actor_like_list, ul.actor_dislike_list {
+ul.actor_like_list, ul.actor_dislike_list, ul.director_like_list, ul.director_dislike_list {
 width: 90%;
 }
 
@@ -136,7 +136,7 @@ width:90%;
 margin-top: 20px;
 }
 
-a.like, a.liked, a.dislike, a.disliked, a.actor_like, a.actor_liked, a.actor_dislike, a.actor_disliked {
+a.like_count, a.dislike_count, a.actor_like_count, a.director_like_count, a.actor_dislike_count, a.director_dislike_count, a.like, a.liked, a.dislike, a.disliked, a.actor_like, a.actor_liked, a.actor_dislike, a.actor_disliked, a.director_like, a.director_liked, a.director_dislike, a.director_disliked {
 margin: -12px 0 0 0;
 width: 15px;
 height: 15px;
@@ -145,22 +145,47 @@ top: 50%;
 z-index: 20;
 }
 
-a.like, a.actor_like {
+a.like_count, a.actor_like_count, a.director_like_count {
+color:#3684de;
+top: 55%;
+right: 21;
+}
+
+a.dislike_count, a.actor_dislike_count, a.director_dislike_count {
+color:#3684de;
+top: 55%;
+right: 0;
+}
+
+a.actor_like_count, a.director_like_count, a.actor_dislike_count, a.director_dislike_count {
+width: 11px;
+top:59%;
+}
+
+.coverImageShort a.like_count,.coverImageShort a.dislike_count {
+top: 64%
+}
+
+a.director_like, a.director_liked, a.director_dislike, a.director_disliked {
+top:60%;
+}
+
+a.like, a.actor_like, a.director_like {
 background: url(/asset/like_fade.png) no-repeat;
 right: 22;
 }
 
-a.like:hover, a.liked, a.actor_like:hover, a.actor_liked {
+a.like:hover, a.liked, a.actor_like:hover, a.actor_liked, a.director_like:hover, a.director_liked {
 background: url(/asset/like.png) no-repeat;
 right: 22;
 }
 
-a.dislike, a.actor_dislike {
+a.dislike, a.actor_dislike, a.director_dislike {
 background: url(/asset/dislike_fade.png) no-repeat;
 right: 0;
 }
 
-a.dislike:hover, a.disliked, a.actor_dislike:hover, a.actor_disliked {
+a.dislike:hover, a.disliked, a.actor_dislike:hover, a.actor_disliked, a.director_dislike:hover, a.director_disliked {
 background: url(/asset/dislike.png) no-repeat;
 right: 0;
 }
@@ -724,7 +749,7 @@ position: absolute;
 text-align: center;
 text-decoration: none;
 width: 77;
-margin-top: 44;
+margin-top: 45;
 margin-left: -9.5;
 }
 

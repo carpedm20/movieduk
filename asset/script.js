@@ -67,6 +67,10 @@ $(document).ready(function(){
     $code = $(this).attr('id');
     check_movie("like", $code);
     $(this).switchClass("like","liked");
+
+    $obj =  $(".like_count[id='"+$code+"']");
+    $obj.text(parseInt($obj.text()) + 1);
+
     return false;
   });
 
@@ -74,6 +78,10 @@ $(document).ready(function(){
     $code = $(this).attr('id');
     check_movie("like", $code);
     $(this).switchClass("liked","like");
+
+    $obj =  $(".like_count[id='"+$code+"']");
+    $obj.text(parseInt($obj.text()) - 1);
+
     return false;
   });
 
@@ -81,6 +89,10 @@ $(document).ready(function(){
     $code = $(this).attr('id');
     check_movie("dislike", $code);
     $(this).switchClass("dislike","disliked");
+
+    $obj =  $(".dislike_count[id='"+$code+"']");
+    $obj.text(parseInt($obj.text()) + 1);
+
     return false;
   });
 
@@ -88,6 +100,10 @@ $(document).ready(function(){
     $code = $(this).attr('id');
     check_movie("dislike", $code);
     $(this).switchClass("disliked","dislike");
+
+    $obj =  $(".dislike_count[id='"+$code+"']");
+    $obj.text(parseInt($obj.text()) - 1);
+
     return false;
   });
 
@@ -96,6 +112,10 @@ $(document).ready(function(){
     $code = $(this).attr('id');
     check_movie("actor_like", $code);
     $(this).switchClass("actor_like","actor_liked");
+
+    $obj =  $(".actor_like_count[id='"+$code+"']");
+    $obj.text(parseInt($obj.text()) + 1);
+
     return false;
   });
 
@@ -103,6 +123,10 @@ $(document).ready(function(){
     $code = $(this).attr('id');
     check_movie("actor_like", $code);
     $(this).switchClass("actor_liked","actor_like");
+
+    $obj =  $(".actor_like_count[id='"+$code+"']");
+    $obj.text(parseInt($obj.text()) - 1);
+
     return false;
   });
 
@@ -110,6 +134,10 @@ $(document).ready(function(){
     $code = $(this).attr('id');
     check_movie("actor_dislike", $code);
     $(this).switchClass("actor_dislike","actor_disliked");
+
+    $obj =  $(".actor_dislike_count[id='"+$code+"']");
+    $obj.text(parseInt($obj.text()) + 1);
+
     return false;
   });
 
@@ -117,6 +145,39 @@ $(document).ready(function(){
     $code = $(this).attr('id');
     check_movie("actor_dislike", $code);
     $(this).switchClass("actor_disliked","actor_dislike");
+
+    $obj =  $(".actor_dislike_count[id='"+$code+"']");
+    $obj.text(parseInt($obj.text()) - 1);
+
+    return false;
+  });
+
+  // director
+  $(document).on("click", "a.director_like", function() {
+    $code = $(this).attr('id');
+    check_movie("director_like", $code);
+    $(this).switchClass("director_like","director_liked");
+    return false;
+  });
+
+  $(document).on("click", "a.director_liked", function() {
+    $code = $(this).attr('id');
+    check_movie("director_like", $code);
+    $(this).switchClass("director_liked","director_like");
+    return false;
+  });
+
+  $(document).on("click", "a.director_dislike", function() {
+    $code = $(this).attr('id');
+    check_movie("director_dislike", $code);
+    $(this).switchClass("director_dislike","director_disliked");
+    return false;
+  });
+
+  $(document).on("click", "a.director_disliked", function() {
+    $code = $(this).attr('id');
+    check_movie("director_dislike", $code);
+    $(this).switchClass("director_disliked","director_dislike");
     return false;
   });
 

@@ -50,16 +50,40 @@ def profile(request):
 
     like = ui.liked.all()
     dislike = ui.disliked.all()
+
     actor_like = ui.actor_liked.all()
     actor_dislike = ui.actor_disliked.all()
+
+    director_like = ui.director_liked.all()
+    director_dislike = ui.director_disliked.all()
 
     for movie_list in [like, dislike]:
       for m in movie_list:
         m.director_list = m.directors.all()
         m.main_list = m.main.all()[:1]
 
+        if m in like:
+          m.like = True
+        else:
+          m.like = False
+
+        if m in dislike:
+          m.dislike = True
+        else:
+          m.dislike = False
+
     for actor_list in [actor_like, actor_dislike]:
       for actor in actor_list:
+        if actor in actor_like:
+          actor.like = True
+        else:
+          actor.like = False
+
+        if actor in actor_dislike:
+          actor.dislike = True
+        else:
+          actor.dislike = False
+
         actor_movies = Movie.objects.filter(main__actor__code = actor.code).order_by('-rank','-year')
         am_list = []
         for am in actor_movies:
@@ -72,7 +96,30 @@ def profile(request):
 
         actor.am_list = am_list 
 
-    context = {"user":user, "like":like, "dislike":dislike, "actor_like":actor_like, "actor_dislike":actor_dislike}
+    for director_list in [director_like, director_dislike]:
+      for director in director_list:
+        if director in director_like:
+          director.like = True
+        else:
+          director.like = False
+
+        if director in director_dislike:
+          director.dislike = True
+        else:
+          director.dislike = False
+
+        director_movies = Movie.objects.filter(directors__code = director.code).order_by('-rank','-year')
+        dm_list = []
+        for dm in director_movies:
+          if dm.poster_url != '':
+            dm_list.append({'poster_url':dm.poster_url,'title1':dm.title1,'code':dm.code})
+          if len(dm_list) == 10:
+            break
+        if len(dm_list) == 0:
+          dm_list = False
+        director.dm_list = dm_list
+
+    context = {"user":user, "like":like, "dislike":dislike, "actor_like":actor_like, "actor_dislike":actor_dislike, "director_like":director_like, "director_dislike":director_dislike}
 
     return render_to_response('account/profile.html', context)
 
@@ -103,6 +150,12 @@ def check_movie(request):
       elif func == "actor_dislike":
         ui = ui.actor_disliked
         m = Actor.objects.get(code = code)
+      elif func == "director_like":
+        ui = ui.director_liked
+        m = Director.objects.get(code = code)
+      elif func == "director_dislike":
+        ui = ui.director_disliked
+        m = Director.objects.get(code = code)
 
       if m in ui.all():
         ui.remove(m)
