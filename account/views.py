@@ -42,6 +42,7 @@ User = get_user_model()
 
 import datetime
 
+MOVIE_COUNT = 8
 LIKE_COUNT = 5
 
 def social(request):
@@ -148,7 +149,7 @@ def profile(request):
         for am in actor_movies:
           if am.poster_url != '':
             am_list.append({'poster_url':am.poster_url,'title1':am.title1,'code':am.code})
-          if len(am_list) == 8:
+          if len(am_list) == MOVIE_COUNT:
             break
         if len(am_list) == 0:
           am_list = False
@@ -175,7 +176,7 @@ def profile(request):
         for dm in director_movies:
           if dm.poster_url != '':
             dm_list.append({'poster_url':dm.poster_url,'title1':dm.title1,'code':dm.code})
-          if len(dm_list) == 10:
+          if len(dm_list) == MOVIE_COUNT:
             break
         if len(dm_list) == 0:
           dm_list = False
