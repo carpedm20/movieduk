@@ -16,6 +16,16 @@
         {% else %}
           <img src="http://static.naver.net/movie/2012/06/dft_img203x290.png"/>
         {% endif %}
+        {% if movie.like %}
+          <a href="#" class="liked" id="{{ movie.code }}"><span></span></a>
+        {% else %}
+          <a href="#" class="like" id="{{ movie.code }}"><span></span></a>
+        {% endif %}
+        {% if movie.dislike %}
+          <a href="#" class="disliked" id="{{ movie.code }}"><span></span></a>
+        {% else %}
+          <a href="#" class="dislike" id="{{ movie.code }}"><span></span></a>
+        {% endif %}
       </span>
       <span class="info">
         <h2>
@@ -83,7 +93,6 @@
             </div>
           {% endif %}
         </div>
-        <a href="#" class="check" id="{{ movie.code }}"><span>Check</span></a>
       </span>
       <!--<ul class="tagList">
         <li>

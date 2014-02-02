@@ -174,8 +174,16 @@
           {% endif %}
         </div>
       </div>
-      <a href="#" class="actor-like" id="70254"><span>Like</span></a>
-      <a href="#" class="actor-hate" id="70254"><span>Hate</span></a>
+      {% if m.actor.like %}
+        <a href="#" class="actor-like" id="{{ m.actor.code }}"><span></span></a>
+      {% else %}
+        <a href="#" class="actor-liked" id="{{ m.actor.code }}"><span></span></a>
+      {% endif %}
+      {% if m.actor.dislike %}
+        <a href="#" class="actor-dislike" id="{{ m.actor.code }}"><span></span></a>
+      {% else %}
+        <a href="#" class="actor-disliked" id="{{ m.actor.code }}"><span></span></a>
+      {% endif %}
       <span class="info">
       </span>
       <!--<ul class="tagList">
