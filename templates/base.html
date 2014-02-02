@@ -72,7 +72,7 @@
     <li><a href="/rank">Rank</a></li>
     {% if request.session.DukUser %}
       <li><a href="/social">Social</a></li>
-      <li><a href="/profile">Profile</a></li>
+      <li><a href="/profile/{{ request.session.DukUser }}">Profile</a></li>
       <li><a href="/logout">Sign Out</a></li>
     {% else %}
       <li>

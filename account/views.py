@@ -95,12 +95,14 @@ def social(request):
       print e
     return HttpResponseRedirect('/')
 
-def profile(request):
+def profile(request, un):
   try:
     username = request.session['DukUser']
+    login_user = DukUser.objects.get(username = username)
+    login_ui = login_user.usermovie_set.all()[0]
 
-    if request.GET.get('username'):
-      username = request.GET.get('username')
+    if un:
+      username = un
 
     user = DukUser.objects.get(username = username)
     ui = user.usermovie_set.all()[0]
@@ -119,12 +121,12 @@ def profile(request):
         m.director_list = m.directors.all()[:1]
         m.main_list = m.main.all()[:1]
 
-        if m in like:
+        if m in login_ui.liked.all():
           m.like = True
         else:
           m.like = False
 
-        if m in dislike:
+        if m in login_ui.disliked.all():
           m.dislike = True
         else:
           m.dislike = False
@@ -134,12 +136,12 @@ def profile(request):
         actor.like_count = len(DukUser.objects.filter(usermovie__actor_liked = actor))
         actor.dislike_count = len(DukUser.objects.filter(usermovie__actor_disliked = actor))
 
-        if actor in actor_like:
+        if actor in login_ui.actor_liked.all():
           actor.like = True
         else:
           actor.like = False
 
-        if actor in actor_dislike:
+        if actor in login_ui.actor_disliked.all():
           actor.dislike = True
         else:
           actor.dislike = False
@@ -161,12 +163,12 @@ def profile(request):
         director.like_count = len(DukUser.objects.filter(usermovie__director_liked = director))
         director.dislike_count = len(DukUser.objects.filter(usermovie__director_disliked = director))
 
-        if director in director_like:
+        if director in login_ui.director_liked.all():
           director.like = True
         else:
           director.like = False
 
-        if director in director_dislike:
+        if director in login_ui.director_disliked.all():
           director.dislike = True
         else:
           director.dislike = False

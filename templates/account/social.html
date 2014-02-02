@@ -9,7 +9,7 @@
     </li>
     {% for u in users %}
     <li style="width:47%; float:left; text-align:center;">
-      <a href="/profile?username={{ u.username }}"><h2>{{ u.username }}</h2></a>
+      <a href="/profile/{{ u.username }}"><h2>{{ u.username }}</h2></a>
 
       <ul class="profile_movie_list">
       <img class="social_like_img" src="/asset/like.png"/>

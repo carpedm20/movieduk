@@ -23,7 +23,7 @@ urlpatterns = patterns('',
 
     url(r'^api/is_login', 'account.views.is_login', name='is_login'),
     url(r'^api/check_movie', 'account.views.check_movie', name='check_movie'),
-    url(r'^profile', 'account.views.profile', name='profile'),
+    url(r'^profile/(?P<un>.*)', 'account.views.profile', name='profile'),
     url(r'^social', 'account.views.social', name='social'),
 
     #url(r'', include('social_auth.urls')),
