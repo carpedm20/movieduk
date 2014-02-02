@@ -59,7 +59,7 @@ def profile(request):
 
     for movie_list in [like, dislike]:
       for m in movie_list:
-        m.director_list = m.directors.all()
+        m.director_list = m.directors.all()[:1]
         m.main_list = m.main.all()[:1]
 
         if m in like:
@@ -74,6 +74,9 @@ def profile(request):
 
     for actor_list in [actor_like, actor_dislike]:
       for actor in actor_list:
+        actor.like_count = len(DukUser.objects.filter(usermovie__actor_liked = actor))
+        actor.dislike_count = len(DukUser.objects.filter(usermovie__actor_disliked = actor))
+
         if actor in actor_like:
           actor.like = True
         else:
@@ -98,6 +101,9 @@ def profile(request):
 
     for director_list in [director_like, director_dislike]:
       for director in director_list:
+        director.like_count = len(DukUser.objects.filter(usermovie__director_liked = director))
+        director.dislike_count = len(DukUser.objects.filter(usermovie__director_disliked = director))
+
         if director in director_like:
           director.like = True
         else:
@@ -121,7 +127,7 @@ def profile(request):
 
     context = {"user":user, "like":like, "dislike":dislike, "actor_like":actor_like, "actor_dislike":actor_dislike, "director_like":director_like, "director_dislike":director_dislike}
 
-    return render_to_response('account/profile.html', context)
+    return render_to_response('account/profile.html', context, RequestContext(request))
 
   except:
     for e in sys.exc_info():
@@ -141,27 +147,37 @@ def check_movie(request):
       if func == "like":
         ui = ui.liked
         m = Movie.objects.get(code = code)
+        calc = 1
       elif func == "dislike":
         ui = ui.disliked
         m = Movie.objects.get(code = code)
+        calc = -1
       elif func == "actor_like":
         ui = ui.actor_liked
         m = Actor.objects.get(code = code)
+        calc = 1
       elif func == "actor_dislike":
         ui = ui.actor_disliked
         m = Actor.objects.get(code = code)
+        calc = -1
       elif func == "director_like":
         ui = ui.director_liked
         m = Director.objects.get(code = code)
+        calc = 1
       elif func == "director_dislike":
         ui = ui.director_disliked
         m = Director.objects.get(code = code)
+        calc = -1
 
       if m in ui.all():
         ui.remove(m)
+        m.rank -= calc
+        m.save()
         data = "[" + str(func) + "] remove success : " + str(m)
       else:
         ui.add(m)
+        m.rank += calc
+        m.save()
         data = "[" + str(func) + "] add success : " + str(m)
       #print ui.all()
 

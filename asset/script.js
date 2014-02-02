@@ -62,6 +62,11 @@ $(document).ready(function(){
   $("div.filtering").hide();
   $page = 0;
 
+  // like_count
+  $(document).on("click", "a.like_count", function() {
+    return false;
+  });
+
   // movie
   $(document).on("click", "a.like", function() {
     $code = $(this).attr('id');

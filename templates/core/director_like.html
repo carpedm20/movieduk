@@ -39,11 +39,13 @@
           {% else %}
             <a href="#" class="director_like" id="{{ director.code }}"><span></span></a>
           {% endif %}
+          <a href="#" class="director_like_count" id="{{ director.code }}">{{ director.like_count }}</a>
           {% if director.dislike %}
             <a href="#" class="director_disliked" id="{{ director.code }}"><span></span></a>
           {% else %}
             <a href="#" class="director_dislike" id="{{ director.code }}"><span></span></a>
           {% endif %}
+          <a href="#" class="director_dislike_count" id="{{ drector.code }}">{{ director.dislike_count }}</a>
         </div>
       </div>
 {% endfor %}

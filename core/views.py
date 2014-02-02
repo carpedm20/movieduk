@@ -755,7 +755,6 @@ def make_list(request, short=False):
         else:
           m.dislike = False
 
-
     context = {'MEDIA_URL': MEDIA_URL, 'movies' : movies}
 
     html = t.render(Context(context))
@@ -823,6 +822,9 @@ def get_search_list(request):
     t = Template(r)
 
     for m in movies:
+      m.like_count = len(DukUser.objects.filter(usermovie__liked = m))
+      m.dislike_count = len(DukUser.objects.filter(usermovie__disliked = m))
+
       if user:
         if m in ui.liked.all():
           m.like= True

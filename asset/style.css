@@ -162,6 +162,10 @@ width: 11px;
 top:59%;
 }
 
+a.director_like_count, a.director_dislike_count {
+top:67%;
+}
+
 .coverImageShort a.like_count,.coverImageShort a.dislike_count {
 top: 64%
 }

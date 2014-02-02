@@ -126,11 +126,13 @@
           {% else %}
             <a href="#" class="director_like" id="{{ d.code }}"><span></span></a>
           {% endif %}
+          <a href="#" class="director_like_count" id="{{ d.code }}">{{ d.like_count }}</a>
           {% if m.actor.dislike %}
             <a href="#" class="director_disliked" id="{{ d.code }}"><span></span></a>
           {% else %}
             <a href="#" class="director_dislike" id="{{ d.code }}"><span></span></a>
           {% endif %}
+          <a href="#" class="director_dislike_count" id="{{ d.code }}">{{ d.dislike_count }}</a>
         </div>
       </div>
     </li>

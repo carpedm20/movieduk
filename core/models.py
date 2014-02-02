@@ -133,6 +133,9 @@ class Director(models.Model):
   en_name = models.CharField(max_length=20, null=True, blank=True)
   code = models.IntegerField(null=True, blank=True)
 
+  rank = models.IntegerField(null=False, default = 0)
+  previous_rank = models.IntegerField(null=False, default = 0)
+
   def __unicode__(self):
     return u"%s" % self.name
 
