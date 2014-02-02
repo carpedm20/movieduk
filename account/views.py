@@ -34,6 +34,7 @@ from django.contrib.auth import authenticate, login, logout
 import sys
 
 from account.models import *
+from UserInfo.models import *
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -76,11 +77,16 @@ def sign_in(request):
     username = request.POST['username']
     password = request.POST['password']
     try:
-      user = DukUser.objects.get_or_create(username=username,first_name='',last_name='',email='',last_login=datetime.datetime.now(),password=password)
+      user = DukUser.objects.create(username=username,first_name='',last_name='',email='',last_login=datetime.datetime.now(),password=password)
+      ui = UserInfo()
+      user.userinfo_set = ui
+      user.asave()
+      request.session['DukUser'] = user.username
+      return HttpResponseRedirect('/')
     except:
       try:
         user = DukUser.objects.get(username=username, password=password)
-        request.session['DukUser'] = user
+        request.session['DukUser'] = user.username
       except:
         context['message'] = "Wrong password!"
         return render_to_response('account/login.html', context)
@@ -95,7 +101,7 @@ def sign_in(request):
   except:
     for e in sys.exc_info():
       print e
-    z = 123
+    sign_out(request)
 
   return render_to_response('account/login.html', context)
 
@@ -103,6 +109,7 @@ def sign_in(request):
     return HttpResponseRedirect('/')
 
   # I DON'T KNOW!!!
+  """
   if request.GET:    
     if 'code' in request.GET:        
       args = {
@@ -143,7 +150,7 @@ def sign_in(request):
   template_context = {'settings': settings, 'error': error, 'title' : title}
   print error
   return render_to_response('account/login.html', template_context, context_instance=RequestContext(request))
-
+  """
 def sign_up(request):
   title = "sign up"
   if request.user.is_authenticated():

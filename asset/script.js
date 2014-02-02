@@ -46,11 +46,22 @@ function randomItem(a) {
   return a[Math.floor(Math.random() * a.length)];
 };
 
+function check_movie(func, code) {
+  $ajax_url = "/api/check_movie?func" + func + "&code=" + code;
+  $.ajax({
+    type: "POST",
+    url: $ajax_url,
+    data : formData,
+    dataType: "json",
+    success: function(data) {
+    },
+  });
+}
+
 $(document).ready(function(){
   // initial state
   $("div.filtering").hide();
   $page = 0;
-
 
   // youtube
   $(".video").load("change", function() {

@@ -9,8 +9,6 @@ admin.autodiscover()
 
 from movieduk import settings
 
-from account.facebook import facebook_view
-
 urlpatterns = patterns('',
     #(r'^account/', include('account.urls')),
     (r'^media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
@@ -23,11 +21,12 @@ urlpatterns = patterns('',
     url(r'^rank', 'rank.views.index', name='index'),
     url(r'^api/get_rank/', 'rank.views.get_rank', name='get_rank'),
 
+    url(r'^api/check_movie', 'account.views.check_movie', name='check_movie'),
+    url(r'^account', 'account.views.profile', name='profile'),
+
     #url(r'', include('social_auth.urls')),
     url(r'^login', 'account.views.sign_in'),
-    url(r'^facebook/login', 'account.views.sign_in'),
     url(r'^logout', 'account.views.sign_out'),
-    url(r'^join', 'account.views.sign_up', name='login'),
 
     url(r'^admin/', include(admin.site.urls)),
 

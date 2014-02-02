@@ -120,52 +120,33 @@ div {
 display: block;
 }
 
+a.like, a.liked, a.dislike, a.disliked {
+margin: -12px 0 0 0;
+width: 15px;
+height: 15px;
+position: absolute;
+top: 50%;
+z-index: 20;
+}
+
 a.like {
-margin: -12px 0 0 0;
-position: absolute;
-right: 100;
-top: 50%;
-z-index: 20;
+background: url(/asset/like_fade.png) no-repeat;
+right: 22;
 }
 
-a.watch {
-margin: -12px 0 0 0;
-position: absolute;
-right: 46;
-top: 50%;
-z-index: 20;
+a.like:hover, a.liked {
+background: url(/asset/like.png) no-repeat;
+right: 22;
 }
 
-a.check {
-margin: -12px 0 0 0;
-position: absolute;
+a.dislike {
+background: url(/asset/dislike_fade.png) no-repeat;
 right: 0;
-top: 50%;
-z-index: 20;
 }
 
-a.actor-like {
-margin: -12px 0 0 0;
-position: absolute;
-right: 46;
-top: 50%;
-z-index: 20;
-}
-
-a.actor-hate {
-margin: -12px 0 0 0;
-position: absolute;
+a.dislike:hover, a.disliked {
+background: url(/asset/dislike.png) no-repeat;
 right: 0;
-top: 50%;
-z-index: 20;
-}
-
-img.short{
-display: inline-block;
-height: 60px;
-margin-left: 0px;
-margin-top: 0px;
-width: 48px;
 }
 
 span.small_info h2 {
@@ -531,7 +512,7 @@ background-size: 15px;
 }
 
 .text-container {
-  width: 95%;
+  width: 93%;
 }
 
 #story1 {
