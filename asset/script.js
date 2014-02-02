@@ -254,7 +254,7 @@ $(document).ready(function(){
       check_movie("director_like", $code);
       $(this).switchClass("director_like","director_liked");
 
-      $obj =  $(".director_dislike_count[id='"+$code+"']");
+      $obj =  $(".director_like_count[id='"+$code+"']");
       $obj.text(parseInt($obj.text()) + 1);
     } else {
       popup_login();
@@ -268,7 +268,7 @@ $(document).ready(function(){
       check_movie("director_like", $code);
       $(this).switchClass("director_liked","director_like");
 
-      $obj =  $(".director_dislike_count[id='"+$code+"']");
+      $obj =  $(".director_like_count[id='"+$code+"']");
       $obj.text(parseInt($obj.text()) - 1);
     } else {
       popup_login();
