@@ -47,9 +47,9 @@ function randomItem(a) {
 };
 
 function check_movie(func, code) {
-  $ajax_url = "/api/check_movie?func" + func + "&code=" + code;
+  $ajax_url = "/api/check_movie?func=" + func + "&code=" + code;
   $.ajax({
-    type: "POST",
+    type: "GET",
     url: $ajax_url,
     dataType: "json",
     success: function(data) {
@@ -84,10 +84,10 @@ $(document).ready(function(){
     return false;
   });
 
-  $(document).on("click", "a.dislike", function() {
+  $(document).on("click", "a.disliked", function() {
     $code = $(this).attr('id');
     check_movie("dislike", $code);
-    $(this).switchClass("dislike","disliked");
+    $(this).switchClass("disliked","dislike");
     return false;
   });
 
@@ -113,10 +113,10 @@ $(document).ready(function(){
     return false;
   });
 
-  $(document).on("click", "a.actor_dislike", function() {
+  $(document).on("click", "a.actor_disliked", function() {
     $code = $(this).attr('id');
     check_movie("actor_dislike", $code);
-    $(this).switchClass("actor_dislike","actor_disliked");
+    $(this).switchClass("actor_disliked","actor_dislike");
     return false;
   });
 

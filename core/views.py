@@ -19,6 +19,8 @@ from django.conf import settings
 
 import urllib
 
+from account.models import *
+
 # youtube
 from apiclient.discovery import build
 from apiclient.errors import HttpError
@@ -140,6 +142,13 @@ def make_index_context(request, short=False):
   except:
      movies = Movie.objects.exclude(year='xxxx').order_by('-rank','-year')[:10]
 
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
+  except:
+    user = None
+
   for m in movies:
     m.director_list = m.directors.all()
     m.main_list = m.main.all()
@@ -154,6 +163,17 @@ def make_index_context(request, short=False):
 
     if m.poster_url == '':
       m.poster_url = False
+
+    if user:
+      if m in ui.liked.all():
+        m.like = True
+      else:
+        m.like = False
+
+      if m in ui.disliked.all():
+        m.dislike = True
+      else:
+        m.dislike = False
 
   context = {'MEDIA_URL': MEDIA_URL, 'movies' : movies, 'title': title, 'infinite': "true"}
   return context
@@ -570,6 +590,13 @@ def make_list(request, short=False):
     r = f.read()
     t = Template(r)
 
+    try:
+      username = request.session['DukUser']
+      user = DukUser.objects.get(username = username)
+      ui = user.usermovie_set.all()[0]
+    except:
+      user = None
+
     for m in movies:
       m.director_list = m.directors.all()
       m.main_list = m.main.all()
@@ -583,6 +610,18 @@ def make_list(request, short=False):
 
       if m.poster_url == '':
         m.poster_url = False
+
+      if user:
+        if m in ui.liked.all():
+          m.like = True
+        else:
+          m.like = False
+
+        if m in ui.disliked.all():
+          m.dislike = True
+        else:
+          m.dislike = False
+
 
     context = {'MEDIA_URL': MEDIA_URL, 'movies' : movies}
 

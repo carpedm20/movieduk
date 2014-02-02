@@ -44,18 +44,20 @@ import datetime
 
 def profile(request):
   try:
-    user = request.session['DukUser']
-    ui = ca.usermovie_set.all()[0]
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
 
   except:
     return HttpResponseRedirect('/')
 
 def check_movie(request):
   try:
-    user = request.session['DukUser']
-    ui = ca.usermovie_set.all()[0]
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
 
-    if request.is_ajax() and request.method == "POST":
+    if request.is_ajax() and request.method == "GET":
       code = request.GET.get('code')
       func = request.GET.get('func')
 
@@ -72,18 +74,22 @@ def check_movie(request):
         ui = ui.actor_disliked
         m = Actor.objects.get(code = code)
 
-      if m in ui.objects.all():
+      if m in ui.all():
         ui.remove(m)
-        data = "remove success : " + str(m)
+        data = "[" + str(func) + "] remove success : " + str(m)
       else:
         ui.add(m)
-        data = "add success : " + str(m)
+        data = "[" + str(func) + "] add success : " + str(m)
+      #print ui.all()
 
     else:
       data = "fail"
   except:
+    for e in sys.exc_info():
+      print e
     data = "fail"
 
+  print data
   mimetype = 'application/json'
   return HttpResponse(data, mimetype)
 
@@ -106,21 +112,22 @@ def sign_in(request):
     username = request.POST['username']
     password = request.POST['password']
     try:
-      user = DukUser.objects.create(username=username,first_name='',last_name='',email='',last_login=datetime.datetime.now(),password=password)
-      ui = UserMovie()
-      user.usermovie_set.add(ui)
-      user.save()
+      user = DukUser.objects.get(username=username, password=password)
       request.session['DukUser'] = user.username
+
       return HttpResponseRedirect('/')
     except:
       try:
-        user = DukUser.objects.get(username=username, password=password)
-        request.session['DukUser'] = user.username
-      except:
+        user = DukUser.objects.get(username=username)
         context['message'] = "Wrong password!"
         return render_to_response('account/login.html', context)
-
-    return HttpResponseRedirect('/')
+      except:
+        user = DukUser.objects.create(username=username,first_name='',last_name='',email='',last_login=datetime.datetime.now(),password=password)
+        ui = UserMovie()
+        user.usermovie_set.add(ui)
+        user.save()
+        request.session['DukUser'] = user.username
+        return HttpResponseRedirect('/')
 
   try:
     if user is not None:
