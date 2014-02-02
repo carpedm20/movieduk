@@ -305,6 +305,13 @@ def movie_search(request, option = "title"):
 
   M = Movie.objects.all().exclude(year='xxxx')
 
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
+  except:
+    user = None
+
   if option == 'title':
     movies = M.filter(title1__contains=query).order_by('-rank','-year')[:10]
   elif option == 'year':
@@ -319,6 +326,20 @@ def movie_search(request, option = "title"):
   for m in movies:
     m.director_list = m.directors.all()
     m.main_list = m.main.all()
+
+    m.like_count = len(DukUser.objects.filter(usermovie__liked = m))
+    m.dislike_count = len(DukUser.objects.filter(usermovie__disliked = m))
+
+    if user:
+      if m in ui.liked.all():
+        m.like= True
+      else:
+        m.like = False
+
+      if m in ui.disliked.all():
+        m.dislike = True
+      else:
+        m.dislike = False
 
     if m.poster_url != '':
       #print " =====================> " + m.poster_url
@@ -343,13 +364,48 @@ def movie_search(request, option = "title"):
 def director_info(request, code):
   title = "DIRECTOR PROFILE"
 
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
+  except:
+    user = None
+
   director = Director.objects.get(code = int(code))
   movies = Movie.objects.filter(directors = director).order_by('-rank','-year')
+
+  director.like_count = len(DukUser.objects.filter(usermovie__director_liked = director))
+  director.dislike_count = len(DukUser.objects.filter(usermovie__director_disliked = director))
+
+  if user:
+    if director in ui.director_liked.all():
+      director.like= True
+    else:
+      director.like = False
+
+    if director in ui.director_disliked.all():
+      director.dislike = True
+    else:
+      director.dislike = False
 
   if director.thumb_url == "":
     director.thumb_url = False
 
   for m in movies:
+    m.like_count = len(DukUser.objects.filter(usermovie__liked = m))
+    m.dislike_count = len(DukUser.objects.filter(usermovie__liked = m))
+
+    if user:
+      if m in ui.liked.all():
+        m.like = True
+      else:
+        m.like = False
+
+      if m in ui.disliked.all():
+        m.dislike = True
+      else:
+        m.dislike = False
+
     m.director_list = m.directors.all()
     m.main_list = m.main.all()
 
@@ -371,10 +427,31 @@ def director_info(request, code):
 def actor_info(request, code):
   title = "Actor PROFILE"
 
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
+  except:
+    user = None
+
   actor = Actor.objects.get(code = int(code))
   actor.rank += 1
   actor.save()
   #print actor.rank
+
+  actor.like_count = len(DukUser.objects.filter(usermovie__actor_liked = actor))
+  actor.dislike_count = len(DukUser.objects.filter(usermovie__actor_disliked = actor))
+
+  if user:
+    if actor in ui.actor_liked.all():
+      actor.like= True
+    else:
+      actor.like = False
+
+    if actor in ui.actor_disliked.all():
+      actor.dislike = True
+    else:
+      actor.dislike = False
 
   movies = Movie.objects.filter(main__actor__code = int(code)).order_by('-rank','-year')
 
@@ -382,8 +459,22 @@ def actor_info(request, code):
     actor.thumb_url = False
 
   for m in movies:
+    m.like_count = len(DukUser.objects.filter(usermovie__liked = m))
+    m.dislike_count = len(DukUser.objects.filter(usermovie__disliked = m))
+
     m.director_list = m.directors.all()
     m.main_list = m.main.all()
+
+    if user:
+      if m in ui.liked.all():
+        m.like = True
+      else:
+        m.like = False
+
+      if m in ui.disliked.all():
+        m.dislike = True
+      else:
+        m.dislike = False
 
     if m.poster_url != '':
       url = m.poster_url
@@ -690,6 +781,13 @@ def get_list(request):
 @csrf_exempt
 def get_search_list(request):
   if request.is_ajax() and request.method == "POST":
+    try:
+      username = request.session['DukUser']
+      user = DukUser.objects.get(username = username)
+      ui = user.usermovie_set.all()[0]
+    except:
+      user = None
+
     query = request.POST.get('query')
     print query
     option = request.POST.get('option')
@@ -725,6 +823,17 @@ def get_search_list(request):
     t = Template(r)
 
     for m in movies:
+      if user:
+        if m in ui.liked.all():
+          m.like= True
+        else:
+          m.like = False
+
+        if m in ui.disliked.all():
+          m.dislike = True
+        else:
+          m.dislike = False
+
       m.director_list = m.directors.all()
       m.main_list = m.main.all()
 
