@@ -31,6 +31,7 @@ urlpatterns = patterns('',
     url(r'^logout', 'account.views.sign_out'),
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^movieduk', 'core.views.movieduk'),
 
     url(r'^$', 'core.views.index'),
     url(r'^short', 'core.views.index_short'),

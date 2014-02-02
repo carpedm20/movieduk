@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div style="margin: 0 auto; position: relative; margin-top: 70px;">
+  <h2 style="text-align:center;"> MovieDuk Status </h2>
+  <ul style="-webkit-padding-start: 0px;">
+    <li> # of Movie : 94,515 </li>
+    <li> # of Actor : 186,945 </li>
+    <li> # of Director : 46,963 </li>
+    <li> # of Movie main character : 596,883 </li>
+    <li> # of Movie sub character : 245,953 </li>
+    <li> # of User : {{ user_count }} </li>
+  </ul>
+
+  <ul style="-webkit-padding-start: 0px;">
+    <li> # of Movie-Character relation : 842,836 </li>
+    <li> # of Actor-Character relation : 245,953 </li> 
+    <li> # of Director-Movie relation : 324,0447 </li>
+    <li> # of User-{Movie, Actor, Director} relation : {{ user_movie }} </li>
+  </ul>
+</div>
+
+{% endblock content %}

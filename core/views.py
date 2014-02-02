@@ -181,6 +181,17 @@ def make_index_context(request, short=False):
   context = {'MEDIA_URL': MEDIA_URL, 'movies' : movies, 'title': title, 'infinite': "true"}
   return context
 
+def movieduk(request):
+  count = 0
+
+  for u in DukUser.objects.all():
+    ui = u.usermovie_set.all()[0]
+    count += len(ui.liked.all()) + len(ui.disliked.all()) + len(ui.actor_liked.all()) + len(ui.actor_disliked.all()) + len(ui.director_liked.all()) + len(ui.director_disliked.all())
+
+  context = {"user_count": len(DukUser.objects.all()), "user_movie":count}
+
+  return render_to_response('core/movieduk.html', context, RequestContext(request))
+
 def random(request):
   random_movie = Movie.objects.exclude(poster_url='').order_by('?')[:300]
 
