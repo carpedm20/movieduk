@@ -18,6 +18,7 @@
 naver_detail/config.py
 naver_detail/tmp
 venv
+build
 tmp
 scrapy
 movieduk/localsettings.py
@@ -30,3 +31,5 @@ asset/video
 *.mkv
 .*
 *migrations*
+*migrations
+json

@@ -7,6 +7,18 @@ movieduk
 
 ![alt tag](http://3.bp.blogspot.com/-t7bieVkf3GM/UsvEeRDc-WI/AAAAAAAACJ4/LZNAOexShWg/s1600/movie.png)
 
+Installation
+============
+
+    pip install -r requirements.txt
+
+
+Run server
+==========
+
+    python manage.py runserver 0.0.0.0:8000
+
+
 Enjoy your Movies, movieduks!
 
 Copyright (c) 2013 Kim Tae Hoon
