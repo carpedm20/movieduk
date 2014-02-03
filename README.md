@@ -1,5 +1,4 @@
-movieduk
-========
+# MovieDuk #
 
 ![alt tag](http://3.bp.blogspot.com/-HPuWEuWE8sI/Upd3dMZRU8I/AAAAAAAAB54/0MQGPHMEg7Q/s640/movieduk.png)
 
@@ -7,18 +6,18 @@ movieduk
 
 ![alt tag](http://3.bp.blogspot.com/-t7bieVkf3GM/UsvEeRDc-WI/AAAAAAAACJ4/LZNAOexShWg/s1600/movie.png)
 
-Installation
-============
+
+## What is MovieDuk ##
+
+Enjoy your Movies, movieduks!
+
+
+## How to start ##
 
     pip install -r requirements.txt
-
-
-Run server
-==========
-
     python manage.py runserver 0.0.0.0:8000
 
 
-Enjoy your Movies, movieduks!
+## Copyright ##
 
 Copyright (c) 2013 Kim Tae Hoon
