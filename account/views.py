@@ -125,6 +125,9 @@ def profile(request, un):
     login_user = DukUser.objects.get(username = username)
     login_ui = login_user.usermovie_set.all()[0]
 
+    login_like = login_ui.liked.all()
+    login_dislike = login_ui.disliked.all()
+
     if un:
       username = un
 
@@ -173,12 +176,12 @@ def profile(request, un):
         actor_movies = Movie.objects.filter(main__actor__code = actor.code).order_by('-rank','-year')
         am_list = []
         for am in actor_movies:
-          if am in like:
+          if am in login_like:
             am.small_liked = True
           else:
             am.small_liked = False
 
-          if am in dislike:
+          if am in login_dislike:
             am.small_disliked = True
           else:
             am.small_disliked = False

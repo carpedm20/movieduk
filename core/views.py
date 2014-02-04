@@ -602,7 +602,10 @@ def movie_info(request, code):
       if dm == movie:
         continue
       if dm.poster_url != '':
-        dm_list.append({'poster_url':dm.poster_url,'title1':dm.title1,'code':dm.code, 'small_liked':dm.small_liked, 'small_disliked':dm.small_disliked})
+        try:
+          dm_list.append({'poster_url':dm.poster_url,'title1':dm.title1,'code':dm.code, 'small_liked':dm.small_liked, 'small_disliked':dm.small_disliked})
+        except:
+          dm_list.append({'poster_url':dm.poster_url,'title1':dm.title1,'code':dm.code})
       if len(dm_list) == 10:
         break
     if len(dm_list) == 0:
@@ -647,7 +650,10 @@ def movie_info(request, code):
       if am == movie:
         continue
       if am.poster_url != '':
-        am_list.append({'poster_url':am.poster_url,'title1':am.title1,'code':am.code, 'small_liked':am.small_liked, 'small_disliked':am.small_disliked})
+        try:
+          am_list.append({'poster_url':am.poster_url,'title1':am.title1,'code':am.code, 'small_liked':am.small_liked, 'small_disliked':am.small_disliked})
+        except:
+          am_list.append({'poster_url':am.poster_url,'title1':am.title1,'code':am.code })
       if len(am_list) == 9:
         break
 
