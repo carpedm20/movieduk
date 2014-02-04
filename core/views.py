@@ -192,8 +192,48 @@ def movieduk(request):
 
   return render_to_response('core/movieduk.html', context, RequestContext(request))
 
+# Check whether user have checked movie or not
+def check_account(username, movies):
+  user = DukUser.objects.get(username = username)
+  ui = user.usermovie_set.all()[0]
+
+  like = ui.liked.all()
+  dislike = ui.disliked.all()
+
+  print movies
+
+  for m in movies:
+    if m in like or m in dislike:
+      m.checked = True
+      print username + " : " + str(m)
+
+  return movies
+
 def random(request):
-  random_movie = Movie.objects.exclude(poster_url='').order_by('?')[:300]
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
+
+    like = ui.liked.all()
+    dislike = ui.disliked.all()
+
+  except:
+    user = None
+
+  random_movie = Movie.objects.exclude(poster_url='').order_by('?')[:204]
+
+  if user:
+    for m in random_movie:
+      if m in like:
+        m.small_liked = True
+      else:
+        m.small_liked = False
+
+      if m in dislike:
+        m.small_disliked = True
+      else:
+        m.small_disliked = False
 
   context = {"random_movie":random_movie}
 
@@ -520,6 +560,13 @@ def movie_info(request, code):
     username = request.session['DukUser']
     user = DukUser.objects.get(username = username)
     ui = user.usermovie_set.all()[0]
+
+    director_like = ui.director_liked.all()
+    director_dislike = ui.director_disliked.all()
+
+    user_like_list = ui.liked.all()
+    user_dislike_list = ui.disliked.all()
+
   except:
     user = None
 
@@ -528,12 +575,12 @@ def movie_info(request, code):
     d.dislike_count = len(DukUser.objects.filter(usermovie__director_disliked = d))
 
     if user:
-      if d in ui.director_liked.all():
+      if d in director_like:
         d.like= True
       else:
         d.like = False
 
-      if d in ui.director_disliked.all():
+      if d in director_dislike:
         d.dislike = True
       else:
         d.dislike = False
@@ -541,10 +588,21 @@ def movie_info(request, code):
     director_movies = Movie.objects.filter(directors__code = d.code).order_by('-rank','-year')
     dm_list = []
     for dm in director_movies:
+      if user:
+        if dm in user_like_list:
+           dm.small_liked = True
+        else:
+           dm.small_liked = False
+
+        if dm in user_dislike_list:
+           dm.small_disliked = True
+        else:
+           dm.small_disliked = False
+
       if dm == movie:
         continue
       if dm.poster_url != '':
-        dm_list.append({'poster_url':dm.poster_url,'title1':dm.title1,'code':dm.code})
+        dm_list.append({'poster_url':dm.poster_url,'title1':dm.title1,'code':dm.code, 'small_liked':dm.small_liked, 'small_disliked':dm.small_disliked})
       if len(dm_list) == 10:
         break
     if len(dm_list) == 0:
@@ -575,10 +633,21 @@ def movie_info(request, code):
     actor_movies = Movie.objects.filter(main__actor__code = m.actor.code).order_by('-rank','-year')
     am_list = []
     for am in actor_movies:
+      if user:
+        if am in user_like_list:
+          am.small_liked = True
+        else:
+          am.small_liked = False
+
+        if am in user_dislike_list:
+          am.small_disliked = True
+        else:
+          am.small_disliked = False
+
       if am == movie:
         continue
       if am.poster_url != '':
-        am_list.append({'poster_url':am.poster_url,'title1':am.title1,'code':am.code})
+        am_list.append({'poster_url':am.poster_url,'title1':am.title1,'code':am.code, 'small_liked':am.small_liked, 'small_disliked':am.small_disliked})
       if len(am_list) == 9:
         break
 

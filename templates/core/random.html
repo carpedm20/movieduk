@@ -15,7 +15,13 @@
           {% for m in random_movie %}
           <li class="small_thumb_list_item" data-title="{{ m.title1 }}" style="display: list-item;">
             <!--<div class="small_item">-->
-            <div class="viewport">
+            {% if m.small_liked %}
+              <div class="viewport user_liked">
+            {% elif m.small_disliked %}
+              <div class="viewport user_disliked">
+            {% else %}
+              <div class="viewport">
+            {% endif %}
               <a href="/info/movie/{{ m.code }}">
                 <span class="dark-background">{{ m.title1 }}</span>
                 <img src="{{ m.poster_url }}?type=n77_110_2" width="50" height="68"/>

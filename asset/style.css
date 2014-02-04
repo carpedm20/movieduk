@@ -820,6 +820,17 @@ margin-top: 45;
 margin-left: -9.5;
 }
 
+.user_liked, .user_disliked{
+border: 4px solid;
+border-color: #3F97FF;
+margin-top: -3;
+margin-left: -4;
+}
+
+.user_disliked {
+border-color: #ff9c34;
+}
+
 div #actor-career {
 text-align: center;
 }

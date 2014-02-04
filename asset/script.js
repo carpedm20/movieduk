@@ -621,6 +621,7 @@ $(document).ready(function(){
   });
 
   $('.viewport').mouseenter(function(e) {
+    $(this).css('border-width', '0');
     $(this).children('a').children('img').animate({ height: '110', marginLeft: '-9.5', marginTop: '-18', width: '77'}, 0);
     $(this).children('a').children('span').fadeIn(0);
     $(this).children('a').css('position', 'relative');
@@ -629,7 +630,9 @@ $(document).ready(function(){
     $(this).children('a').children('img').animate({ height: '68', marginLeft: '0', marginTop: '0', width: '50'}, 0);
     $(this).children('a').children('span').fadeOut(0);
     $(this).children('a').css('z-index', -1);
-  });
+  }).mouseleave(function(e) {
+    $(this).css('border-width','4px');
+  });;
 
   $(".fake_search_btn input").click(function() {
     var $query = $("input[name='searchBox']").val();

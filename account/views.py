@@ -49,6 +49,10 @@ def social(request):
   try:
     username = request.session['DukUser']
     user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
+
+    like = ui.liked.all()
+    dislike = ui.disliked.all()
 
     users = DukUser.objects.all().exclude(username = username)
 
@@ -62,8 +66,18 @@ def social(request):
 
       like_list = []
       for m in movies:
+        if m in like:
+          m.small_liked = True
+        else:
+          m.small_liked = False
+
+        if m in dislike:
+          m.small_disliked = True
+        else:
+          m.small_disliked = False
+
         if m.poster_url != '':
-          like_list.append({'poster_url':m.poster_url,'title1':m.title1,'code':m.code})
+          like_list.append({'poster_url':m.poster_url,'title1':m.title1,'code':m.code, 'small_liked':m.small_liked, 'small_disliked':m.small_disliked})
         if len(like_list) == LIKE_COUNT:
           break
 
@@ -76,8 +90,18 @@ def social(request):
 
       dislike_list = []
       for m in movies:
+        if m in like:
+          m.small_liked = True
+        else:
+          m.small_liked = False
+
+        if m in dislike:
+          m.small_disliked = True
+        else:
+          m.small_disliked = False
+
         if m.poster_url != '':
-          dislike_list.append({'poster_url':m.poster_url,'title1':m.title1,'code':m.code})
+          dislike_list.append({'poster_url':m.poster_url,'title1':m.title1,'code':m.code, 'small_liked':m.small_liked, 'small_disliked':m.small_disliked})
         if len(dislike_list) == LIKE_COUNT:
           break
 
@@ -149,8 +173,18 @@ def profile(request, un):
         actor_movies = Movie.objects.filter(main__actor__code = actor.code).order_by('-rank','-year')
         am_list = []
         for am in actor_movies:
+          if am in like:
+            am.small_liked = True
+          else:
+            am.small_liked = False
+
+          if am in dislike:
+            am.small_disliked = True
+          else:
+            am.small_disliked = False
+
           if am.poster_url != '':
-            am_list.append({'poster_url':am.poster_url,'title1':am.title1,'code':am.code})
+            am_list.append({'poster_url':am.poster_url,'title1':am.title1,'code':am.code, 'small_liked':am.small_liked, 'small_disliked':am.small_disliked})
           if len(am_list) == MOVIE_COUNT:
             break
         if len(am_list) == 0:
@@ -176,8 +210,18 @@ def profile(request, un):
         director_movies = Movie.objects.filter(directors__code = director.code).order_by('-rank','-year')
         dm_list = []
         for dm in director_movies:
+          if dm in like:
+            dm.small_liked = True
+          else:
+            dm.small_liked = False
+
+          if dm in dislike:
+            dm.small_disliked = True
+          else:
+            dm.small_disliked = False
+
           if dm.poster_url != '':
-            dm_list.append({'poster_url':dm.poster_url,'title1':dm.title1,'code':dm.code})
+            dm_list.append({'poster_url':dm.poster_url,'title1':dm.title1,'code':dm.code, 'small_liked':dm.small_liked, 'small_disliked':dm.small_disliked})
           if len(dm_list) == MOVIE_COUNT:
             break
         if len(dm_list) == 0:
