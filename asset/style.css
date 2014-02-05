@@ -611,6 +611,7 @@ width:90%;
 #actor-info-list, #director-info-list {
 width: 75%;
 min-width: 690px;
+max-width: 740px;
 margin-top: 70px;
 margin: 50 auto;
 }
