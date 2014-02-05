@@ -34,8 +34,6 @@ class Movie(models.Model):
   rank = models.IntegerField(null=False, default = 0)
   previous_rank = models.IntegerField(null=False, default = 0)
 
-  files = models.ManyToManyField('File')
-
   def __unicode__(self):
     return u"%s" % self.title1
 
@@ -49,21 +47,6 @@ class Movie(models.Model):
       return self.title2.replace(self.year, '<a href="/search/movie/year?query='+self.year+'">'+self.year+'</a>')
     else:
       return False
-
-class File(models.Model):
-  season = models.IntegerField(default = -1)
-  episode = models.IntegerField(default = -1)
-
-  directory = models.CharField(max_length=20, default='')
-  file_name = models.CharField(max_length=20, default='')
-
-  is_drama = models.BooleanField(default=False)
-
-  def __unicode__(self):
-    return self.directory + '/' + self.file_name
-
-  def get_full_path(self):
-    return 'asset/video/' + self.directory + '/' + self.file_name
 
 class Actor(models.Model):
   profile_url = models.CharField(max_length=50, null=True, blank=True)

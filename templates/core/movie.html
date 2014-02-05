@@ -10,10 +10,15 @@
 
 <ul id="info-list">
   <li style="text-align: center;">
+  <input id="movie_code" type="hidden" value="{{ movie.code }}"/>
   {% if movie.poster_url %}
     <img class="big-poster" src="{{ movie.poster_url }}" />
   {% endif %}
   </li>
+  <div id="filter-wrapper" style="float:right">
+    <button id="like_button">좋아요</button>
+    <button id="dislike_button">싫어요</button>
+  </div>
   <h2>
     {{ movie.title1 }} {% if movie.title2 != '' %}({{ movie.title2_with_link|escape|safe  }}){% endif %}
   </h2>
@@ -227,6 +232,10 @@
       </ul>-->
     </li>
   {% endfor %}
+<li>
+{% load jfutags %}
+{% jfu 'file/uploader.html' %}
+</li>
 <li style="margin-top:20px;">
     <div id="disqus_thread"></div>
     <script type="text/javascript">

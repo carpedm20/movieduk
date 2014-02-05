@@ -26,6 +26,51 @@ from apiclient.discovery import build
 from apiclient.errors import HttpError
 from oauth2client.tools import argparser
 
+# upload
+from django.core.urlresolvers import reverse
+from django.views.decorators.http import require_POST
+from jfu.http import upload_receive, UploadResponse, JFUResponse
+
+import os
+from file.models import File
+
+@require_POST
+def upload( request ):
+    file = upload_receive(request)
+
+    instance = File(file_field = file)
+    instance.save()
+
+    basename = os.path.basename( instance.file_field.file.name )
+    file_dict = {
+        'name' : basename,
+        'size' : instance.file_field.file.size,
+
+        # The assumption is that file_field is a FileField that saves to
+        # the 'media' directory.
+        'url': settings.MEDIA_URL + basename,
+        'thumbnail_url': settings.MEDIA_URL + basename,
+
+
+        'delete_url': reverse('jfu_delete', kwargs = { 'pk': instance.pk }),
+        'delete_type': 'POST',
+    }
+
+    return UploadResponse( request, file_dict )
+
+@require_POST
+def upload_delete( request, pk ):
+    # An example implementation.
+    success = True
+    try:
+        instance = YourUploadModel.objects.get( pk = pk )
+        os.unlink( instance.file_field.file.name )
+        instance.delete()
+    except YourUploadModel.DoesNotExist:
+        success = False
+
+    return JFUResponse( request, success )
+
 DEVELOPER_KEY = "AIzaSyDsEDIEMlR1A8ATswD9R7BpOeeDgxMJ6tU"
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"

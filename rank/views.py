@@ -31,7 +31,10 @@ def index(request):
 
   for actor in actors:
     actor.movies = Movie.objects.filter(main__actor__code = int(actor.code)).exclude(poster_url = '')[:MOVIE_COUNT]
-    actor.thumb_url = actor.thumb_url[actor.thumb_url.index('&q=')+3:]
+    try:
+      actor.thumb_url = actor.thumb_url[actor.thumb_url.index('&q=')+3:]
+    except:
+      continue
 
   session_table[request.session.session_key] = actors
 
