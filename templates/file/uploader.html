@@ -77,15 +77,14 @@ Bootstrap CSS Toolkit styles
     id="fileupload" action="{{ upload_handler_url }}" 
     method="POST" enctype="multipart/form-data"
 >
-
-    <script>
-      $('#fileupload').attr("action", $('#fileupload').attr("action") + $("#movie_code").attr('value'));
-    </script>
-    {% csrf_token %}
-
     {% comment %}
      carpedm20
     {% endcomment %}
+
+    <script>
+      $('#fileupload').attr("action", $('#fileupload').attr("action") +"?"+ $("#movie_code").attr('value'));
+    </script>
+    {% csrf_token %}
 
     {% comment %}
      Redirect browsers with JavaScript disabled to the origin page 
@@ -358,7 +357,6 @@ Bootstrap CSS Toolkit styles
 {% comment %}
  jQuery 
 {% endcomment %}
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 {% endblock %}
 
 {% block JS_JQUERY_UI_WIDGET %}

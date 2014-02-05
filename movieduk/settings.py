@@ -126,7 +126,7 @@ INSTALLED_APPS = (
     'rank',
     'account',
     'UserMovie',
-    'file',
+    'video',
     'jfu',
     #'social_auth',
     #'django_extensions', # for ER diagram

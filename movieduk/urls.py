@@ -26,7 +26,7 @@ urlpatterns = patterns('',
     url(r'^profile/(?P<un>.*)', 'account.views.profile', name='profile'),
     url(r'^social', 'account.views.social', name='social'),
 
-    url( r'upload/(?P<code>\d+)$', 'core.views.upload', name = 'jfu_upload' ),
+    url( r'upload$', 'core.views.upload', name = 'jfu_upload' ),
     url( r'^delete/(?P<pk>\d+)$', 'core.views.upload_delete', name = 'jfu_delete' ),
 
     #url(r'', include('social_auth.urls')),

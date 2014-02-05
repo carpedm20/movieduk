@@ -32,19 +32,32 @@ from django.views.decorators.http import require_POST
 from jfu.http import upload_receive, UploadResponse, JFUResponse
 
 import os
-from file.models import File
+import subprocess
+from video.models import Video
 
 @require_POST
 def upload( request ):
-    file = upload_receive(request)
+    url =  request.get_full_path()
+    code = url.split('?')[1]
 
-    instance = File(file_field = file)
-    instance.save()
+    m = Movie.objects.get(code = code)
+    f = upload_receive(request)
+    f.name = code+"_"+f.name
+    
+    v = Video(file_field = f)
+    v.movie = m
+    v.save()
 
-    basename = os.path.basename( instance.file_field.file.name )
+    path, ext = os.path.splitext(v.file_field.name)
+    path = "media/" + path
+
+    subprocess.call( ["ffmpeg", "-i" , path + ext, path + ".webm"])
+
+
+    basename = os.path.basename( v.file_field.file.name )
     file_dict = {
         'name' : basename,
-        'size' : instance.file_field.file.size,
+        'size' : v.file_field.file.size,
 
         # The assumption is that file_field is a FileField that saves to
         # the 'media' directory.
@@ -52,7 +65,7 @@ def upload( request ):
         'thumbnail_url': settings.MEDIA_URL + basename,
 
 
-        'delete_url': reverse('jfu_delete', kwargs = { 'pk': instance.pk }),
+        'delete_url': reverse('jfu_delete', kwargs = { 'pk': v.pk }),
         'delete_type': 'POST',
     }
 
@@ -729,7 +742,7 @@ def movie_info(request, code):
   else:
     youtube = False
 
-  context = {'movie' : movie, 'youtube' : youtube, 'directors' : directors, 'mains' : mains, 'subs' : subs, 'title': title}
+  context = {'movie' : movie, 'youtube' : youtube, 'directors' : directors, 'mains' : mains, 'subs' : subs, 'title': title, 'settings':settings }
   return render_to_response('core/movie.html', context, RequestContext(request))
 
 # auto complete

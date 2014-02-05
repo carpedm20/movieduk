@@ -63,9 +63,17 @@
     </div>
     <!--<a id="youtube-right">right</a>-->
   {% endif %}
-  {% for i in movie.file_links %}
-    <a href="asset/{{ i }}">{{ i }}</a> 
-  {% endfor %}
+  <div>
+    <ul style="-webkit-padding-start: 0px; text-align:center;">
+    {% for i in movie.video_set.all %}
+      <li>
+        <video src="/media/{{ i.file_field.name }}" width="640" height="360" controls="controls"/>
+        </video>
+        <a href="/media/{{ i.file_field.name }}">{{ i.file_field.name }}</a>
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
   <div class="text-container" id="story">
     {% if movie.story1 != '' %}
       <div id="story1"><b>
