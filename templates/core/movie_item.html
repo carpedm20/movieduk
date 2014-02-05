@@ -14,8 +14,13 @@
           <img src="{{ movie.poster_url }}?type=m203_290_2" />
         </a>
         {% else %}
-          <img src="http://static.naver.net/movie/2012/06/dft_img203x290.png"/>
         {% endif %}
+        {% if movie.video_set.all.count %}
+          <a href="#" class="video_icon"></a>
+        {% else %}
+          <a href="#" class="no_video_icon"></a>
+        {% endif %}
+          <a href="#" class="liked" id="{{ movie.code }}"><span></span></a>
         {% if movie.like %}
           <a href="#" class="liked" id="{{ movie.code }}"><span></span></a>
         {% else %}

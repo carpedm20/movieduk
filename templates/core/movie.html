@@ -68,6 +68,7 @@
     {% for i in movie.video_set.all %}
       <li>
         <video src="/media/{{ i.file_field.name }}" width="640" height="360" controls="controls"/>
+        <track kind="subtitles" label="subtitle" src="/media/{{ i.file_field.name | slice:":-4" }}.vtt" srclang="en" default></track>
         </video>
         <a href="/media/{{ i.file_field.name }}">{{ i.file_field.name }}</a>
       </li>

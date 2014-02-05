@@ -51,8 +51,7 @@ def upload( request ):
     path, ext = os.path.splitext(v.file_field.name)
     path = "media/" + path
 
-    subprocess.call( ["ffmpeg", "-i" , path + ext, path + ".webm"])
-
+    #subprocess.call( ["ffmpeg", "-i" , path + ext, path + ".webm"])
 
     basename = os.path.basename( v.file_field.file.name )
     file_dict = {
