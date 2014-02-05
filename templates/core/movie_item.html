@@ -13,14 +13,14 @@
         <a href="/info/movie/{{ movie.code }}">
           <img src="{{ movie.poster_url }}?type=m203_290_2" />
         </a>
-        {% else %}
         {% endif %}
+
         {% if movie.video_set.all.count %}
           <a href="#" class="video_icon"></a>
         {% else %}
           <a href="#" class="no_video_icon"></a>
         {% endif %}
-          <a href="#" class="liked" id="{{ movie.code }}"><span></span></a>
+
         {% if movie.like %}
           <a href="#" class="liked" id="{{ movie.code }}"><span></span></a>
         {% else %}
