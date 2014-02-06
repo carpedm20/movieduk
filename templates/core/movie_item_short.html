@@ -18,6 +18,13 @@
           <!--<img src="http://static.naver.net/movie/2012/06/dft_img203x290.png"/>-->
           <img src="http://static.naver.net/movie/2012/06/dft_img77x110.png" style="height: 60; width: 48;"/>
         {% endif %}
+
+        {% if movie.video_set.all.count %}
+          <a href="#" class="video_icon"></a>
+        {% else %}
+          <a href="#" class="no_video_icon"></a>
+        {% endif %}
+
         {% if movie.like %}
           <a href="#" class="liked" id="{{ movie.code }}"><span></span></a>
         {% else %}

@@ -229,8 +229,16 @@ a.director_like_count, a.director_dislike_count {
 top:67%;
 }
 
+.coverImageShort a.video_icon, .coverImageShort a.no_video_icon {
+top: 27%;
+}
+
+.coverImageShort a.liked, .coverImageShort a.like, .coverImageShort a.disliked, .coverImageShort a.dislike {
+top:65%;
+}
+
 .coverImageShort a.like_count,.coverImageShort a.dislike_count {
-top: 64%
+top: 84%
 }
 
 a.director_like, a.director_liked, a.director_dislike, a.director_disliked {
