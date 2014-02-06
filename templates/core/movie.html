@@ -66,12 +66,18 @@
   <div>
     <ul style="-webkit-padding-start: 0px; text-align:center;">
     {% for i in movie.video_set.all %}
+      {% if "mp4" in i.file_field.name %}
       <li>
-        <video src="/media/{{ i.file_field.name }}" width="640" height="360" controls="controls"/>
-        <track kind="subtitles" label="subtitle" src="/media/{{ i.file_field.name | slice:":-4" }}.vtt" srclang="en" default></track>
+        <video id="video_{{ forloop.counter }}" src="/media/{{ i.file_field.name }}" width="640" height="360" controls="controls">
+          <track kind="subtitles" label="subtitle" src="/media/{{ i.file_field.name | slice:":-4" }}.vtt" srclang="en" default></track>
         </video>
         <a href="/media/{{ i.file_field.name }}">{{ i.file_field.name }}</a>
       </li>
+      {% else %}
+      <li>
+        <a href="/media/{{ i.file_field.name }}">{{ i.file_field.name }}</a>
+      </li>
+      {% endif %}
     {% endfor %}
     </ul>
   </div>

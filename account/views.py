@@ -331,6 +331,15 @@ def sign_in(request):
   if request.POST:
     username = request.POST['username']
     password = request.POST['password']
+
+    if "\'" in username or "\'" in password:
+      context['message'] = "That's bad :("
+      return render_to_response('account/login.html', context)
+
+    if len(username) < 6:
+      context['message'] = "Too short username!"
+      return render_to_response('account/login.html', context)
+
     try:
       user = DukUser.objects.get(username=username, password=password)
       request.session['DukUser'] = user.username
@@ -348,7 +357,6 @@ def sign_in(request):
         user.save()
         request.session['DukUser'] = user.username
         return HttpResponseRedirect('/')
-
   try:
     if user is not None:
       if user.is_active:
