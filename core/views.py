@@ -435,6 +435,8 @@ def movie_search(request, option = "title"):
     movies = M.filter(genre=query).order_by('-rank','-year')[:10]
   elif option == 'country':
     movies = M.filter(country=query).order_by('-rank','-year')[:10]
+  elif option == 'file':
+    movies = Movie.objects.filter(video__gte=1).distinct()
   else:
     movies = []
 
@@ -471,6 +473,9 @@ def movie_search(request, option = "title"):
     end = True
   else:
     end = False
+
+  if option == 'file':
+    end = True
 
   context = {'movies' : movies, 'title': title, 'end': end}
   return render_to_response('core/index_search_infinite.html', context, RequestContext(request))
@@ -958,10 +963,13 @@ def get_search_list(request):
       movies = M.filter(genre=query).order_by('-rank','-year')
     elif option == 'country':
       movies = M.filter(country=query).order_by('-rank','-year')
+    elif option == 'file':
+      movies = Movie.objects.filter(video__gte=1).distinct()
     else:
       movies = []
 
-    movies = movies.order_by('-rank','-year')[page * count:page * count + count]
+    if option != 'file':
+      movies = movies.order_by('-rank','-year')[page * count:page * count + count]
 
     movie_json = {}
     if count > len(movies):

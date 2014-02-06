@@ -20,9 +20,9 @@
         {% endif %}
 
         {% if movie.video_set.all.count %}
-          <a href="#" class="video_icon"></a>
+          <a href="/info/movie/{{ movie.code }}#filter-wrapper" class="video_icon"></a>
         {% else %}
-          <a href="#" class="no_video_icon"></a>
+          <a href="#" onclick="return false;" class="no_video_icon"></a>
         {% endif %}
 
         {% if movie.like %}

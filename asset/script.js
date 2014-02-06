@@ -360,7 +360,11 @@ $(document).ready(function(){
     }
   }
 
-  if($.cookie('genres') != null && $.cookie('genres') != "all" || $.cookie('nations') != null && $.cookie('nations') != "all" || $.cookie('years') != null && $.cookie('years') != "all")
+  if($.cookie('file') != null) {
+    $file = true;
+  }
+
+  if($.cookie('genres') != null && $.cookie('genres') != "all" || $.cookie('nations') != null && $.cookie('nations') != "all" || $.cookie('years') != null && $.cookie('years') != "all" || $.cookie('file'))
     $("#filter-openner").text("필터링됨")
 
   // apply filter
@@ -403,6 +407,7 @@ $(document).ready(function(){
     params["genres"] = $genres;
     params["nations"] = $nations;
     params["years"] = $years;
+    params["file"] = $file;
 
     // save items to cookie, may be should save in user_info
     // $.cookie("test", 1);
@@ -411,6 +416,7 @@ $(document).ready(function(){
     $.cookie("genres", $genres, { expires: 7, path: '/' });
     $.cookie("nations", $nations, { expires: 7, path: '/' });
     $.cookie("years", $years, { expires: 7, path: '/' });
+    $.cookie("file", $file, { expires: 7, path: '/' });
 
     //post_to_url("/filter", params, "post");
     if(document.URL.indexOf("/short") != -1)
@@ -514,6 +520,7 @@ $(document).ready(function(){
       formData["genres"] = $.cookie("genres");
       formData["nations"] = $.cookie("nations");
       formData["years"] = $.cookie("years");
+      formData["file"] = $.cookie("file");
 
       $.ajax({
         type: "POST",
