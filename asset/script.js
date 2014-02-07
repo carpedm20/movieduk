@@ -407,7 +407,7 @@ $(document).ready(function(){
     params["genres"] = $genres;
     params["nations"] = $nations;
     params["years"] = $years;
-    params["file"] = $file;
+    //params["file"] = $file;
 
     // save items to cookie, may be should save in user_info
     // $.cookie("test", 1);
@@ -416,7 +416,7 @@ $(document).ready(function(){
     $.cookie("genres", $genres, { expires: 7, path: '/' });
     $.cookie("nations", $nations, { expires: 7, path: '/' });
     $.cookie("years", $years, { expires: 7, path: '/' });
-    $.cookie("file", $file, { expires: 7, path: '/' });
+    //$.cookie("file", $file, { expires: 7, path: '/' });
 
     //post_to_url("/filter", params, "post");
     if(document.URL.indexOf("/short") != -1)

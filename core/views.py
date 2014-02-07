@@ -476,6 +476,8 @@ def movie_search(request, option = "title"):
 
   if option == 'file':
     end = True
+    context = {'movies' : movies, 'title': title, 'end': end}
+    return render_to_response('core/file.html', context, RequestContext(request))
 
   context = {'movies' : movies, 'title': title, 'end': end}
   return render_to_response('core/index_search_infinite.html', context, RequestContext(request))

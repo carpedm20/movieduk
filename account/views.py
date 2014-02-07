@@ -45,6 +45,10 @@ import datetime
 MOVIE_COUNT = 8
 LIKE_COUNT = 5
 
+def free(request):
+  context = {}
+  return render_to_response('account/free.html', context, RequestContext(request))
+
 def social(request):
   try:
     username = request.session['DukUser']

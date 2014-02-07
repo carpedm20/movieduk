@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<ul id="info-list">
+<li>
+  <h1 style="text-align: center;">Free {{ movies.count }} movies for MovieDuk :)</h1>
+</li>
+{% include "core/movie_item.html" %}
+
+<li class="loading-ball" style="margin-top:30px">
+{% if not end %}
+<div class="ball1"></div>
+{% endif %}
+<div class="footer">
+<p>Copyright © 2013 Kim Tae Hoon</p>
+<p>Designed by carpedm20</p>
+</div>
+</li>
+</ul>
+{% endblock content %}

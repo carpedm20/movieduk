@@ -274,6 +274,10 @@ span.small_info div {
 line-height: 1.5em;
 }
 
+div.basic_info, div.direcotr, div.main {
+width: 94%;
+}
+
 span.small_info div.text-container {
 height:0;
 overflow: hidden;
@@ -332,6 +336,7 @@ height: auto;
 
 ul {
 list-style-type: none;
+-webkit-padding-start: 20px;
 }
 
 .top-nav-bar {
