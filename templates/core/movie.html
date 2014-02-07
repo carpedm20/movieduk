@@ -66,7 +66,7 @@
   <div>
     <ul style="-webkit-padding-start: 0px; text-align:center;">
     {% for i in movie.video_set.all %}
-      {% if "mp4" in i.file_field.name %}
+      {% if ".mp4" in i.file_field.name %}
       <li>
         <video id="video_{{ forloop.counter }}" src="http://moza.us.to/~carpedm20/media/{{ i.file_field.name }}" width="640" height="360" controls="controls">
           <track kind="subtitles" label="subtitle" src="/media/{{ i.file_field.name | slice:":-4" }}.vtt" srclang="en" default></track>
