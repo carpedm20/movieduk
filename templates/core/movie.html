@@ -71,7 +71,6 @@
         <video id="video_{{ forloop.counter }}" src="http://moza.us.to/~carpedm20/media/{{ i.file_field.name }}" width="640" height="360" controls="controls">
           <track kind="subtitles" label="subtitle" src="/media/{{ i.file_field.name | slice:":-4" }}.vtt" srclang="en" default></track>
         </video>
-        <a href="/media/{{ i.file_field.name }}">{{ i.file_field.name }}</a> | {{ i.file_field.size | filesizeformat }}
       </li>
       {% elif ".mkv" in i.file_field.name %}
       <li>
@@ -79,12 +78,14 @@
           <source src="http://moza.us.to/~carpedm20/media/{{ i.file_field.name }}" type='video/x-matroska; codecs="theora, vorbis"'>
           <track kind="subtitles" label="subtitle" src="/media/{{ i.file_field.name | slice:":-4" }}.vtt" srclang="en" default></track>
         </video>
-        <a href="/media/{{ i.file_field.name }}">{{ i.file_field.name }}</a> | {{ i.file_field.size | filesizeformat}}
       </li>
       {% else %}
       <li>
-        <a href="/media/{{ i.file_field.name }}">{{ i.file_field.name }}</a> | {{ i.file_field.size | filesizeformat }}
       </li>
+      {% endif %}
+      <a href="/media/{{ i.file_field.name }}">{{ i.file_field.name }}</a> | {{ i.file_field.size | filesizeformat}}
+      {% if i.uploader %}
+        | <a href="/profile/{{ i.uploader.username }}"><h2>{{ i.uploader.username }}</h2></a>
       {% endif %}
     {% endfor %}
     </ul>
