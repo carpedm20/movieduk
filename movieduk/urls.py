@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     url(r'^api/get_list/', 'core.views.get_list', name='get_list'),
     url(r'^api/get_short_list/', 'core.views.get_short_list', name='get_short_list'),
 
-    url(r'^free', 'account.views.free', name='index'),
+    url(r'^freetalk', 'account.views.free', name='index'),
     url(r'^rank', 'rank.views.index', name='index'),
     url(r'^api/get_rank/', 'rank.views.get_rank', name='get_rank'),
 
@@ -42,6 +42,7 @@ urlpatterns = patterns('',
     url(r'^index$', 'core.views.index'),
     url(r'^random', 'core.views.random', name='index'),
 
+    url(r'^watch', 'core.views.movie_search', name='movie_search'),
     url(r'^search/movie/(?P<option>\w+)', 'core.views.movie_search', name='movie_search'),
     url(r'^filter', 'core.views.movie_filter'),
     url(r'^filter/short', 'core.views.movie_filter'),

@@ -66,16 +66,24 @@
   <div>
     <ul style="-webkit-padding-start: 0px; text-align:center;">
     {% for i in movie.video_set.all %}
-      {% if ".mp4" in i.file_field.name %}
+      {% if ".mp4" in i.file_field.name or ".webm" in i.file_field.name %}
       <li>
         <video id="video_{{ forloop.counter }}" src="http://moza.us.to/~carpedm20/media/{{ i.file_field.name }}" width="640" height="360" controls="controls">
           <track kind="subtitles" label="subtitle" src="/media/{{ i.file_field.name | slice:":-4" }}.vtt" srclang="en" default></track>
         </video>
-        <a href="/media/{{ i.file_field.name }}">{{ i.file_field.name }}</a>
+        <a href="/media/{{ i.file_field.name }}">{{ i.file_field.name }}</a> | {{ i.file_field.size | filesizeformat }}
+      </li>
+      {% elif ".mkv" in i.file_field.name %}
+      <li>
+        <video id="video_{{ forloop.counter }}" src="http://moza.us.to/~carpedm20/media/{{ i.file_field.name }}" width="640" height="360" controls="controls">
+          <source src="http://moza.us.to/~carpedm20/media/{{ i.file_field.name }}" type='video/x-matroska; codecs="theora, vorbis"'>
+          <track kind="subtitles" label="subtitle" src="/media/{{ i.file_field.name | slice:":-4" }}.vtt" srclang="en" default></track>
+        </video>
+        <a href="/media/{{ i.file_field.name }}">{{ i.file_field.name }}</a> | {{ i.file_field.size | filesizeformat}}
       </li>
       {% else %}
       <li>
-        <a href="/media/{{ i.file_field.name }}">{{ i.file_field.name }}</a>
+        <a href="/media/{{ i.file_field.name }}">{{ i.file_field.name }}</a> | {{ i.file_field.size | filesizeformat }}
       </li>
       {% endif %}
     {% endfor %}
@@ -247,9 +255,11 @@
       </ul>-->
     </li>
   {% endfor %}
-<li>
-{% load jfutags %}
-{% jfu 'file/uploader.html' %}
+<li style="min-height: 70px;">
+{% if request.session.DukUser %}
+  {% load jfutags %}
+  {% jfu 'file/uploader.html' %}
+{% endif %}
 </li>
 <li style="margin-top:20px;">
     <div id="disqus_thread"></div>

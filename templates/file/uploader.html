@@ -95,13 +95,13 @@ Bootstrap CSS Toolkit styles
 
 
     {% block UPLOAD_FORM_BUTTON_BAR %}
-    <div class="row fileupload-buttonbar">
+    <div class="row fileupload-buttonbar" id="file_upload_div">
     {% comment %}
      The fileupload-buttonbar contains buttons to add/delete files and
      start/cancel the upload 
     {% endcomment %}
 
-        <div class="span7">
+         <div class="span7" id="file_drop">
 
             {% comment %}
              The fileinput-button span is used to style the file input field as button 
@@ -132,17 +132,20 @@ Bootstrap CSS Toolkit styles
             {% block UPLOAD_FORM_BUTTON_BAR_CONTROL %}
             <button type="submit" class="btn btn-primary start">
                 <i class="icon-upload icon-white"></i>
-                <span>Start upload</span>
+                <span>업로드 시작</span>
             </button>
             <button type="reset" class="btn btn-warning cancel">
                 <i class="icon-ban-circle icon-white"></i>
-                <span>Cancel upload</span>
+                <span>업로드 취소</span>
             </button>
             <!--<button type="button" class="btn btn-danger delete">
                 <i class="icon-trash icon-white"></i>
                 <span>Delete</span>
             </button>-->
-            .mp4은 실시간으로 감상 가능! 마우스로 끌어와서 업로드!
+            .mp4 파일은 실시간으로 감상 가능!
+
+            <span id="drop_message">마우스로 여기에 끌어다 놓으세요 :)</span>
+
             <input type="checkbox" class="toggle">
             {% endblock %}
 
@@ -183,7 +186,7 @@ Bootstrap CSS Toolkit styles
     {% comment %}
      The table listing the files available for upload/download 
     {% endcomment %}
-    <table role="presentation" class="table table-striped">
+    <table role="presentation" class="table table-striped" id="file_table">
         <tbody class="files" data-toggle="modal-gallery" 
                data-target="#modal-gallery"></tbody>
     </table>
@@ -258,7 +261,7 @@ Bootstrap CSS Toolkit styles
             <td>{{ JQ_OPEN }} if (!o.options.autoUpload) { {{ JQ_CLOSE }}
                 <button class="btn btn-primary start">
                     <i class="icon-upload icon-white"></i>
-                    <span>Start</span>
+                    <span>시작</span>
                 </button>
             {{ JQ_OPEN }} } {{ JQ_CLOSE }}</td>
         {{ JQ_OPEN }} } else { {{ JQ_CLOSE }}
@@ -267,7 +270,7 @@ Bootstrap CSS Toolkit styles
         <td>{{ JQ_OPEN }} if (!i) { {{ JQ_CLOSE }}
             <button class="btn btn-warning cancel">
                 <i class="icon-ban-circle icon-white"></i>
-                <span>Cancel</span>
+                <span>취소</span>
             </button>
         {{ JQ_OPEN }} } {{ JQ_CLOSE }}</td>
     </tr>

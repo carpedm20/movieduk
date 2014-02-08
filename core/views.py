@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # Create your views here.
+from django.http import HttpResponseRedirect
+
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.contrib import messages
@@ -37,6 +39,13 @@ from video.models import Video
 
 @require_POST
 def upload( request ):
+    try:
+      username = request.session['DukUser']
+      user = DukUser.objects.get(username = username)
+      ui = user.usermovie_set.all()[0]
+    except:
+      user = None
+
     url =  request.get_full_path()
     code = url.split('?')[1]
 
@@ -45,6 +54,10 @@ def upload( request ):
     f.name = code+"_"+f.name
     
     v = Video(file_field = f)
+
+    if user:
+      v.uploader = user
+
     v.movie = m
     v.save()
 
@@ -239,6 +252,16 @@ def make_index_context(request, short=False):
   return context
 
 def movieduk(request):
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
+  except:
+    user = None
+
+  if not user: 
+    return HttpResponseRedirect('/login')
+
   count = 0
 
   for u in DukUser.objects.all():
@@ -271,6 +294,15 @@ def random(request):
     username = request.session['DukUser']
     user = DukUser.objects.get(username = username)
     ui = user.usermovie_set.all()[0]
+  except:
+    user = None
+
+  if not user:
+    return HttpResponseRedirect('/login')
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
 
     like = ui.liked.all()
     dislike = ui.disliked.all()
@@ -298,12 +330,32 @@ def random(request):
 
 @csrf_exempt
 def index(request):
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
+  except:
+    user = None
+
+  if not user:
+    return HttpResponseRedirect('/login')
+
   context = make_index_context(request)
   context['settings'] = settings
   return render_to_response('core/index_infinite.html', context, RequestContext(request))
 
 @csrf_exempt
 def index_short(request):
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
+  except:
+    user = None
+
+  if not user:
+    return HttpResponseRedirect('/login')
+
   context = make_index_context(request)
   context['settings'] = settings
   return render_to_response('core/index_short.html', context, RequestContext(request))
@@ -414,7 +466,17 @@ def movie_filter(request):
   return render_to_response('core/index_infinite.html', context, RequestContext(request))
 
 # http://10.20.16.52:8000/search/movie/title?query=e
-def movie_search(request, option = "title"):
+def movie_search(request, option = "file"):
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
+  except:
+    user = None
+
+  if not user:
+    return HttpResponseRedirect('/login')
+
   title = "SEARCH"
   query = request.GET.get('query')
 
@@ -436,7 +498,7 @@ def movie_search(request, option = "title"):
   elif option == 'country':
     movies = M.filter(country=query).order_by('-rank','-year')[:10]
   elif option == 'file':
-    movies = Movie.objects.filter(video__gte=1).distinct()
+    movies = Movie.objects.filter(video__gte=1).distinct().order_by('-rank','-year')
   else:
     movies = []
 
@@ -484,6 +546,16 @@ def movie_search(request, option = "title"):
 
 # http://10.20.16.52:8000/info/director/2639
 def director_info(request, code):
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
+  except:
+    user = None
+
+  if not user:
+    return HttpResponseRedirect('/login')
+
   title = "DIRECTOR PROFILE"
 
   try:
@@ -547,6 +619,16 @@ def director_info(request, code):
 
 # http://10.20.16.52:8000/info/actor/15330
 def actor_info(request, code):
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
+  except:
+    user = None
+
+  if not user:
+    return HttpResponseRedirect('/login')
+
   title = "Actor PROFILE"
 
   try:
@@ -612,6 +694,16 @@ def actor_info(request, code):
   return render_to_response('core/actor.html', context, RequestContext(request))
 
 def movie_info(request, code):
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
+  except:
+    user = None
+
+  if not user:
+    return HttpResponseRedirect('/login')
+
   title = "Movie Info"
 
   movie = Movie.objects.get(code = int(code))
@@ -939,7 +1031,7 @@ def get_list(request):
   return HttpResponse(make_list(request, False), mimetype)
 
 @csrf_exempt
-def get_search_list(request):
+def get_search_list(request, option = "file"):
   if request.is_ajax() and request.method == "POST":
     try:
       username = request.session['DukUser']
@@ -966,7 +1058,7 @@ def get_search_list(request):
     elif option == 'country':
       movies = M.filter(country=query).order_by('-rank','-year')
     elif option == 'file':
-      movies = Movie.objects.filter(video__gte=1).distinct()
+      movies = Movie.objects.filter(video__gte=1).distinct().order_by('-rank','-year')
     else:
       movies = []
 

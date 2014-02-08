@@ -41,15 +41,36 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 import datetime
+import hashlib
 
 MOVIE_COUNT = 8
 LIKE_COUNT = 5
 
 def free(request):
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
+  except:
+    user = None
+
+  if not user:
+    return HttpResponseRedirect('/login')
+
   context = {}
   return render_to_response('account/free.html', context, RequestContext(request))
 
 def social(request):
+  try:
+    username = request.session['DukUser']
+    user = DukUser.objects.get(username = username)
+    ui = user.usermovie_set.all()[0]
+  except:
+    user = None
+
+  if not user:
+    return HttpResponseRedirect('/login')
+
   try:
     username = request.session['DukUser']
     user = DukUser.objects.get(username = username)
@@ -340,12 +361,13 @@ def sign_in(request):
       context['message'] = "That's bad :("
       return render_to_response('account/login.html', context)
 
-    if len(username) < 6:
+    if len(username) < 3:
       context['message'] = "Too short username!"
       return render_to_response('account/login.html', context)
 
     try:
-      user = DukUser.objects.get(username=username, password=password)
+      hash_pass = hashlib.md5(password).hexdigest()
+      user = DukUser.objects.get(username=username, password=hash_pass)
       request.session['DukUser'] = user.username
 
       return HttpResponseRedirect('/')
@@ -355,7 +377,8 @@ def sign_in(request):
         context['message'] = "Wrong password!"
         return render_to_response('account/login.html', context)
       except:
-        user = DukUser.objects.create(username=username,first_name='',last_name='',email='',last_login=datetime.datetime.now(),password=password)
+        hash_pass = hashlib.md5(password).hexdigest()
+        user = DukUser.objects.create(username=username,first_name='',last_name='',email='',last_login=datetime.datetime.now(),password=hash_pass)
         ui = UserMovie()
         user.usermovie_set.add(ui)
         user.save()

@@ -4,43 +4,44 @@
 
 <ul id="social-list">
   <ul class="user_list" style="-webkit-padding-start: 0px;">
-    <li>
+    <li style="text-align:center;">
       <h1> Random Movies! </h1>
     </li>
     <li style="width:100%; float:left; text-align:center;">
       <ul class="profile_movie_list">
-      <li><div class="social_like">
-        {% if random_movie != False %}
-        <ol class="social_movie_thumb_list" id="left_thumb_list">
-          {% for m in random_movie %}
-          <li class="small_thumb_list_item" data-title="{{ m.title1 }}" style="display: list-item;">
-            <!--<div class="small_item">-->
-            {% if m.small_liked %}
-              <div class="viewport user_liked">
-            {% elif m.small_disliked %}
-              <div class="viewport user_disliked">
-            {% else %}
-              <div class="viewport">
-            {% endif %}
-              <a href="/info/movie/{{ m.code }}">
-                <span class="dark-background">{{ m.title1 }}</span>
-                <img src="{{ m.poster_url }}?type=n77_110_2" width="50" height="68"/>
-              </a>
-            </div>
-          </li>
-          {% endfor %}
-          <!--</div>-->
-        </ol>
-        {% else %}
-        <br/>
-        {% endif %}
-      </div></li>
+        <li><div class="social_like">
+          {% if random_movie != False %}
+          <ol class="social_movie_thumb_list" id="left_thumb_list">
+            {% for m in random_movie %}
+            <li class="small_thumb_list_item" data-title="{{ m.title1 }}" style="display: list-item;">
+              {% if m.small_liked %}
+                <div class="viewport user_liked">
+              {% elif m.small_disliked %}
+                <div class="viewport user_disliked">
+              {% else %}
+                <div class="viewport">
+              {% endif %}
+                  <a href="/info/movie/{{ m.code }}">
+                    <span class="dark-background">{{ m.title1 }}</span>
+                    <img src="{{ m.poster_url }}?type=n77_110_2" width="50" height="68"/>
+                  </a>
+                </div>
+            </li>
+            {% endfor %}
+            <!--</div>-->
+          </ol>
+          {% else %}
+          <br/>
+          {% endif %}
+        </div></li>
+      </ul>
     </li>
-  <ul class="profile_footer" style="margin-top:30px; border:0">
-    <div class="footer">
-      <p>Copyright © 2013 Kim Tae Hoon</p>
-      <p>Designed by carpedm20</p>
-    </div>
+      <ul class="profile_footer" style="margin-top:30px; border:0">
+        <div class="footer">
+          <p>Copyright © 2013 Kim Tae Hoon</p>
+          <p>Designed by carpedm20</p>
+        </div>
+      </ul>
   </ul>
 </ul>
 {% endblock content %}
