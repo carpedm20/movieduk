@@ -85,7 +85,7 @@
       {% endif %}
       <a href="/media/{{ i.file_field.name }}">{{ i.file_field.name }}</a> | {{ i.file_field.size | filesizeformat}}
       {% if i.uploader %}
-        | <a href="/profile/{{ i.uploader.username }}"><h2>{{ i.uploader.username }}</h2></a>
+        | uploaded by <a href="/profile/{{ i.uploader.username }}">{{ i.uploader.username }}</a>
       {% endif %}
     {% endfor %}
     </ul>
