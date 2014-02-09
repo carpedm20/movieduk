@@ -709,7 +709,7 @@ cursor: pointer;
 height: 16px;
 width: 16px;
 border: 0;
-background: url(/media/img/search-icon.svg) no-repeat;
+background: url(/asset/search-icon.svg) no-repeat;
 background-size: 15px;
 }
 
