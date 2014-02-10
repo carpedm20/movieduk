@@ -190,12 +190,12 @@ CONTENT
 }
 
 .user-icon {
-    top:138px; /* Positioning fix for slide-in, got lazy to think up of simpler method. */
+    top:158px; /* Positioning fix for slide-in, got lazy to think up of simpler method. */
     background: rgba(65,72,72,0.75) url(http://www.demo.amitjakhu.com/login-form/images/user-icon.png) no-repeat center;    
 }
 
 .pass-icon {
-    top:188px;
+    top:208px;
     background: rgba(65,72,72,0.75) url(http://www.demo.amitjakhu.com/login-form/images/pass-icon.png) no-repeat center;
 }
 

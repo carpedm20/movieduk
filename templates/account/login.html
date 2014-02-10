@@ -18,8 +18,15 @@
 <div id="wrapper">
   <form name="login-form" class="login-form" action="" method="post">
     <div class="header">
-      <h1>Sign in</h1>
-      <span style='color:red'>{{ message }}</span>
+      <h1>Welcome :^)</h1>
+      {% if message %}
+      <span style='color:red'>
+        {{ message }}
+      {% else %}
+      <span style='color:gray'>
+        <p>created by carpedm20</p>
+      {% endif %}
+      </span>
     </div>
     
     <div class="content">

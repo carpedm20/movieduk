@@ -53,9 +53,9 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-ASSET_ROOT = '/Users/carpedm20/movieduk/asset'
+ASSET_ROOT = '/home/carpedm20/movieduk/asset'
 
-MEDIA_ROOT = '/Users/carpedm20/movieduk/media'
+MEDIA_ROOT = '/home/carpedm20/movieduk/media'
 MEDIA_URL = 'http://hexa.perl.sh/~carpedm30/img/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
