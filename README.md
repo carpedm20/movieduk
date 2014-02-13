@@ -17,7 +17,8 @@ Enjoy your Movies, movieduks!
 
 ## Link ##
 
-http://carpedm20.blogspot.kr/2013/11/movieduk.html
+- http://movieduk.herokuapp.com
+- http://carpedm20.blogspot.kr/2013/11/movieduk.html
 
 
 ## Copyright ##
