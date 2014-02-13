@@ -353,8 +353,8 @@ def index_short(request):
   except:
     user = None
 
-  if not user:
-    return HttpResponseRedirect('/login')
+  #if not user:
+  #  return HttpResponseRedirect('/login')
 
   context = make_index_context(request)
   context['settings'] = settings
