@@ -15,12 +15,6 @@
 Enjoy your Movies, movieduks!
 
 
-## How to start ##
-
-    pip install -r requirements.txt
-    python manage.py runserver 0.0.0.0:8000
-
-
 ## Copyright ##
 
 Copyright (c) 2013 Kim Tae Hoon
