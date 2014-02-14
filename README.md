@@ -14,6 +14,8 @@
 
 Enjoy your Movies, movieduks!
 
+ps. code is really dirty, because this was my first Django project...
+
 
 ## Link ##
 
