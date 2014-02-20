@@ -13,6 +13,16 @@ ps. code is really dirty, because this was my first Django project...
 - http://carpedm20.blogspot.kr/2013/11/movieduk.html
 
 
+## Author ##
+
+- Kim Tae Hoon, [blog](https://carpedm20.us.to).
+
+
+## Copyright ##
+
+Copyright (c) 2013 Kim Tae Hoon
+
+
 ## Screenshot ##
 
 ![alt tag](http://4.bp.blogspot.com/-LbaYXUqi7PM/UvxLaLh5kkI/AAAAAAAACP0/_ZlRiReBZn0/s1600/1.png)
@@ -25,7 +35,3 @@ ps. code is really dirty, because this was my first Django project...
 
 ![alt tag](http://3.bp.blogspot.com/--YM1PiYI9Yo/UvxLa3ON-3I/AAAAAAAACQE/Ta0SZnikzb8/s1600/4.png)
 
-
-## Copyright ##
-
-Copyright (c) 2013 Kim Tae Hoon
