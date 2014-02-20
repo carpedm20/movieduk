@@ -15,7 +15,7 @@ ps. code is really dirty, because this was my first Django project...
 
 ## Author ##
 
-- Kim Tae Hoon, [blog](https://carpedm20.us.to).
+- Kim Tae Hoon, [blog](http://carpedm20.us.to).
 
 
 ## Copyright ##
