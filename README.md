@@ -9,7 +9,7 @@ ps. code is really dirty, because this was my first Django project...
 
 ## Link ##
 
-- http://movieduk.herokuapp.com
+- http://movieduk.herokuapp.com (could be slow because this is free server)
 - http://carpedm20.blogspot.kr/2013/11/movieduk.html
 
 
