@@ -4,18 +4,12 @@
 
 Enjoy your Movies, movieduks!
 
-ps. code is really dirty, because this was my first Django project...
-
-
-## Link ##
-
-- http://movieduk.herokuapp.com (could be slow because this is free server)
-- http://carpedm20.blogspot.kr/2013/11/movieduk.html
+[demo](http://movieduk.herokuapp.com) 
 
 
 ## Author ##
 
-- Kim Tae Hoon, [blog](http://carpedm20.us.to).
+Taehoon Kim / [@carpedm20](http://carpedm20.github.io/about/)
 
 
 ## Copyright ##
